@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tracktorapp.screens.selectMode.SelectModeScreen
 import com.example.tracktorapp.ui.theme.MyApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +25,9 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "select_mode_screen"){
-                    composable(route = "select_mode_screen"){}
+                    composable(route = "select_mode_screen"){
+                        SelectModeScreen(navController = navController)
+                    }
 
                 }
             }

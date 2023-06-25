@@ -1,4 +1,4 @@
-package com.example.tracktorapp.screens.selectMode
+package com.example.tracktor.screens.selectmode
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun SelectModeScreen(navController: NavController) {
+fun SelectModeScreen() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -51,8 +51,3 @@ fun SelectModeScreen(navController: NavController) {
     }
 }
 
-@Preview
-@Composable
-fun SelectModeScreenPreview(){
-    SelectModeScreen(navController = rememberNavController())
-}

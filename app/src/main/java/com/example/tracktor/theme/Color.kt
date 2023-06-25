@@ -1,4 +1,4 @@
-package com.example.tracktorapp.ui.theme
+package com.example.tracktor.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

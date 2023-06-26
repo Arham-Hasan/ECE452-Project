@@ -39,11 +39,11 @@ class LoginViewModel @Inject constructor(
 
     fun onSignInClick(openAndPopUp: (String, String) -> Unit) {
 
-        if(email.isValidEmail()){
+        if(!email.isValidEmail()){
             SnackbarManager.showMessage("Invalid Email".toSnackbarMessage())
             return
         }
-        if(password.isValidPassword()){
+        if(!password.isValidPassword()){
             SnackbarManager.showMessage("Incorrect Password".toSnackbarMessage())
             return
         }

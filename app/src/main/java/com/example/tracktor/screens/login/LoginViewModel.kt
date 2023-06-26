@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
 import com.example.tracktor.LOGIN_SCREEN
+import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.SELECT_MODE_SCREEN
 import com.example.tracktor.SIGN_UP_SCREEN
 import com.example.tracktor.common.functions.isValidEmail
@@ -49,7 +50,7 @@ class LoginViewModel @Inject constructor(
         }
         launchCatching{
             accountService.authenticate(email, password)
-            openAndPopUp(SELECT_MODE_SCREEN, LOGIN_SCREEN)
+            openAndPopUp(SELECT_FARM_SCREEN, LOGIN_SCREEN)
         }
     }
 

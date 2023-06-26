@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,7 +22,8 @@ import com.example.tracktor.SIGN_UP_SCREEN
 import com.example.tracktor.TracktorAppState
 
 @Composable
-fun SelectModeScreen(navigate: (String) -> Unit) {
+fun SelectModeScreen(navigate: (String) -> Unit, farmID: String, viewModel: SelectModeViewModel = hiltViewModel()) {
+    viewModel.setStateFarmId(farmID)
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -55,4 +57,9 @@ fun SelectModeScreen(navigate: (String) -> Unit) {
     }
 }
 
+@Preview
+@Composable
+fun SelectModeScreenPreview() {
+    SelectModeScreen(navigate = {}, farmID = "123" )
+}
 

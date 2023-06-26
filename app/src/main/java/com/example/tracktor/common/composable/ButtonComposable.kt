@@ -28,3 +28,18 @@ fun BasicButton(text:String, modifier: Modifier, action: () -> Unit) {
         Text(text = text, fontSize = 16.sp)
     }
 }
+
+@Composable
+fun MicButton(text:String, modifier: Modifier, action: () -> Unit) {
+    Button(
+        onClick = action,
+        modifier = modifier,
+        colors =
+        ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colors.primary,
+            contentColor = MaterialTheme.colors.onPrimary
+        )
+    ) {
+        Text(text = text, fontSize = 16.sp)
+    }
+}

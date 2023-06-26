@@ -26,6 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.screens.login.LoginScreen
+import com.example.tracktor.screens.pickingmode.PickingModeScreen
 import com.example.tracktor.screens.selectmode.SelectModeScreen
 import com.example.tracktor.screens.signup.SignUpScreen
 import com.example.tracktor.screens.splash.SplashScreen
@@ -101,8 +102,13 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
     }
 
     composable(SELECT_MODE_SCREEN){
-        SelectModeScreen()
+        SelectModeScreen(
+            navigate = {route -> appState.navigate(route)},
+        )
     }
 
+    composable(PICKING_MODE_SCREEN){
+        PickingModeScreen()
+    }
 
 }

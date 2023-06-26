@@ -1,7 +1,7 @@
 package com.example.tracktor.common.functions
 
 fun String.isValidEmail(): Boolean{
-    return this.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    return this.isNotBlank() && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
 
 fun String.isValidPassword(): Boolean{

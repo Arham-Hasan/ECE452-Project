@@ -24,9 +24,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.screens.login.LoginScreen
 import com.example.tracktor.screens.pickingmode.PickingModeScreen
+import com.example.tracktor.screens.selectfarm.SelectFarmScreen
 import com.example.tracktor.screens.selectmode.SelectModeScreen
 import com.example.tracktor.screens.signup.SignUpScreen
 import com.example.tracktor.screens.splash.SplashScreen
@@ -101,14 +103,21 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
         )
     }
 
-    composable(SELECT_MODE_SCREEN){
+    composable(route="$SELECT_MODE_SCREEN$FARM_ID_ARG", arguments = listOf(navArgument(FARM_ID) { defaultValue = "" })){
         SelectModeScreen(
             navigate = {route -> appState.navigate(route)},
+            farmID = it.arguments?.getString(FARM_ID) ?: ""
         )
     }
 
     composable(PICKING_MODE_SCREEN){
         PickingModeScreen()
+    }
+
+    composable(SELECT_FARM_SCREEN){
+        SelectFarmScreen(
+            openScreen = { route -> appState.navigate(route)}
+        )
     }
 
 }

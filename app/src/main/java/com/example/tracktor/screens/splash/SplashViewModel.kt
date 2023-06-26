@@ -1,6 +1,7 @@
 package com.example.tracktor.screens.splash
 
 import com.example.tracktor.LOGIN_SCREEN
+import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.SELECT_MODE_SCREEN
 import com.example.tracktor.SPLASH_SCREEN
 import com.example.tracktor.model.service.AccountService
@@ -14,7 +15,7 @@ class SplashViewModel @Inject constructor(
 ) : TracktorViewModel() {
     fun onAppStart(openAndPopUp: (String, String) -> Unit) {
 
-        if (accountService.loggedIn) openAndPopUp(SELECT_MODE_SCREEN, SPLASH_SCREEN)
+        if (accountService.loggedIn) openAndPopUp(SELECT_FARM_SCREEN, SPLASH_SCREEN)
         else openAndPopUp(LOGIN_SCREEN, SPLASH_SCREEN)
     }
 }

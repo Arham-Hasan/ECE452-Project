@@ -26,6 +26,7 @@ class TracktorActivity : ComponentActivity() {
         }
     }
 
+//    logic for voice input
     fun onMicButtonClick(context: Context){
         SnackbarManager.showMessage("Listening".toSnackbarMessage())
 
@@ -49,7 +50,7 @@ class TracktorActivity : ComponentActivity() {
         if (requestCode == 102 && resultCode == Activity.RESULT_OK) {
             val result = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             speechInput.value = result?.get(0).toString()
-            SnackbarManager.showMessage(speechInput.value.toSnackbarMessage())
+//            SnackbarManager.showMessage(speechInput.value.toSnackbarMessage())
         }
     }
 }

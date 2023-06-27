@@ -1,7 +1,9 @@
 package com.example.tracktor.screens.pickingmode
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -49,13 +51,17 @@ fun PickingModeScreenContent(
     onAnalyticsClick: () -> Unit,
     onInventoryClick: () -> Unit)
 {
-    BasicToolbar("Please press the button and start picking!")
+
 
     Column(
-        Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
+        Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MicButton("Start Picking", Modifier, action = onMicButtonClick)
+        BasicToolbar("Please press the button and start picking!")
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center){
+            MicButton("Start Picking", Modifier, action = onMicButtonClick)
+        }
+        NavBarComposable(PICKING_MODE_SCREEN, {},onSellingClick,onFridgeClick,onAnalyticsClick,onInventoryClick)
     }
-    NavBarComposable(PICKING_MODE_SCREEN, {},onSellingClick,onFridgeClick,onAnalyticsClick,onInventoryClick)
+
 }

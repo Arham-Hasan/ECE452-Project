@@ -32,13 +32,17 @@ fun AnalyticsModeScreenContent(
     onFridgeClick: () -> Unit,
     onInventoryClick: () -> Unit)
 {
-    BasicToolbar("View your analytics!")
 
     Column(
-        Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
+        Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {}
-    NavBarComposable(
-        ANALYTICS_MODE_SCREEN, onPickingClick,
-        onSellingClick,onFridgeClick,{},onInventoryClick)
+    ) {
+        BasicToolbar("View your analytics!")
+        Column(Modifier.weight(1f)){}
+        NavBarComposable(
+            ANALYTICS_MODE_SCREEN, onPickingClick,
+            onSellingClick,onFridgeClick,{},onInventoryClick)
+
+    }
+
 }

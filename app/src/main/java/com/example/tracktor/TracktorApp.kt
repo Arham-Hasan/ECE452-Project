@@ -26,10 +26,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.tracktor.common.snackbar.SnackbarManager
+import com.example.tracktor.screens.analyticsmode.AnalyticsModeScreen
+import com.example.tracktor.screens.fridgemode.FridgeModeScreen
+import com.example.tracktor.screens.inventorymode.InventoryModeScreen
 import com.example.tracktor.screens.login.LoginScreen
 import com.example.tracktor.screens.pickingmode.PickingModeScreen
 import com.example.tracktor.screens.selectfarm.SelectFarmScreen
 import com.example.tracktor.screens.selectmode.SelectModeScreen
+import com.example.tracktor.screens.sellingmode.SellingModeScreen
 import com.example.tracktor.screens.signup.SignUpScreen
 import com.example.tracktor.screens.splash.SplashScreen
 import com.example.tracktor.ui.theme.TracktorTheme
@@ -115,6 +119,27 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
             {route -> appState.navigate(route)}
         )
     }
+    composable(SELLING_MODE_SCREEN){
+        SellingModeScreen(
+            {route -> appState.navigate(route)}
+        )
+    }
+    composable(FRIDGE_MODE_SCREEN){
+        FridgeModeScreen(
+            {route -> appState.navigate(route)}
+        )
+    }
+    composable(ANALYTICS_MODE_SCREEN){
+        AnalyticsModeScreen(
+            {route -> appState.navigate(route)}
+        )
+    }
+    composable(INVENTORY_MODE_SCREEN){
+        InventoryModeScreen(
+            { route -> appState.navigate(route) }
+        )
+    }
+
 
     composable(SELECT_FARM_SCREEN){
         SelectFarmScreen(

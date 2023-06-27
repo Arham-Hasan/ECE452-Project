@@ -32,13 +32,14 @@ fun FridgeModeScreenContent(
     onAnalyticsClick: () -> Unit,
     onInventoryClick: () -> Unit)
 {
-    BasicToolbar("View local fridges!")
 
     Column(
-        Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
+        Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        BasicToolbar("View local fridges!")
+        Column(Modifier.weight(1f)){}
+        NavBarComposable(FRIDGE_MODE_SCREEN, onPickingClick,onSellingClick,{},onAnalyticsClick,onInventoryClick)
 
     }
-    NavBarComposable(FRIDGE_MODE_SCREEN, onPickingClick,onSellingClick,{},onAnalyticsClick,onInventoryClick)
 }

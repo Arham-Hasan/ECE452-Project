@@ -111,7 +111,9 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
     }
 
     composable(PICKING_MODE_SCREEN){
-        PickingModeScreen()
+        PickingModeScreen(
+            {route -> appState.navigate(route)}
+        )
     }
 
     composable(SELECT_FARM_SCREEN){

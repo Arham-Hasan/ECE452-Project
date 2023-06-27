@@ -28,19 +28,20 @@ class PickingModeViewModel @Inject constructor(
             return
         }
 
-        if (!verifyInput(speechInput)){
+        val speechLower = speechInput.lowercase()
+        if (!verifyInput(speechLower)){
 //            Not valid input return
             SnackbarManager.showMessage("Not a valid input, ignoring".toSnackbarMessage())
             return
         }
 
 //        Record to db
-        val inputArray = speechInput.split(" ")
+        val inputArray = speechLower.split(" ")
 
 
         val tuple = Pair(convertNumberToInt(inputArray.first()), inputArray.last())
 
-        SnackbarManager.showMessage("Recording ${tuple.first} ${tuple.second}".toSnackbarMessage())
+        SnackbarManager.showMessage("Sold ${tuple.first} ${tuple.second}".toSnackbarMessage())
     }
 
     private fun verifyInput(input: String): Boolean {

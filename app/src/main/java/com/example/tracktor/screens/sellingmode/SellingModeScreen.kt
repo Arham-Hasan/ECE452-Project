@@ -1,16 +1,20 @@
 package com.example.tracktor.screens.sellingmode
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.SELLING_MODE_SCREEN
 import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.MicButton
 import com.example.tracktor.common.composable.NavBarComposable
+import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
 fun SellingModeScreen(openScreen: (String)->Unit, viewModel: SellingModeViewModel = hiltViewModel()) {
@@ -34,13 +38,27 @@ fun SellingModeScreenContent(
     onAnalyticsClick: () -> Unit,
     onInventoryClick: () -> Unit)
 {
-    BasicToolbar("Please press the button and start selling!")
+
 
     Column(
-        Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MicButton("Start Selling", Modifier, action = onMicButtonClick)
+        BasicToolbar("Please press the button and start selling!")
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center){
+            MicButton("Start Selling", Modifier, action = onMicButtonClick)
+        }
+
+        NavBarComposable(SELLING_MODE_SCREEN, onPickingClick,{},onFridgeClick,onAnalyticsClick,onInventoryClick)
+
     }
-    NavBarComposable(SELLING_MODE_SCREEN, onPickingClick,{},onFridgeClick,onAnalyticsClick,onInventoryClick)
+
+}
+
+@Preview
+@Composable
+fun SellingModeScreenContentPreview(){
+    TracktorTheme() {
+        SellingModeScreenContent({},{},{},{},{})
+    }
 }

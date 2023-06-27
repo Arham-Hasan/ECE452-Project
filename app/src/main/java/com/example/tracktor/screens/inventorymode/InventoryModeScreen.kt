@@ -32,12 +32,15 @@ fun InventoryModeScreenContent(
     onFridgeClick: () -> Unit,
     onAnalyticsClick: () -> Unit)
 {
-    BasicToolbar("View your Inventory!")
+
 
     Column(
-        Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
+        Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        BasicToolbar("View your Inventory!")
+        Column(Modifier.weight(1f)){}
+        NavBarComposable(INVENTORY_MODE_SCREEN, onPickingClick,onSellingClick,onFridgeClick,onAnalyticsClick,{})
+
     }
-    NavBarComposable(INVENTORY_MODE_SCREEN, onPickingClick,onSellingClick,onFridgeClick,onAnalyticsClick,{})
 }

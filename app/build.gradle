@@ -83,6 +83,9 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     // For loading and tinting drawables on older versions of the platform
     implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
+
+    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
+
 }
 
 // Allow references to generated code

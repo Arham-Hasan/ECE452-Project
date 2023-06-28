@@ -72,17 +72,5 @@ class SellingModeViewModel @Inject constructor() : TracktorViewModel() {
         return number.toInt()
     }
 
-    fun onPickingClick(openScreen: (String) -> Unit){
-        openScreen(PICKING_MODE_SCREEN)
-    }
-    fun onAnalyticsClick(openScreen: (String) -> Unit){
-        openScreen(ANALYTICS_MODE_SCREEN)
-    }
-    fun onFridgesClick(openScreen: (String) -> Unit){
-        openScreen(FRIDGE_MODE_SCREEN)
-    }
-    fun onInventoryClick(openScreen: (String) -> Unit){
-        openScreen(INVENTORY_MODE_SCREEN)
-    }
 
 }

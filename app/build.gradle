@@ -79,6 +79,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
 
+    implementation("com.google.firebase:firebase-firestore-ktx:24.6.1")
+
     def appcompat_version = "1.6.1"
     implementation("androidx.appcompat:appcompat:$appcompat_version")
     // For loading and tinting drawables on older versions of the platform

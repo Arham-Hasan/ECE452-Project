@@ -4,4 +4,5 @@ import com.example.tracktor.model.Farm
 
 interface FarmStorageService  {
     suspend fun getFarmsFromUserId(userId: String) : List<Farm?>
+    suspend fun createFarm(name: String, userId: String) : Unit
 }

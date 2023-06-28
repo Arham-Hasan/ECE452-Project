@@ -19,8 +19,9 @@ constructor(private val firestore: FirebaseFirestore) :
         for(document in result){
             farmIds.add(document.getString("farmId"))
         }
-        val result2 = firestore.collection("farms").whereIn("id",farmIds).get().await()
         val farms : MutableList<Farm?> = mutableListOf<Farm?>()
+        if (farmIds.isEmpty()) return farms
+        val result2 = firestore.collection("farms").whereIn("id",farmIds).get().await()
         for(document in result2){
             farms.add(Farm(id = document.getString("id")!!, name = document.getString("name")!!))
         }

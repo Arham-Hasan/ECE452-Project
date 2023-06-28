@@ -34,11 +34,17 @@ fun SelectFarmScreen(openScreen: (String) -> Unit, viewModel: SelectFarmViewMode
             Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            uiState.farms.forEach { farm ->
-                Button(onClick = {
-                    viewModel.onFarmNameClick(openScreen,farm!!.id)
-                }) {
-                    Text(text = farm!!.name)
+            if(uiState.farms.isEmpty()){
+                Text(text = "Please Create a Farm")
+            }
+            else {
+                Text(text = "Select Farm")
+                uiState.farms.forEach { farm ->
+                    Button(onClick = {
+                        viewModel.onFarmNameClick(openScreen, farm!!.id)
+                    }) {
+                        Text(text = farm!!.name)
+                    }
                 }
             }
         }

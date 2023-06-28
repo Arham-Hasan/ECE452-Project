@@ -76,5 +76,4 @@ class PickingModeViewModel @Inject constructor(
 
 
 
-    }
 }

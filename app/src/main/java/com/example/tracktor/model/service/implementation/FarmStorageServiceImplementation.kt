@@ -2,9 +2,11 @@ package com.example.tracktor.model.service.implementation
 
 import android.util.Log
 import com.example.tracktor.model.Farm
+import com.example.tracktor.model.FarmUserRelation
 import com.example.tracktor.model.service.FarmStorageService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 import javax.inject.Inject
 
 class FarmStorageServiceImplementation
@@ -24,4 +26,12 @@ constructor(private val firestore: FirebaseFirestore) :
         }
         return farms
     }
+
+    override suspend fun createFarm(name: String, userId: String) {
+        val farm = Farm(name = name, id = UUID.randomUUID().toString() )
+        firestore.collection("farms").add(farm).await()
+        val farmUserRelation = FarmUserRelation(userId = userId, farmId = farm.id)
+        firestore.collection("farmUserRelation").add(farmUserRelation).await()
+    }
+
     }

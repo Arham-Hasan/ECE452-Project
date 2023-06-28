@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.SELLING_MODE_SCREEN
+import com.example.tracktor.TracktorActivity
 import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.MicButton
 import com.example.tracktor.common.composable.NavBarComposable
@@ -19,13 +22,23 @@ import com.example.tracktor.ui.theme.TracktorTheme
 @Composable
 fun SellingModeScreen(openScreen: (String)->Unit, viewModel: SellingModeViewModel = hiltViewModel()) {
 
+    val context = LocalContext.current
+    val speechContext = context as TracktorActivity
+
     SellingModeScreenContent(
+        { speechContext.onMicButtonClick(context) },
         { viewModel.onPickingClick(openScreen)},
         { viewModel.onFridgesClick(openScreen)},
         { viewModel.onAnalyticsClick(openScreen)},
         { viewModel.onInventoryClick(openScreen)},
-        { viewModel.onMicButtonClick() }
     )
+
+    LaunchedEffect(speechContext.speechInput.value){
+        viewModel.parseInput(speechContext.speechInput.value)
+
+//        resets value of input so its not used again
+        speechContext.speechInput.value = ""
+    }
 }
 
 

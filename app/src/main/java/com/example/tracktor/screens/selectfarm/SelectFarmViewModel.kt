@@ -28,7 +28,7 @@ class SelectFarmViewModel @Inject constructor(
         }
     }
 
-    private fun retrieveFarms(){
+    fun retrieveFarms(){
         // Simulated data retrieval
         // return listOf(Farm(id="1", name = "Heeko farm"), Farm(id="2", name = "Boge farm"), Farm(id="3", name = "Arham farm"))
         runBlocking{

@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +20,7 @@ import com.example.tracktor.model.Farm
 
 @Composable
 fun SelectFarmScreen(openScreen: (String) -> Unit, viewModel: SelectFarmViewModel = hiltViewModel()) {
-    val farms: List<Farm> = viewModel.farms
+    val uiState by viewModel.uiState
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -29,11 +30,11 @@ fun SelectFarmScreen(openScreen: (String) -> Unit, viewModel: SelectFarmViewMode
             Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            farms.forEach { farm ->
+            uiState.farms.forEach { farm ->
                 Button(onClick = {
-                    viewModel.onFarmNameClick(openScreen,farm.id)
+                    viewModel.onFarmNameClick(openScreen,farm!!.id)
                 }) {
-                    Text(text = farm.name)
+                    Text(text = farm!!.name)
                 }
             }
         }

@@ -2,15 +2,12 @@ package com.example.tracktor
 
 import android.content.res.Resources
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Snackbar
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
@@ -27,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.screens.analyticsmode.AnalyticsModeScreen
+import com.example.tracktor.screens.createfarm.CreateFarmScreen
 import com.example.tracktor.screens.fridgemode.FridgeModeScreen
 import com.example.tracktor.screens.inventorymode.InventoryModeScreen
 import com.example.tracktor.screens.login.LoginScreen
@@ -143,7 +141,13 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
 
     composable(SELECT_FARM_SCREEN){
         SelectFarmScreen(
-            openScreen = { route -> appState.navigate(route)}
+            openScreen = { route -> appState.navigate(route)},
+        )
+    }
+    
+    composable(CREATE_FARM_SCREEN){
+        CreateFarmScreen(
+            openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
         )
     }
 

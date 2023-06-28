@@ -9,7 +9,6 @@ import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.lang.Character.toLowerCase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,10 +36,10 @@ class SellingModeViewModel @Inject constructor() : TracktorViewModel() {
 //        Record to db
         val inputArray = speechLower.split(" ")
 
+//        This should prob be changed in the future to an array or something that holds (quantity, item, price)
+        val sellRecordTuple = Pair(convertNumberToInt(inputArray.first()), inputArray.last())
 
-        val tuple = Pair(convertNumberToInt(inputArray.first()), inputArray.last())
-
-        SnackbarManager.showMessage("Recording ${tuple.first} ${tuple.second}".toSnackbarMessage())
+        SnackbarManager.showMessage("Sold ${sellRecordTuple.first} ${sellRecordTuple.second}".toSnackbarMessage())
     }
 
     private fun verifyInput(input: String): Boolean {

@@ -39,9 +39,9 @@ class PickingModeViewModel @Inject constructor(
         val inputArray = speechLower.split(" ")
 
 
-        val tuple = Pair(convertNumberToInt(inputArray.first()), inputArray.last())
+        val pickRecord = Pair(convertNumberToInt(inputArray.first()), inputArray.last())
 
-        SnackbarManager.showMessage("Sold ${tuple.first} ${tuple.second}".toSnackbarMessage())
+        SnackbarManager.showMessage("Picked ${pickRecord.first} ${pickRecord.second}".toSnackbarMessage())
     }
 
     private fun verifyInput(input: String): Boolean {

@@ -1,4 +1,5 @@
 package com.example.tracktor.screens.selectfarm
+import com.example.tracktor.CREATE_FARM_SCREEN
 import com.example.tracktor.FARM_ID
 import com.example.tracktor.SELECT_MODE_SCREEN
 import com.example.tracktor.model.Farm
@@ -23,5 +24,9 @@ class SelectFarmViewModel @Inject constructor(
     fun onFarmNameClick(openScreen: (String) -> Unit, farm_id: String,){
         openScreen("$SELECT_MODE_SCREEN?$FARM_ID=${farm_id}")
 
+    }
+
+    fun onCreateFarmClick(openScreen: (String)->Unit){
+        openScreen(CREATE_FARM_SCREEN)
     }
 }

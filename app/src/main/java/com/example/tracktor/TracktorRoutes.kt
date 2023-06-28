@@ -9,6 +9,7 @@ const val SELLING_MODE_SCREEN = "SellingModeScreen"
 const val FRIDGE_MODE_SCREEN = "CommunityFridgeModeScreen"
 const val ANALYTICS_MODE_SCREEN = "AnalyticsModeScreen"
 const val INVENTORY_MODE_SCREEN = "InventoryModeScreen"
+const val CREATE_FARM_SCREEN = "CreateFarmScreen"
 
 const val SELECT_FARM_SCREEN = "SelectFarmScreen"
 

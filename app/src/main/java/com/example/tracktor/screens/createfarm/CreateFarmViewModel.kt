@@ -8,11 +8,16 @@ import com.example.tracktor.common.functions.isValidEmail
 import com.example.tracktor.common.functions.isValidPassword
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.example.tracktor.model.service.AccountService
+import com.example.tracktor.model.service.FarmStorageService
 import com.example.tracktor.screens.TracktorViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
-class CreateFarmViewModel @Inject constructor() : TracktorViewModel()  {
+@HiltViewModel
+class CreateFarmViewModel @Inject constructor(private val farmStorageService: FarmStorageService,
+                                              private val accountService: AccountService) : TracktorViewModel()  {
     var uiState = mutableStateOf(CreateFarmUiState())
         private set
 
@@ -27,12 +32,12 @@ class CreateFarmViewModel @Inject constructor() : TracktorViewModel()  {
 
         if(name.isBlank()){
             SnackbarManager.showMessage("Please create a farm name".toSnackbarMessage())
-
             return
         }
         launchCatching{
             SnackbarManager.showMessage("Creating Farm".toSnackbarMessage())
             delay(500)
+            farmStorageService.createFarm(userId = accountService.currentUserId, name = uiState.value.name)
             openAndPopUp(SELECT_FARM_SCREEN, CREATE_FARM_SCREEN)
         }
     }

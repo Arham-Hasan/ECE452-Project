@@ -37,7 +37,7 @@ open class TracktorViewModel : ViewModel(){
         openScreen(INVENTORY_MODE_SCREEN)
     }
     fun onFridgesClick(openScreen: (String) -> Unit){
-        openScreen(SELLING_MODE_SCREEN)
+        openScreen(FRIDGE_MODE_SCREEN)
     }
 
     fun onSignOutClick(){

@@ -1,21 +1,17 @@
 package com.example.tracktor.screens.login
 
-import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import com.example.tracktor.LOGIN_SCREEN
 import com.example.tracktor.SELECT_FARM_SCREEN
-import com.example.tracktor.SELECT_MODE_SCREEN
 import com.example.tracktor.SIGN_UP_SCREEN
 import com.example.tracktor.common.functions.isValidEmail
 import com.example.tracktor.common.functions.isValidPassword
 import com.example.tracktor.common.snackbar.SnackbarManager
-import com.example.tracktor.common.snackbar.SnackbarMessage
+import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.model.service.AccountService
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(

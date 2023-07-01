@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,15 +13,19 @@ import com.example.tracktor.INVENTORY_MODE_SCREEN
 import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.MicButton
 import com.example.tracktor.common.composable.NavBarComposable
+import com.example.tracktor.common.composable.OptionsToolbar
+import com.example.tracktor.screens.fridgemode.FridgeModeUiState
 
 @Composable
-fun InventoryModeScreen(openScreen: (String)->Unit, viewModel: InventoryModeViewModel = hiltViewModel()) {
+fun InventoryModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit,viewModel: InventoryModeViewModel = hiltViewModel()) {
+
+    val uiState by viewModel.uiState
 
     InventoryModeScreenContent(
-        { viewModel.onPickingClick(openScreen)},
-        { viewModel.onSellingClick(openScreen)},
-        { viewModel.onFridgesClick(openScreen)},
-        { viewModel.onAnalyticsClick(openScreen)},
+        viewModel.bottomNavBarActions(openScreen),
+        uiState,
+        {viewModel.toggleDropDown()},
+        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate)
     )
 }
 
@@ -28,10 +33,11 @@ fun InventoryModeScreen(openScreen: (String)->Unit, viewModel: InventoryModeView
 
 @Composable
 fun InventoryModeScreenContent(
-    onPickingClick: () -> Unit,
-    onSellingClick: () -> Unit,
-    onFridgeClick: () -> Unit,
-    onAnalyticsClick: () -> Unit)
+    bottomNavBarActions: List<() -> Unit>,
+    uiState: InventoryModeUiState,
+    toggleDropDown: ()->Unit,
+    dropDownOptions: List<Pair<String,()->Unit>>
+)
 {
 
 
@@ -39,11 +45,16 @@ fun InventoryModeScreenContent(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BasicToolbar("View your Inventory!")
+        OptionsToolbar(
+            title = "View your Inventory!",
+            dropDownExtended = uiState.dropDrownExtended,
+            toggleDropDown = toggleDropDown,
+            dropDownOptions = dropDownOptions
+        )
         Column(Modifier.weight(1f)){
             Text("Coming Soon")
         }
-        NavBarComposable(INVENTORY_MODE_SCREEN, onPickingClick,onSellingClick,onFridgeClick,onAnalyticsClick,{})
+        NavBarComposable(INVENTORY_MODE_SCREEN, bottomNavBarActions)
 
     }
 }

@@ -114,27 +114,32 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
 
     composable(PICKING_MODE_SCREEN){
         PickingModeScreen(
-            {route -> appState.navigate(route)}
+            {route -> appState.navigate(route)},
+            {route -> appState.clearAndNavigate(route)}
         )
     }
     composable(SELLING_MODE_SCREEN){
         SellingModeScreen(
-            {route -> appState.navigate(route)}
+            {route -> appState.navigate(route)},
+            {route -> appState.clearAndNavigate(route)}
         )
     }
     composable(FRIDGE_MODE_SCREEN){
         FridgeModeScreen(
-            {route -> appState.navigate(route)}
+            {route -> appState.navigate(route)},
+            {route -> appState.clearAndNavigate(route)}
         )
     }
     composable(ANALYTICS_MODE_SCREEN){
         AnalyticsModeScreen(
-            {route -> appState.navigate(route)}
+            {route -> appState.navigate(route)},
+            {route -> appState.clearAndNavigate(route)}
         )
     }
     composable(INVENTORY_MODE_SCREEN){
         InventoryModeScreen(
-            { route -> appState.navigate(route) }
+            { route -> appState.navigate(route) },
+            {route -> appState.clearAndNavigate(route)}
         )
     }
 
@@ -142,6 +147,7 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
     composable(SELECT_FARM_SCREEN){
         SelectFarmScreen(
             openScreen = { route -> appState.navigate(route)},
+            {route -> appState.clearAndNavigate(route)}
         )
     }
     

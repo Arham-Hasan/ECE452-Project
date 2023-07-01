@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,18 +15,23 @@ import com.example.tracktor.TracktorActivity
 import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.MicButton
 import com.example.tracktor.common.composable.NavBarComposable
+import com.example.tracktor.common.composable.OptionsToolbar
+import com.example.tracktor.screens.inventorymode.InventoryModeUiState
+
 @Composable
-fun PickingModeScreen(openScreen: (String)->Unit, viewModel: PickingModeViewModel = hiltViewModel()) {
+fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit, viewModel: PickingModeViewModel = hiltViewModel()) {
+
+    val uiState by viewModel.uiState
 
     val context = LocalContext.current
     val speechContext = context as TracktorActivity
 
     PickingModeScreenContent(
         { speechContext.onMicButtonClick(context) },
-        { viewModel.onSellingClick(openScreen)},
-        { viewModel.onFridgesClick(openScreen)},
-        { viewModel.onAnalyticsClick(openScreen)},
-        { viewModel.onInventoryClick(openScreen)}
+        viewModel.bottomNavBarActions(openScreen),
+        uiState,
+        {viewModel.toggleDropDown()},
+        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate)
     )
 
     LaunchedEffect(speechContext.speechInput.value){
@@ -40,10 +46,11 @@ fun PickingModeScreen(openScreen: (String)->Unit, viewModel: PickingModeViewMode
 @Composable
 fun PickingModeScreenContent(
     onMicButtonClick: () -> Unit,
-    onSellingClick: () -> Unit,
-    onFridgeClick: () -> Unit,
-    onAnalyticsClick: () -> Unit,
-    onInventoryClick: () -> Unit)
+    bottomNavBarActions: List<() -> Unit>,
+    uiState: PickingModeUiState,
+    toggleDropDown: ()->Unit,
+    dropDownOptions: List<Pair<String,()->Unit>>
+)
 {
 
 
@@ -51,11 +58,16 @@ fun PickingModeScreenContent(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BasicToolbar("Please press the button and start picking!")
+        OptionsToolbar(
+            title = "Press the button and start picking!",
+            dropDownExtended = uiState.dropDrownExtended,
+            toggleDropDown = toggleDropDown,
+            dropDownOptions = dropDownOptions
+        )
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center){
             MicButton("Start Picking", Modifier, action = onMicButtonClick)
         }
-        NavBarComposable(PICKING_MODE_SCREEN, {},onSellingClick,onFridgeClick,onAnalyticsClick,onInventoryClick)
+        NavBarComposable(PICKING_MODE_SCREEN, bottomNavBarActions)
     }
 
 }

@@ -21,12 +21,7 @@ import com.example.tracktor.ui.theme.TracktorTheme
 @Composable
 fun NavBarComposable(
     currentScreen: String,
-    pickingAction: ()->Unit,
-    sellingAction: ()->Unit,
-    marketAction: ()->Unit,
-    analyticsAction: ()->Unit,
-    settingsAction: ()->Unit,
-    modifier: Modifier = Modifier
+    actions: List<()->Unit>,
 ){
     val items = listOf(
         BottomNavItem.Home,
@@ -34,7 +29,7 @@ fun NavBarComposable(
         BottomNavItem.AddPost,
         BottomNavItem.Notification,
         BottomNavItem.Jobs
-    ) zip listOf(pickingAction,sellingAction,marketAction,analyticsAction,settingsAction)
+    ) zip actions
     BottomNavigation(contentColor = Color.Black) {
         items.forEach { item ->
             BottomNavigationItem(
@@ -56,7 +51,7 @@ fun NavBarComposablePreview(){
     TracktorTheme {
         NavBarComposable(
             "PickingModeScreen",
-            {},{},{},{},{}
+            listOf({},{},{},{},{})
         )
     }
 }

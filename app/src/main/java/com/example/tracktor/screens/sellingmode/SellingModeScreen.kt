@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -17,20 +18,24 @@ import com.example.tracktor.TracktorActivity
 import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.MicButton
 import com.example.tracktor.common.composable.NavBarComposable
+import com.example.tracktor.common.composable.OptionsToolbar
+import com.example.tracktor.screens.pickingmode.PickingModeUiState
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun SellingModeScreen(openScreen: (String)->Unit, viewModel: SellingModeViewModel = hiltViewModel()) {
+fun SellingModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit, viewModel: SellingModeViewModel = hiltViewModel()) {
+
+    val uiState by viewModel.uiState
 
     val context = LocalContext.current
     val speechContext = context as TracktorActivity
 
     SellingModeScreenContent(
         { speechContext.onMicButtonClick(context) },
-        { viewModel.onPickingClick(openScreen)},
-        { viewModel.onFridgesClick(openScreen)},
-        { viewModel.onAnalyticsClick(openScreen)},
-        { viewModel.onInventoryClick(openScreen)},
+        viewModel.bottomNavBarActions(openScreen),
+        uiState,
+        {viewModel.toggleDropDown()},
+        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate)
     )
 
     LaunchedEffect(speechContext.speechInput.value){
@@ -46,10 +51,11 @@ fun SellingModeScreen(openScreen: (String)->Unit, viewModel: SellingModeViewMode
 @Composable
 fun SellingModeScreenContent(
     onMicButtonClick: () -> Unit,
-    onPickingClick: () -> Unit,
-    onFridgeClick: () -> Unit,
-    onAnalyticsClick: () -> Unit,
-    onInventoryClick: () -> Unit)
+    bottomNavBarActions: List<() -> Unit>,
+    uiState: SellingModeUiState,
+    toggleDropDown: ()->Unit,
+    dropDownOptions: List<Pair<String,()->Unit>>
+)
 {
 
 
@@ -57,12 +63,17 @@ fun SellingModeScreenContent(
         modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BasicToolbar("Please press the button and start selling!")
+        OptionsToolbar(
+            title = "Press the button to start selling!",
+            dropDownExtended = uiState.dropDrownExtended,
+            toggleDropDown = toggleDropDown,
+            dropDownOptions = dropDownOptions
+        )
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center){
             MicButton("Start Selling", Modifier, action = onMicButtonClick)
         }
 
-        NavBarComposable(SELLING_MODE_SCREEN, onPickingClick,{},onFridgeClick,onAnalyticsClick,onInventoryClick)
+        NavBarComposable(SELLING_MODE_SCREEN, bottomNavBarActions)
 
     }
 
@@ -72,6 +83,12 @@ fun SellingModeScreenContent(
 @Composable
 fun SellingModeScreenContentPreview(){
     TracktorTheme() {
-        SellingModeScreenContent({},{},{},{},{})
+        SellingModeScreenContent(
+            {},
+            listOf({},{},{},{},{}),
+            SellingModeUiState(),
+            {},
+            listOf()
+        )
     }
 }

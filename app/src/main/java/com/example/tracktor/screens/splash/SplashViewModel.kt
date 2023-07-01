@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val accountService: AccountService,
-) : TracktorViewModel() {
+    accountService: AccountService,
+) : TracktorViewModel(accountService) {
     fun onAppStart(openAndPopUp: (String, String) -> Unit) {
 
         if (accountService.loggedIn) openAndPopUp(SELECT_FARM_SCREEN, SPLASH_SCREEN)

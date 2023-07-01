@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val accountService: AccountService,
-) : TracktorViewModel() {
+    accountService: AccountService,
+) : TracktorViewModel(accountService) {
     var uiState = mutableStateOf(LoginUiState())
         private set
 

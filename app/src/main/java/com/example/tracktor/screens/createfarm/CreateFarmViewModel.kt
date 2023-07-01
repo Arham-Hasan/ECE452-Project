@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateFarmViewModel @Inject constructor(private val farmStorageService: FarmStorageService,
-                                              private val accountService: AccountService) : TracktorViewModel()  {
+                                              accountService: AccountService) : TracktorViewModel(accountService)  {
     var uiState = mutableStateOf(CreateFarmUiState())
         private set
 

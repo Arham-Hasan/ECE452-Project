@@ -5,16 +5,21 @@ import androidx.lifecycle.viewModelScope
 import com.example.tracktor.ANALYTICS_MODE_SCREEN
 import com.example.tracktor.FRIDGE_MODE_SCREEN
 import com.example.tracktor.INVENTORY_MODE_SCREEN
+import com.example.tracktor.LOGIN_SCREEN
 import com.example.tracktor.PICKING_MODE_SCREEN
 import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.SELLING_MODE_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.example.tracktor.model.service.AccountService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-open class TracktorViewModel : ViewModel(){
+open class TracktorViewModel(
+    protected val accountService: AccountService,
+) : ViewModel(){
     fun launchCatching(block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(
             CoroutineExceptionHandler { _, _ ->
@@ -40,16 +45,50 @@ open class TracktorViewModel : ViewModel(){
         openScreen(FRIDGE_MODE_SCREEN)
     }
 
-    fun onSignOutClick(){
+    fun bottomNavBarActions(openScreen: (String) -> Unit): List<()->Unit> {
+        return listOf(
+            { onPickingClick(openScreen) },
+            { onSellingClick(openScreen) },
+            { onFridgesClick(openScreen) },
+            { onAnalyticsClick(openScreen) },
+            { onInventoryClick(openScreen) }
+        )
+    }
+    fun onSignOutClick(clearAndNavigate: (String)->Unit){
         SnackbarManager.showMessage("Sign out".toSnackbarMessage())
+        launchCatching{
+            accountService.signOut()
+            clearAndNavigate(LOGIN_SCREEN)
+        }
     }
 
-    fun onSettingsClick(){
-        SnackbarManager.showMessage("Settings".toSnackbarMessage())
+    fun onUserSettingsClick(){
+        SnackbarManager.showMessage("User Settings".toSnackbarMessage())
     }
 
-    fun onChangeFarmClick(openScreen: (String)->Unit){
-        openScreen(SELECT_FARM_SCREEN)
-
+    fun onFarmSettingsClick(){
+        SnackbarManager.showMessage("Farm Settings".toSnackbarMessage())
     }
+
+    fun onChangeFarmClick(clearAndNavigate: (String)->Unit){
+        clearAndNavigate(SELECT_FARM_SCREEN)
+    }
+
+    fun dropDownActionsAfterFarmSelected(openScreen: (String) -> Unit, clearAndNavigate:(String)->Unit): List<Pair<String,()->Unit>>{
+        return listOf(
+            Pair("Sign Out", {onSignOutClick(clearAndNavigate)}),
+            Pair("User Settings", {onUserSettingsClick()}),
+            Pair("Farm Settings", {onFarmSettingsClick()}),
+            Pair("Change Farm",{onChangeFarmClick(clearAndNavigate)})
+        )
+    }
+
+    fun dropDownActionsBeforeFarmSelected(openScreen: (String) -> Unit,clearAndNavigate:(String)->Unit): List<Pair<String,()->Unit>>{
+        return listOf(
+            Pair("Sign Out", {onSignOutClick(clearAndNavigate)}),
+            Pair("User Settings", {onUserSettingsClick()}),
+        )
+    }
+
+
 }

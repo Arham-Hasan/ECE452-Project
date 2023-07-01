@@ -1,6 +1,7 @@
 package com.example.tracktor.screens.signup
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.SELECT_MODE_SCREEN
 import com.example.tracktor.SIGN_UP_SCREEN
 import com.example.tracktor.common.functions.isValidEmail
@@ -14,9 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(
-    private val accountService: AccountService,
-) : TracktorViewModel() {
+class SignUpViewModel @Inject constructor(accountService: AccountService) : TracktorViewModel(accountService ) {
     var uiState = mutableStateOf(SignUpUiState())
         private set
 
@@ -67,7 +66,7 @@ class SignUpViewModel @Inject constructor(
 
         launchCatching {
             accountService.signUp(email, password)
-            openAndPopUp(SELECT_MODE_SCREEN, SIGN_UP_SCREEN)
+            openAndPopUp(SELECT_FARM_SCREEN, SIGN_UP_SCREEN)
         }
     }
 

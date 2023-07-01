@@ -17,30 +17,41 @@ import javax.inject.Inject
 @HiltViewModel
 class SelectFarmViewModel @Inject constructor(
     private val farmStorageService: FarmStorageService,
-    private val accountService: AccountService)
-    : TracktorViewModel(){
+    accountService: AccountService)
+    : TracktorViewModel(accountService) {
 
     var uiState = mutableStateOf(SelectFarmUiState())
         private set
-    init{
-        runBlocking{
-            uiState.value = uiState.value.copy(farms = farmStorageService.getFarmsFromUserId(accountService.currentUserId))
+
+    private val dropDrownExtended
+        get() = uiState.value.dropDrownExtended
+
+    init {
+        runBlocking {
+            uiState.value =
+                uiState.value.copy(farms = farmStorageService.getFarmsFromUserId(accountService.currentUserId))
         }
     }
 
-    fun retrieveFarms(){
+    fun retrieveFarms() {
         // Simulated data retrieval
         // return listOf(Farm(id="1", name = "Heeko farm"), Farm(id="2", name = "Boge farm"), Farm(id="3", name = "Arham farm"))
-        runBlocking{
-            uiState.value = uiState.value.copy(farms = farmStorageService.getFarmsFromUserId(accountService.currentUserId))
+        runBlocking {
+            uiState.value =
+                uiState.value.copy(farms = farmStorageService.getFarmsFromUserId(accountService.currentUserId))
         }
     }
 
-    fun onFarmNameClick(openScreen: (String) -> Unit, farm_id: String,){
+    fun onFarmNameClick(openScreen: (String) -> Unit, farm_id: String) {
         openScreen("$SELECT_MODE_SCREEN?$FARM_ID=${farm_id}")
     }
 
-    fun onCreateFarmClick(openScreen: (String)->Unit){
+    fun onCreateFarmClick(openScreen: (String) -> Unit) {
         openScreen(CREATE_FARM_SCREEN)
+    }
+
+
+    fun toggleDropDown() {
+        uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 }

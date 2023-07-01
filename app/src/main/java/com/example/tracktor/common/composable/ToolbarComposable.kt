@@ -20,16 +20,11 @@ fun BasicToolbar(title:String) {
 }
 
 @Composable
-fun ThreeOptionToolbar(
+fun OptionsToolbar(
     title:String,
     dropDownExtended:Boolean,
     toggleDropDown: ()->Unit,
-    firstTitle:String,
-    firstAction: ()->Unit,
-    secondTitle:String,
-    secondAction: ()->Unit,
-    thirdTitle:String,
-    thirdAction: ()->Unit
+    dropDownOptions: List<Pair<String,()->Unit>>
 ){
 
     TopAppBar(
@@ -39,24 +34,15 @@ fun ThreeOptionToolbar(
             IconButton(onClick = toggleDropDown) {
                 Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "Options")
             }
+
             DropdownMenu(expanded = dropDownExtended, onDismissRequest = toggleDropDown) {
-                DropdownMenuItem(onClick = {
-                    firstAction()
-                    toggleDropDown()
-                }) {
-                    Text(firstTitle)
-                }
-                DropdownMenuItem(onClick = {
-                    secondAction()
-                    toggleDropDown()
-                }) {
-                    Text(secondTitle)
-                }
-                DropdownMenuItem(onClick = {
-                    thirdAction()
-                    toggleDropDown()
-                }) {
-                    Text(thirdTitle)
+                dropDownOptions.forEach { dropDownOption ->
+                    DropdownMenuItem(onClick = {
+                        dropDownOption.second()
+                        toggleDropDown()
+                    }) {
+                        Text(dropDownOption.first)
+                    }
                 }
             }
         }

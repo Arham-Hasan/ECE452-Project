@@ -17,6 +17,7 @@ class TracktorAppState (
     private val snackbarManager: SnackbarManager
 )
 {
+
     init {
         coroutineScope.launch {
             snackbarManager.snackbarMessages.filterNotNull().collect { snackbarMessage ->
@@ -41,4 +42,10 @@ class TracktorAppState (
         }
     }
 
+    fun clearAndNavigate(route: String) {
+        navController.navigate(route) {
+            launchSingleTop = true
+            popUpTo(0) { inclusive = true }
+        }
+    }
 }

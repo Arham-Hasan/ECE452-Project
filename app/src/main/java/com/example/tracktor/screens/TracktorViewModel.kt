@@ -11,14 +11,13 @@ import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.SELLING_MODE_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.example.tracktor.model.service.AccountService
+import com.example.tracktor.data.repository.AuthRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 open class TracktorViewModel(
-    protected val accountService: AccountService,
+    protected val authRepository: AuthRepository,
 ) : ViewModel(){
     fun launchCatching(block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(
@@ -57,7 +56,7 @@ open class TracktorViewModel(
     fun onSignOutClick(clearAndNavigate: (String)->Unit){
         SnackbarManager.showMessage("Sign out".toSnackbarMessage())
         launchCatching{
-            accountService.signOut()
+            authRepository.signOut()
             clearAndNavigate(LOGIN_SCREEN)
         }
     }

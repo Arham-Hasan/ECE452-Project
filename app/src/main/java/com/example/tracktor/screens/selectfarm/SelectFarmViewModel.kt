@@ -1,24 +1,21 @@
 package com.example.tracktor.screens.selectfarm
-import com.example.tracktor.CREATE_FARM_SCREEN
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import com.example.tracktor.CREATE_FARM_SCREEN
 import com.example.tracktor.FARM_ID
 import com.example.tracktor.SELECT_MODE_SCREEN
-import com.example.tracktor.model.Farm
-import com.example.tracktor.model.service.AccountService
-import com.example.tracktor.model.service.FarmStorageService
-import com.example.tracktor.model.service.implementation.FarmStorageServiceImplementation
+import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
-import com.example.tracktor.screens.selectmode.SelectModeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
 class SelectFarmViewModel @Inject constructor(
-    private val farmStorageService: FarmStorageService,
-    accountService: AccountService)
-    : TracktorViewModel(accountService) {
+    private val farmManagerRepository: FarmManagerRepository,
+    authRepository: AuthRepository
+)
+    : TracktorViewModel(authRepository) {
 
     var uiState = mutableStateOf(SelectFarmUiState())
         private set
@@ -29,7 +26,7 @@ class SelectFarmViewModel @Inject constructor(
     init {
         runBlocking {
             uiState.value =
-                uiState.value.copy(farms = farmStorageService.getFarmsFromUserId(accountService.currentUserId))
+                uiState.value.copy(farms = farmManagerRepository.getFarms())
         }
     }
 
@@ -38,7 +35,7 @@ class SelectFarmViewModel @Inject constructor(
         // return listOf(Farm(id="1", name = "Heeko farm"), Farm(id="2", name = "Boge farm"), Farm(id="3", name = "Arham farm"))
         runBlocking {
             uiState.value =
-                uiState.value.copy(farms = farmStorageService.getFarmsFromUserId(accountService.currentUserId))
+                uiState.value.copy(farms = farmManagerRepository.getFarms())
         }
     }
 

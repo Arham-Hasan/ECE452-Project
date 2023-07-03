@@ -1,19 +1,14 @@
-package com.example.tracktor.model.service.implementation
+package com.example.tracktor.data.repository
 
-import android.util.Log
-import com.example.tracktor.model.Farm
-import com.example.tracktor.model.FarmUserRelation
-import com.example.tracktor.model.service.FarmStorageService
+import com.example.tracktor.data.model.Farm
+import com.example.tracktor.data.model.FarmUserRelation
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
 
-class FarmStorageServiceImplementation
-@Inject
-constructor(private val firestore: FirebaseFirestore) :
-    FarmStorageService{
-    override suspend fun getFarmsFromUserId(userId: String): List<Farm?> {
+class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): FarmRepository {
+    override suspend fun getFarms(userId: String) : List<Farm?> {
         val result = firestore.collection("farmUserRelation").whereEqualTo("userId",userId).get().await()
         val farmIds : MutableList<String?> = mutableListOf<String?>()
         for(document in result){
@@ -27,12 +22,10 @@ constructor(private val firestore: FirebaseFirestore) :
         }
         return farms
     }
-
-    override suspend fun createFarm(name: String, userId: String) {
+    override suspend fun createFarm(name: String, userId: String) : Unit{
         val farm = Farm(name = name, id = UUID.randomUUID().toString() )
         firestore.collection("farms").add(farm).await()
         val farmUserRelation = FarmUserRelation(userId = userId, farmId = farm.id)
         firestore.collection("farmUserRelation").add(farmUserRelation).await()
     }
-
-    }
+}

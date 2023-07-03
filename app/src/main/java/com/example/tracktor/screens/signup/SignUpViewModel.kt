@@ -47,7 +47,7 @@ class SignUpViewModel @Inject constructor(authRepository: AuthRepository) : Trac
         uiState.value = uiState.value.copy(second_password = newValue)
     }
 
-    fun onSignUpClick(openAndPopUp: (String, String) -> Unit) {
+    fun onSignUpClick(clearAndNavigate: (String) -> Unit) {
         if (!email.isValidEmail()) {
             SnackbarManager.showMessage("Invalid Email".toSnackbarMessage())
             return
@@ -65,7 +65,7 @@ class SignUpViewModel @Inject constructor(authRepository: AuthRepository) : Trac
 
         launchCatching {
             authRepository.signUp(email, password)
-            openAndPopUp(SELECT_FARM_SCREEN, SIGN_UP_SCREEN)
+            clearAndNavigate(SELECT_FARM_SCREEN)
         }
     }
 

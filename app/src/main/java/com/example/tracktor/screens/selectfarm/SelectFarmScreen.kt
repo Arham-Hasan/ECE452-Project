@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.common.composable.CreateFarmButton
 import com.example.tracktor.common.composable.OptionsToolbar
+import com.example.tracktor.data.model.Farm
 import kotlin.reflect.KFunction2
 
 @Composable
@@ -44,7 +45,7 @@ fun SelectFarmScreenContent(
     dropDownOptions: List<Pair<String,()->Unit>>,
     openScreen: (String) -> Unit,
     onCreateFarmClick: ()->Unit,
-    onSelectFarmClick: KFunction2<(String) -> Unit, String, Unit>
+    onSelectFarmClick: KFunction2<(String) -> Unit, Farm, Unit>
 
 ){
     Surface(
@@ -68,7 +69,7 @@ fun SelectFarmScreenContent(
             else {
                 Text(text = "Select Farm")
                 uiState.farms.forEach { farm ->
-                    Button(onClick ={onSelectFarmClick(openScreen, farm!!.id)}
+                    Button(onClick ={onSelectFarmClick(openScreen, farm!!)}
 
                     ) {
                         Text(text = farm!!.name)
@@ -84,6 +85,6 @@ fun SelectFarmScreenContent(
 @Preview
 @Composable
 fun SelectFarmScreenPreview() {
-    fun a(b:(String)->Unit,c:String){}
+    fun a(b:(String)->Unit,c:Farm){}
     SelectFarmScreenContent(SelectFarmUiState(),{},listOf(),{},{},::a)
 }

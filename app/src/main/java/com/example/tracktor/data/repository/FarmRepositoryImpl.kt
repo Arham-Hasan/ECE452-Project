@@ -8,12 +8,8 @@ import java.util.UUID
 import javax.inject.Inject
 
 class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): FarmRepository {
-    override suspend fun getFarms(userId: String) : List<Farm?> {
-        val result = firestore.collection("farmUserRelation").whereEqualTo("userId",userId).get().await()
-        val farmIds : MutableList<String?> = mutableListOf<String?>()
-        for(document in result){
-            farmIds.add(document.getString("farmId"))
-        }
+    override suspend fun getFarms(farmIds: List<String?>) : List<Farm?> {
+
         val farms : MutableList<Farm?> = mutableListOf<Farm?>()
         if (farmIds.isEmpty()) return farms
         val result2 = firestore.collection("farms").whereIn("id",farmIds).get().await()
@@ -22,10 +18,7 @@ class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFire
         }
         return farms
     }
-    override suspend fun createFarm(name: String, userId: String) : Unit{
-        val farm = Farm(name = name, id = UUID.randomUUID().toString() )
+    override suspend fun createFarm(farm:Farm) : Unit{
         firestore.collection("farms").add(farm).await()
-        val farmUserRelation = FarmUserRelation(userId = userId, farmId = farm.id)
-        firestore.collection("farmUserRelation").add(farmUserRelation).await()
     }
 }

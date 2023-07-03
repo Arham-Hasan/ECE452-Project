@@ -9,13 +9,15 @@ import com.example.tracktor.common.functions.isValidPassword
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    authRepository: AuthRepository
+    authRepository: AuthRepository,
+    private val farmManagerRepository: FarmManagerRepository
 ) : TracktorViewModel(authRepository) {
     var uiState = mutableStateOf(LoginUiState())
         private set
@@ -28,6 +30,9 @@ class LoginViewModel @Inject constructor(
 
     fun onEmailChange(newValue:String){
         uiState.value = uiState.value.copy(email = newValue)
+    }
+    init {
+        farmManagerRepository.removeSelectedFarm()
     }
 
     fun onPasswordChange(newValue:String){

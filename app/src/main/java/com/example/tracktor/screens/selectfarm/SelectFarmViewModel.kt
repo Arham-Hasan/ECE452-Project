@@ -1,8 +1,8 @@
 package com.example.tracktor.screens.selectfarm
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.CREATE_FARM_SCREEN
-import com.example.tracktor.FARM_ID
-import com.example.tracktor.SELECT_MODE_SCREEN
+import com.example.tracktor.PICKING_MODE_SCREEN
+import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
@@ -24,6 +24,7 @@ class SelectFarmViewModel @Inject constructor(
         get() = uiState.value.dropDrownExtended
 
     init {
+        farmManagerRepository.removeSelectedFarm()
         runBlocking {
             uiState.value =
                 uiState.value.copy(farms = farmManagerRepository.getFarms())
@@ -39,8 +40,9 @@ class SelectFarmViewModel @Inject constructor(
         }
     }
 
-    fun onFarmNameClick(openScreen: (String) -> Unit, farm_id: String) {
-        openScreen("$SELECT_MODE_SCREEN?$FARM_ID=${farm_id}")
+    fun onFarmNameClick(openScreen: (String) -> Unit, farm: Farm) {
+        farmManagerRepository.changeSelectedFarm(farm)
+        openScreen(PICKING_MODE_SCREEN)
     }
 
     fun onCreateFarmClick(openScreen: (String) -> Unit) {

@@ -6,6 +6,8 @@ import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.FarmManagerRepositoryImpl
 import com.example.tracktor.data.repository.FarmRepository
 import com.example.tracktor.data.repository.FarmRepositoryImpl
+import com.example.tracktor.data.repository.FarmUserRepository
+import com.example.tracktor.data.repository.FarmUserRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -27,5 +29,13 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideFarmManagerRepository(authRepository: AuthRepository, farmRepository: FarmRepository):FarmManagerRepository = FarmManagerRepositoryImpl(authRepository,farmRepository)
+    fun provideFarmUserRepository(firestore: FirebaseFirestore): FarmUserRepository = FarmUserRepositoryImpl(firestore)
+
+    @Provides
+    @Singleton
+    fun provideFarmManagerRepository(
+        authRepository: AuthRepository,
+        farmRepository: FarmRepository,
+        farmUserRepository: FarmUserRepository
+    ):FarmManagerRepository = FarmManagerRepositoryImpl(authRepository,farmRepository, farmUserRepository)
 }

@@ -1,4 +1,4 @@
-package com.example.tracktor.model
+package com.example.tracktor.data.model
 
 data class Farm(
     val id:String = "",

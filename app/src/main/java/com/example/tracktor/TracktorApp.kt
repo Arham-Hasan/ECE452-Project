@@ -100,7 +100,7 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
 
     composable(SIGN_UP_SCREEN){
         SignUpScreen(
-            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+            clearAndNavigate = { route -> appState.clearAndNavigate(route) },
             popUp = {appState.popUp()}
         )
     }

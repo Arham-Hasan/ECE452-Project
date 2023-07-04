@@ -1,7 +1,7 @@
-package com.example.tracktor.model.service.implementation
+package com.example.tracktor.data.repository
 
-import com.example.tracktor.model.User
-import com.example.tracktor.model.service.AccountService
+
+import com.example.tracktor.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -9,9 +9,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class AccountServiceImplementation @Inject constructor(private val auth: FirebaseAuth):
-    AccountService {
-
+class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth): AuthRepository {
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
 

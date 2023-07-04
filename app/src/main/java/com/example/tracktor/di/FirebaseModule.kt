@@ -1,4 +1,4 @@
-package com.example.tracktor.model.service.module
+package com.example.tracktor.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -9,15 +9,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object FirebaseModule {
+    @Singleton
     @Provides
     fun auth(): FirebaseAuth = Firebase.auth
 
     @Provides
+    @Singleton
     fun firestore(): FirebaseFirestore = Firebase.firestore
-
 
 }

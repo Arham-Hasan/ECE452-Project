@@ -21,4 +21,13 @@ class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFire
     override suspend fun createFarm(farm:Farm) : Unit{
         firestore.collection("farms").add(farm).await()
     }
+
+    override suspend fun deleteFarm(farm: Farm) {
+        val result2 = firestore.collection("farms")
+            .whereEqualTo("farmId", farm.id)
+            .get().await()
+        if (result2.documents.isNotEmpty()) {
+            result2.documents[0].reference.delete().await()
+        }
+    }
 }

@@ -18,7 +18,7 @@ import com.example.tracktor.common.composable.PasswordField
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun SignUpScreen(openAndPopUp: (String, String) -> Unit, popUp:()->Unit,  viewModel: SignUpViewModel = hiltViewModel()) {
+fun SignUpScreen(clearAndNavigate: (String) -> Unit, popUp:()->Unit,  viewModel: SignUpViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState
     SignUpScreenContent(
         uiState,
@@ -26,7 +26,7 @@ fun SignUpScreen(openAndPopUp: (String, String) -> Unit, popUp:()->Unit,  viewMo
         viewModel::onEmailChange,
         viewModel::onPasswordChange,
         viewModel::onSecondPasswordChange,
-        { viewModel.onSignUpClick(openAndPopUp)},
+        { viewModel.onSignUpClick(clearAndNavigate)},
         {viewModel.onLoginClick(popUp)}
     )
 

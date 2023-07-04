@@ -1,10 +1,9 @@
-package com.example.tracktor.model.service
+package com.example.tracktor.data.repository
 
-import com.example.tracktor.model.User
+import com.example.tracktor.data.model.User
 import kotlinx.coroutines.flow.Flow
 
-
-interface AccountService {
+interface AuthRepository {
     val loggedIn: Boolean
     val currentUserId: String
 

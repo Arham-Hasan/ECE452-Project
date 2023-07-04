@@ -4,14 +4,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.text.isDigitsOnly
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.example.tracktor.model.service.AccountService
+import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.screens.TracktorViewModel
-import com.example.tracktor.screens.analyticsmode.AnalyticsModeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SellingModeViewModel @Inject constructor(accountService: AccountService,) : TracktorViewModel(accountService ) {
+class SellingModeViewModel @Inject constructor(authRepository: AuthRepository) : TracktorViewModel(authRepository ) {
 
     var uiState = mutableStateOf(SellingModeUiState())
         private set

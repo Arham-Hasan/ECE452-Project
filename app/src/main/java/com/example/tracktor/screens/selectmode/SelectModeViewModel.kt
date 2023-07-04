@@ -1,16 +1,14 @@
 package com.example.tracktor.screens.selectmode
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.PICKING_MODE_SCREEN
-import com.example.tracktor.model.service.AccountService
+import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.screens.TracktorViewModel
-import com.example.tracktor.screens.login.LoginUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SelectModeViewModel @Inject constructor(accountService:AccountService) : TracktorViewModel(accountService){
+class SelectModeViewModel @Inject constructor(authRepository: AuthRepository) : TracktorViewModel(authRepository){
     var uiState = mutableStateOf(SelectModeUiState())
         private set
     fun setStateFarmId(newValue:String){

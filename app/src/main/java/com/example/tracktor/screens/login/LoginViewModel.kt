@@ -8,15 +8,17 @@ import com.example.tracktor.common.functions.isValidEmail
 import com.example.tracktor.common.functions.isValidPassword
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.example.tracktor.model.service.AccountService
+import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    accountService: AccountService,
-) : TracktorViewModel(accountService) {
+    authRepository: AuthRepository,
+    private val farmManagerRepository: FarmManagerRepository
+) : TracktorViewModel(authRepository) {
     var uiState = mutableStateOf(LoginUiState())
         private set
 
@@ -28,6 +30,9 @@ class LoginViewModel @Inject constructor(
 
     fun onEmailChange(newValue:String){
         uiState.value = uiState.value.copy(email = newValue)
+    }
+    init {
+        farmManagerRepository.removeSelectedFarm()
     }
 
     fun onPasswordChange(newValue:String){
@@ -45,7 +50,7 @@ class LoginViewModel @Inject constructor(
             return
         }
         launchCatching{
-            accountService.authenticate(email, password)
+            authRepository.authenticate(email, password)
             openAndPopUp(SELECT_FARM_SCREEN, LOGIN_SCREEN)
         }
     }

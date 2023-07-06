@@ -9,10 +9,10 @@ interface FarmManagerRepository {
     fun removeSelectedFarm(): Unit
     fun getSelectedFarm(): Farm?
 
-    suspend fun getFarms() : List<Farm?>
+    suspend fun getActiveFarms() : List<Farm?>
     suspend fun createFarm(name: String) : Unit
 
     suspend fun deleteFarm(farm: Farm): Unit
 
-    suspend fun resquestToJoinFarm(farmId: String): Unit
+    suspend fun requestToJoinFarm(farmId: String): Unit
 }

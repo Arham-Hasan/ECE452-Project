@@ -27,7 +27,7 @@ class SelectFarmViewModel @Inject constructor(
         farmManagerRepository.removeSelectedFarm()
         runBlocking {
             uiState.value =
-                uiState.value.copy(farms = farmManagerRepository.getFarms())
+                uiState.value.copy(farms = farmManagerRepository.getActiveFarms())
         }
     }
 
@@ -36,7 +36,7 @@ class SelectFarmViewModel @Inject constructor(
         // return listOf(Farm(id="1", name = "Heeko farm"), Farm(id="2", name = "Boge farm"), Farm(id="3", name = "Arham farm"))
         runBlocking {
             uiState.value =
-                uiState.value.copy(farms = farmManagerRepository.getFarms())
+                uiState.value.copy(farms = farmManagerRepository.getActiveFarms())
         }
     }
 

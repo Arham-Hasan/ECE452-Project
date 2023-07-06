@@ -30,4 +30,11 @@ class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFire
             result2.documents[0].reference.delete().await()
         }
     }
+
+    override suspend fun farmExists(farmId: String): Boolean {
+        val result = firestore.collection("farms")
+            .whereEqualTo("farmId", farmId)
+            .get().await()
+        return !result.isEmpty()
+    }
 }

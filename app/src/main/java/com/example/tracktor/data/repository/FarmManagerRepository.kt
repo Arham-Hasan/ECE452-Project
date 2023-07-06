@@ -11,4 +11,8 @@ interface FarmManagerRepository {
 
     suspend fun getFarms() : List<Farm?>
     suspend fun createFarm(name: String) : Unit
+
+    suspend fun deleteFarm(farm: Farm): Unit
+
+    suspend fun resquestToJoinFarm(farmId: String): Unit
 }

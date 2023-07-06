@@ -24,8 +24,8 @@ class FarmManagerRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getFarms() : List<Farm?>{
-        val farmIds = farmUserRepository.getFarmIds(authRepository.currentUserId)
+    override suspend fun getActiveFarms() : List<Farm?>{
+        val farmIds = farmUserRepository.getActiveFarmIds(authRepository.currentUserId)
         return farmRepository.getFarms(farmIds)
     }
     override suspend fun createFarm(name: String) : Unit{
@@ -43,14 +43,10 @@ class FarmManagerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun resquestToJoinFarm(farmId: String) {
+    override suspend fun requestToJoinFarm(farmId: String) {
         val currentUserId = authRepository.currentUserId
-        if(farmUserRepository.isFarmMember(currentUserId,farmId)){
-
-        }else{
-            //check active request
-
-            //make a request
+        if(farmRepository.farmExists(farmId) && !farmUserRepository.isActiveOrNonActiveFarmMember(currentUserId,farmId)){
+            farmUserRepository.requestToJoinFarm(userId = currentUserId, farmId = farmId)
         }
     }
 }

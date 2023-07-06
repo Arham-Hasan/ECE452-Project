@@ -7,4 +7,6 @@ interface FarmRepository {
     suspend fun createFarm(farm:Farm) : Unit
 
     suspend fun deleteFarm(farm: Farm): Unit
+
+    suspend fun farmExists(farmId: String): Boolean
 }

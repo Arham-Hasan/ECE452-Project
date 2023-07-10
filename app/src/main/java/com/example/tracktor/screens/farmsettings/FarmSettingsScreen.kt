@@ -91,27 +91,32 @@ fun FarmSettingsScreenContent(
                         label="Enter New Name"
 
                     )
-                    SettingOption(
-                        onManageMemberClick,
-                        "Manage Members",
-                        "Approve/ Decline join requests, Change admins, Remove members")
-                    SettingOption(
-                        onRenameFarmClick,
-                        "Rename Farm",
-                        "Change the name of the farm",
-                    )
+                    if (isAdmin){
+                        SettingOption(
+                            onManageMemberClick,
+                            "Manage Members",
+                            "Approve/ Decline join requests, Change admins, Remove members")
+                        SettingOption(
+                            onRenameFarmClick,
+                            "Rename Farm",
+                            "Change the name of the farm",
+                        )
+                    }
+
                     SettingOption(
                         onLeaveFarmClick,
                         "Leave Farm",
                         "",
                         )
 
-                    SettingOption(
-                        onDeleteFarmClick,
-                        "Delete Farm",
-                        "Permanently delete the farm for all users",
-                        textColor = Color.Red
-                    )
+                    if (isAdmin) {
+                        SettingOption(
+                            onDeleteFarmClick,
+                            "Delete Farm",
+                            "Permanently delete the farm for all users",
+                            textColor = Color.Red
+                        )
+                    }
                 }
 
             }
@@ -125,7 +130,7 @@ fun FarmSettingsScreenContent(
 @Composable fun FarmSettingsScreenContentPreview(){
     TracktorTheme {
         FarmSettingsScreenContent(
-            true,true,false,{},{},{},{},{},{},{},"",{},{}
+            true,false,false,{},{},{},{},{},{},{},"",{},{}
         )
     }
 }

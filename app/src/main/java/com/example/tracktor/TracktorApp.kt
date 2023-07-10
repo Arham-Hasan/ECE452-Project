@@ -25,6 +25,7 @@ import androidx.navigation.navArgument
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.screens.analyticsmode.AnalyticsModeScreen
 import com.example.tracktor.screens.createfarm.CreateFarmScreen
+import com.example.tracktor.screens.farmsettings.FarmSettingsScreen
 import com.example.tracktor.screens.fridgemode.FridgeModeScreen
 import com.example.tracktor.screens.inventorymode.InventoryModeScreen
 import com.example.tracktor.screens.login.LoginScreen
@@ -147,6 +148,13 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
     composable(SELECT_FARM_SCREEN){
         SelectFarmScreen(
             openScreen = { route -> appState.navigate(route)},
+            {route -> appState.clearAndNavigate(route)}
+        )
+    }
+
+    composable(FARM_SETTINGS_SCREEN){
+        FarmSettingsScreen(
+            { route -> appState.navigate(route)},
             {route -> appState.clearAndNavigate(route)}
         )
     }

@@ -1,2 +1,0 @@
-|Date|Hours|Task
-|-|-|-

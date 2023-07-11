@@ -3,6 +3,7 @@ package com.example.tracktor.data.repository
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
@@ -36,5 +37,24 @@ class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFire
             .whereEqualTo("farmId", farmId)
             .get().await()
         return !result.isEmpty()
+    }
+
+    override suspend fun itemExists(name: String, farmId: String): Boolean {
+        val result = firestore.collection("farms")
+            .whereEqualTo("farmId", farmId)
+            .orderBy("inventory."+name)
+            .get().await()
+        return !result.isEmpty
+    }
+
+    override suspend fun addItem(name: String, farmId: String) {
+        val newItem = hashMapOf(
+            name to UUID.randomUUID().toString(),
+        )
+        val result = firestore.collection("farms")
+            .whereEqualTo("farmId", farmId)
+            .get().await()
+
+        result.documents[0].reference.set(newItem, SetOptions.merge())
     }
 }

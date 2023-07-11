@@ -8,16 +8,7 @@ import javax.inject.Inject
 
 class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): InventoryRepository{
 
-    override suspend fun itemExists(name: String, farmId: String): Boolean {
-        val result = firestore.collection("farms")
-            .whereEqualTo("farmId", farmId)
-            .orderBy("inventory."+name)
-            .get().await()
-        return !result.isEmpty
-    }
-
     override suspend fun addItem(name: String, farmId: String) {
-        if(itemExists(name=name, farmId = farmId)) return
         val newItem = hashMapOf(
             name to UUID.randomUUID().toString(),
         )

@@ -2,12 +2,13 @@ package com.example.tracktor.screens.analyticsmode
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AnalyticsModeViewModel @Inject constructor(authRepository: AuthRepository) : TracktorViewModel(authRepository) {
+class AnalyticsModeViewModel @Inject constructor(userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository) {
     var uiState = mutableStateOf(AnalyticsModeUiState())
         private set
 

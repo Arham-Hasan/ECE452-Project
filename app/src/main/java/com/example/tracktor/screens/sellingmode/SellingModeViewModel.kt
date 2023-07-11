@@ -5,12 +5,13 @@ import androidx.core.text.isDigitsOnly
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SellingModeViewModel @Inject constructor(authRepository: AuthRepository) : TracktorViewModel(authRepository ) {
+class SellingModeViewModel @Inject constructor(userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository ) {
 
     var uiState = mutableStateOf(SellingModeUiState())
         private set

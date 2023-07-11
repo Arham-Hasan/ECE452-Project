@@ -6,6 +6,7 @@ import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
+import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
@@ -14,9 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class FarmSettingsViewModel @Inject constructor(
     private val farmManagerRepository: FarmManagerRepository,
-    authRepository: AuthRepository
+    userManagerRepository: UserManagerRepository
 )
-    : TracktorViewModel(authRepository) {
+    : TracktorViewModel(userManagerRepository) {
     var uiState = mutableStateOf(FarmSettingsUiState())
         private set
 

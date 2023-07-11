@@ -12,7 +12,9 @@ interface FarmManagerRepository {
     suspend fun getActiveFarms() : List<Farm?>
     suspend fun createFarm(name: String) : Unit
 
-    suspend fun deleteFarm(farm: Farm): Unit
+    suspend fun deleteFarm(): Unit
 
     suspend fun requestToJoinFarm(farmId: String): Unit
+
+    suspend fun isAdmin():Boolean
 }

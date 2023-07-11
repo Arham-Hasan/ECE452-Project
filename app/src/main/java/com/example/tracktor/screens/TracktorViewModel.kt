@@ -3,6 +3,7 @@ package com.example.tracktor.screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tracktor.ANALYTICS_MODE_SCREEN
+import com.example.tracktor.FARM_SETTINGS_SCREEN
 import com.example.tracktor.FRIDGE_MODE_SCREEN
 import com.example.tracktor.INVENTORY_MODE_SCREEN
 import com.example.tracktor.LOGIN_SCREEN
@@ -65,8 +66,8 @@ open class TracktorViewModel(
         SnackbarManager.showMessage("User Settings".toSnackbarMessage())
     }
 
-    fun onFarmSettingsClick(){
-        SnackbarManager.showMessage("Farm Settings".toSnackbarMessage())
+    fun onFarmSettingsClick(openScreen: (String) -> Unit){
+        openScreen(FARM_SETTINGS_SCREEN)
     }
 
     fun onChangeFarmClick(clearAndNavigate: (String)->Unit){
@@ -77,7 +78,7 @@ open class TracktorViewModel(
         return listOf(
             Pair("Sign Out", {onSignOutClick(clearAndNavigate)}),
             Pair("User Settings", {onUserSettingsClick()}),
-            Pair("Farm Settings", {onFarmSettingsClick()}),
+            Pair("Farm Settings", {onFarmSettingsClick(openScreen)}),
             Pair("Change Farm",{onChangeFarmClick(clearAndNavigate)})
         )
     }

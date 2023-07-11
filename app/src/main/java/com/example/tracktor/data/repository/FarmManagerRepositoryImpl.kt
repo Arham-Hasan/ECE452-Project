@@ -35,8 +35,9 @@ class FarmManagerRepositoryImpl @Inject constructor(
         farmUserRepository.createFarm(farm, currentUserId)
     }
 
-    override suspend fun deleteFarm(farm: Farm) {
+    override suspend fun deleteFarm() {
         val currentUserId = authRepository.currentUserId
+        val farm = currentFarm!!
         if(farmUserRepository.isAdmin(currentUserId, farm)){
             farmRepository.deleteFarm(farm)
             farmUserRepository.deleteFarm(farm)
@@ -48,5 +49,13 @@ class FarmManagerRepositoryImpl @Inject constructor(
         if(farmRepository.farmExists(farmId) && !farmUserRepository.isActiveOrNonActiveFarmMember(currentUserId,farmId)){
             farmUserRepository.requestToJoinFarm(userId = currentUserId, farmId = farmId)
         }
+    }
+
+    override suspend fun isAdmin(): Boolean {
+        if(currentFarm == null){
+            return false
+        }
+        val currentUserId = authRepository.currentUserId
+        return farmUserRepository.isAdmin(currentUserId,currentFarm!!)
     }
 }

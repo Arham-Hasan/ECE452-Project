@@ -2,5 +2,5 @@ package com.example.tracktor.data.model
 
 data class Inventory (
     val id : String = "",
-    val itemList: MutableList<InventoryItem> = mutableListOf<InventoryItem>()
+    val itemMap: MutableMap<String,InventoryItem> = mutableMapOf<String,InventoryItem>()
         )

@@ -1,22 +1,22 @@
 # Time logs
-| Umar Asif | Arham Hasan | Akbar Zafar | Yousef Said | Hammad Khan | Jasraj Bedi | Date   | Task |
+|Date   | Umar Asif | Arham Hasan | Akbar Zafar | Yousef Said | Hammad Khan | Jasraj Bedi | Task |
 |-|-|-|-|-|-|-|-|
-|1|||||| Jun 2  | D1: Proposal Document + Powerpoint|
-|1|||||| Jun 15  | Added boilerplate for project|
-|1|||||| Jun 16  | D2: Buddy team's evaluation|
-|10|||||| Jun 25  | Added auth and mvvm architecture|
-|1|||||| Jun 26  | Fixed Login Bug|
-|8|||||| Jun 27  | Navbar + Screens to navigate|
-|1|||||| Jun 27  | Navigation Bug fix|
-|1|||||| Jun 28  | D3: Prototype Demo|
-|2|||||| Jun 30  | D3: Prototype Document|
-|4|||||| Jun 30  |Dropdown menu and new screens|
-|1|||||| Jul 1  | Added Sign out|
-|8|||||| Jul 4  | Added Repository style|
-|2|||||| Jul 10  | Added Settings Page|
-|1|||||| Jul 11  | Added User Repository|
-||||||| Jul 14  | D4: Architecture Style Examples|
-||||||| Jul 21  | D5: Design Pattern Examples |
-||||||| Jul 24  | D6: Final Presentation|
-||||||| Jul 28  | D6: Arch + Design Document|
-||||||| Aug 1   | D7: Final Status Report|
+| 2023/06/02  |1|||||| D1: Proposal Document + Powerpoint|
+| 2023/06/15 |1||||| | Added boilerplate for project|
+| 2023/06/16|1|||||  | D2: Buddy team's evaluation|
+| 2023/06/25|10|||||  | Added auth and mvvm architecture|
+| 2023/06/26|1|||||  | Fixed Login Bug|
+| 2023/06/27 |8||||| | Navbar + Screens to navigate|
+| 2023/06/27 |1||||| | Navigation Bug fix|
+| 2023/06/28  |1|||||| D3: Prototype Demo|
+| 2023/06/30  |2|||||| D3: Prototype Document|
+| 2023/06/30  |4||||||Dropdown menu and new screens|
+| 2023/07/01  |1|||||| Added Sign out|
+| 2023/07/04  |8|||||| Added Repository style|
+| 2023/07/10  |2|||||| Added Settings Page|
+| 2023/07/11  |1|||||| Added User Repository|
+| 2023/07/14  ||||||| D4: Architecture Style Examples|
+| 2023/07/21  ||||||| D5: Design Pattern Examples |
+| 2023/07/24  ||||||| D6: Final Presentation|
+| 2023/07/28  ||||||| D6: Arch + Design Document|
+| 2023/08/01  ||||||| D7: Final Status Report|

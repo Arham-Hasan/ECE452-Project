@@ -10,15 +10,16 @@ import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
+import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    authRepository: AuthRepository,
+    userManagerRepository: UserManagerRepository,
     private val farmManagerRepository: FarmManagerRepository
-) : TracktorViewModel(authRepository) {
+) : TracktorViewModel(userManagerRepository) {
     var uiState = mutableStateOf(LoginUiState())
         private set
 
@@ -50,7 +51,7 @@ class LoginViewModel @Inject constructor(
             return
         }
         launchCatching{
-            authRepository.authenticate(email, password)
+            userManagerRepository.authenticate(email, password)
             openAndPopUp(SELECT_FARM_SCREEN, LOGIN_SCREEN)
         }
     }

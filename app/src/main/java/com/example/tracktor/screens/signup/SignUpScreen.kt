@@ -51,7 +51,7 @@ fun SignUpScreenContent(
         EmailField(value = uiState.email, onNewValue = onEmailChange)
         PasswordField(value = uiState.password, onNewValue = onPasswordChange)
         PasswordField(value = uiState.second_password, onNewValue = onSecondPasswordChange)
-        BasicButton("Sign In", Modifier, action = onSignUpClick )
+        BasicButton("Sign Up", Modifier, action = onSignUpClick )
         BasicTextButton("Already have an account? Login", Modifier, action = onLogInClick )
     }
 }

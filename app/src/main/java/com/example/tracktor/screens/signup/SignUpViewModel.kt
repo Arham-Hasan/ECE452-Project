@@ -9,12 +9,13 @@ import com.example.tracktor.common.functions.passwordsMatch
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(authRepository: AuthRepository) : TracktorViewModel(authRepository ) {
+class SignUpViewModel @Inject constructor(userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository ) {
     var uiState = mutableStateOf(SignUpUiState())
         private set
 
@@ -48,6 +49,10 @@ class SignUpViewModel @Inject constructor(authRepository: AuthRepository) : Trac
     }
 
     fun onSignUpClick(clearAndNavigate: (String) -> Unit) {
+        if (name.isEmpty()) {
+            SnackbarManager.showMessage("Please Enter a Name".toSnackbarMessage())
+            return
+        }
         if (!email.isValidEmail()) {
             SnackbarManager.showMessage("Invalid Email".toSnackbarMessage())
             return
@@ -64,7 +69,7 @@ class SignUpViewModel @Inject constructor(authRepository: AuthRepository) : Trac
         }
 
         launchCatching {
-            authRepository.signUp(email, password)
+            userManagerRepository.signUp(name, email, password)
             clearAndNavigate(SELECT_FARM_SCREEN)
         }
     }

@@ -1,5 +1,6 @@
 package com.example.tracktor.data.repository
 
+import com.example.tracktor.data.model.Inventory
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
@@ -8,14 +9,9 @@ import javax.inject.Inject
 
 class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): InventoryRepository{
 
-    override suspend fun addItem(name: String, farmId: String) {
-        val newItem = hashMapOf(
-            name to UUID.randomUUID().toString(),
-        )
-        val result = firestore.collection("farms")
-            .whereEqualTo("farmId", farmId)
-            .get().await()
-
-        result.documents[0].reference.set(newItem, SetOptions.merge())
+    override suspend fun createInventory(id: String) {
+        val inventory: Inventory =  Inventory(id = id)
+        firestore.collection("inventory").document(id)
+            .set(inventory)
     }
 }

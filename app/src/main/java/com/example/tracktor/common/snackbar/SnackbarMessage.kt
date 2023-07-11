@@ -18,5 +18,11 @@ sealed class SnackbarMessage {
     fun String.toSnackbarMessage():SnackbarMessage{
       return StringSnackbar(this)
     }
+
+    fun Throwable.toSnackbarMessage(): SnackbarMessage {
+      val message = this.message.orEmpty()
+      return if (message.isNotBlank()) StringSnackbar(message)
+      else StringSnackbar("An Error has Occured")
+    }
   }
 }

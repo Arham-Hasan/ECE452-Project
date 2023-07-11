@@ -7,6 +7,7 @@ import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
+import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -14,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateFarmViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
-                                              authRepository: AuthRepository
-) : TracktorViewModel(authRepository)  {
+                                              userManagerRepository: UserManagerRepository
+) : TracktorViewModel(userManagerRepository)  {
     var uiState = mutableStateOf(CreateFarmUiState())
         private set
 

@@ -29,7 +29,7 @@ class FarmManagerRepositoryImpl @Inject constructor(
         return farmRepository.getFarms(farmIds)
     }
     override suspend fun createFarm(name: String) : Unit{
-        val farm = Farm(name = name, id = UUID.randomUUID().toString() )
+        val farm = Farm(name = name, id = UUID.randomUUID().toString(), inventory = HashMap() )
         val currentUserId = authRepository.currentUserId
         farmRepository.createFarm(farm)
         farmUserRepository.createFarm(farm, currentUserId)

@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -28,6 +29,8 @@ class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth): Au
 
     override suspend fun authenticate(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).await()
+
+
     }
 
     override suspend fun signUp(email: String, password: String){

@@ -3,6 +3,7 @@ package com.example.tracktor.data.repository
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject

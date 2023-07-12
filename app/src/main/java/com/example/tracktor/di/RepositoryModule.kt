@@ -8,6 +8,8 @@ import com.example.tracktor.data.repository.FarmRepository
 import com.example.tracktor.data.repository.FarmRepositoryImpl
 import com.example.tracktor.data.repository.FarmUserRepository
 import com.example.tracktor.data.repository.FarmUserRepositoryImpl
+import com.example.tracktor.data.repository.InventoryRepository
+import com.example.tracktor.data.repository.InventoryRepositoryImpl
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepositoryImpl
 import com.example.tracktor.data.repository.UserRepository
@@ -37,11 +39,17 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideInventoryRepository(firestore: FirebaseFirestore): InventoryRepository = InventoryRepositoryImpl(firestore)
+
+
+    @Provides
+    @Singleton
     fun provideFarmManagerRepository(
         authRepository: AuthRepository,
         farmRepository: FarmRepository,
-        farmUserRepository: FarmUserRepository
-    ):FarmManagerRepository = FarmManagerRepositoryImpl(authRepository,farmRepository, farmUserRepository)
+        farmUserRepository: FarmUserRepository,
+        inventoryRepository: InventoryRepository
+    ):FarmManagerRepository = FarmManagerRepositoryImpl(authRepository,farmRepository, farmUserRepository, inventoryRepository)
 
     @Provides
     @Singleton

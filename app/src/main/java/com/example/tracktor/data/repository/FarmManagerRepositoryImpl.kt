@@ -8,6 +8,7 @@ class FarmManagerRepositoryImpl @Inject constructor(
     private val authRepository: AuthRepository,
     private val farmRepository: FarmRepository,
     private val farmUserRepository: FarmUserRepository,
+    private val inventoryRepository: InventoryRepository,
     ): FarmManagerRepository {
 
     private var currentFarm:Farm?= null
@@ -29,10 +30,12 @@ class FarmManagerRepositoryImpl @Inject constructor(
         return farmRepository.getFarms(farmIds)
     }
     override suspend fun createFarm(name: String) : Unit{
-        val farm = Farm(name = name, id = UUID.randomUUID().toString() )
+        val inventoryId = UUID.randomUUID().toString()
+        val farm = Farm(name = name, id = UUID.randomUUID().toString(), inventoryId = inventoryId)
         val currentUserId = authRepository.currentUserId
         farmRepository.createFarm(farm)
         farmUserRepository.createFarm(farm, currentUserId)
+        inventoryRepository.createInventory(inventoryId)
     }
 
     override suspend fun deleteFarm() {

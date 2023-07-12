@@ -4,8 +4,10 @@ import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
 import com.example.tracktor.data.model.UserInventoryStat
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.Transaction
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
@@ -65,4 +67,23 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         firestore.collection("inventory").document(inventoryId).set(map2, SetOptions.merge())
     }
 
+    override suspend fun addPickTransaction(
+        pickTransaction: Transaction,
+        itemName: String,
+        userId: String,
+        inventoryId: String
+    ) {
+        val doc = firestore.collection("inventory").document(inventoryId).get().await()
+        doc.reference.update(itemName+"."+userId+".pickList", FieldValue.arrayUnion(pickTransaction))
+    }
+
+    override suspend fun addSellTransaction(
+        sellTransaction: Transaction,
+        itemName: String,
+        userId: String,
+        inventoryId: String
+    ) {
+        val doc = firestore.collection("inventory").document(inventoryId).get().await()
+        doc.reference.update(itemName+"."+userId+".sellList", FieldValue.arrayUnion(sellTransaction))
+    }
 }

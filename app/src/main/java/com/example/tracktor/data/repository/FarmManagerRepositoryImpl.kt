@@ -50,7 +50,7 @@ class FarmManagerRepositoryImpl @Inject constructor(
     override suspend fun requestToJoinFarm(farmId: String) {
         val currentUserId = authRepository.currentUserId
         if(farmRepository.farmExists(farmId) && !farmUserRepository.isActiveOrNonActiveFarmMember(currentUserId,farmId)){
-            farmUserRepository.requestToJoinFarm(userId = currentUserId, farmId = farmId)
+            farmUserRepository.addNonActiveUserToFarm(userId = currentUserId, farmId = farmId)
         }
     }
 
@@ -60,5 +60,15 @@ class FarmManagerRepositoryImpl @Inject constructor(
         }
         val currentUserId = authRepository.currentUserId
         return farmUserRepository.isAdmin(currentUserId,currentFarm!!)
+    }
+
+    override suspend fun acceptUserRequest(userId:String) {
+        if(currentFarm == null)return
+        farmUserRepository.setUserToActive(userId = userId, farmId = currentFarm!!.id)
+    }
+
+    override suspend fun declineUserRequest(userId: String) {
+        if(currentFarm == null)return
+        farmUserRepository.deleteFarmUserRelation(userId = userId, farmId = currentFarm!!.id)
     }
 }

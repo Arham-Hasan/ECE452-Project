@@ -68,8 +68,24 @@ class FarmUserRepositoryImpl @Inject constructor(private val firestore: Firebase
         return !result.isEmpty()
     }
 
-    override suspend fun requestToJoinFarm(userId: String, farmId: String) {
+    override suspend fun addNonActiveUserToFarm(userId: String, farmId: String) {
         val farmUserRelation = FarmUserRelation(userId = userId, farmId = farmId, isAdmin = false, isActive = false)
         firestore.collection("farmUserRelation").add(farmUserRelation).await()
+    }
+
+    override suspend fun deleteFarmUserRelation(userId: String, farmId: String) {
+        val result = firestore.collection("farmUserRelation")
+            .whereEqualTo("farmId", farmId)
+            .whereEqualTo("userId", userId)
+            .get().await()
+        if(!result.isEmpty)result.documents[0].reference.delete()
+    }
+
+    override suspend fun setUserToActive(userId: String, farmId: String) {
+        val result = firestore.collection("farmUserRelation")
+            .whereEqualTo("farmId", farmId)
+            .whereEqualTo("userId", userId)
+            .get().await()
+        if(!result.isEmpty) result.documents[0].reference.update("isActive",true)
     }
 }

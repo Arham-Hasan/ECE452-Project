@@ -17,5 +17,8 @@ interface FarmUserRepository {
 
     suspend fun isActiveOrNonActiveFarmMember(userId:String, farmId: String): Boolean
 
-    suspend fun requestToJoinFarm(userId:String, farmId: String): Unit
+    suspend fun addNonActiveUserToFarm(userId:String, farmId: String): Unit
+
+    suspend fun deleteFarmUserRelation(userId: String, farmId: String): Unit
+    suspend fun setUserToActive(userId: String, farmId: String): Unit
 }

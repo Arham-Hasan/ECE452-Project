@@ -1,11 +1,22 @@
 package com.example.tracktor.screens.inventorymode
 
+import android.app.AlertDialog
+import android.content.Context
+import android.text.InputType
+import android.widget.EditText
 import androidx.compose.runtime.mutableStateOf
-import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.CREATE_FARM_SCREEN
+import com.example.tracktor.CREATE_ITEM_SCREEN
+import com.example.tracktor.common.snackbar.SnackbarManager
+import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.example.tracktor.data.model.Farm
+import com.example.tracktor.data.model.InventoryItem
+import com.example.tracktor.data.repository.InventoryRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+
 
 @HiltViewModel
 class InventoryModeViewModel @Inject constructor(userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository) {
@@ -20,4 +31,13 @@ class InventoryModeViewModel @Inject constructor(userManagerRepository: UserMana
         uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 
+    fun addItemToInventory(openScreen: (String) -> Unit){
+        openScreen(CREATE_ITEM_SCREEN)
+    }
+
+    fun onSelectItemClick(openScreen: (String) -> Unit, item: InventoryItem) {
+//        go to manage item page
+        SnackbarManager.showMessage("Going to manage item $item Page".toSnackbarMessage())
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.tracktor.screens.selectfarm
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.CREATE_FARM_SCREEN
+import com.example.tracktor.JOIN_FARM_SCREEN
 import com.example.tracktor.PICKING_MODE_SCREEN
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.repository.AuthRepository
@@ -48,6 +49,10 @@ class SelectFarmViewModel @Inject constructor(
 
     fun onCreateFarmClick(openScreen: (String) -> Unit) {
         openScreen(CREATE_FARM_SCREEN)
+    }
+
+    fun onJoinFarmClick(openScreen: (String) -> Unit) {
+        openScreen(JOIN_FARM_SCREEN)
     }
 
 

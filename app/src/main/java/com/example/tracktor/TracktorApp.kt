@@ -28,6 +28,7 @@ import com.example.tracktor.screens.createfarm.CreateFarmScreen
 import com.example.tracktor.screens.farmsettings.FarmSettingsScreen
 import com.example.tracktor.screens.fridgemode.FridgeModeScreen
 import com.example.tracktor.screens.inventorymode.InventoryModeScreen
+import com.example.tracktor.screens.joinfarm.JoinFarmScreen
 import com.example.tracktor.screens.login.LoginScreen
 import com.example.tracktor.screens.pickingmode.PickingModeScreen
 import com.example.tracktor.screens.selectfarm.SelectFarmScreen
@@ -161,6 +162,12 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
     
     composable(CREATE_FARM_SCREEN){
         CreateFarmScreen(
+            openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
+        )
+    }
+
+    composable(JOIN_FARM_SCREEN){
+        JoinFarmScreen(
             openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
         )
     }

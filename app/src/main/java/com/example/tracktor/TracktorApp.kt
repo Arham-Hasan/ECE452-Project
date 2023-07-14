@@ -25,11 +25,13 @@ import androidx.navigation.navArgument
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.screens.analyticsmode.AnalyticsModeScreen
 import com.example.tracktor.screens.createfarm.CreateFarmScreen
+import com.example.tracktor.screens.createitem.CreateItemScreen
 import com.example.tracktor.screens.farmsettings.FarmSettingsScreen
 import com.example.tracktor.screens.fridgemode.FridgeModeScreen
 import com.example.tracktor.screens.inventorymode.InventoryModeScreen
 import com.example.tracktor.screens.joinfarm.JoinFarmScreen
 import com.example.tracktor.screens.login.LoginScreen
+import com.example.tracktor.screens.managemembers.ManageMembersScreen
 import com.example.tracktor.screens.pickingmode.PickingModeScreen
 import com.example.tracktor.screens.selectfarm.SelectFarmScreen
 import com.example.tracktor.screens.selectmode.SelectModeScreen
@@ -168,6 +170,17 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
 
     composable(JOIN_FARM_SCREEN){
         JoinFarmScreen(
+                      openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
+        )
+    }
+    composable(CREATE_ITEM_SCREEN){
+        CreateItemScreen(
+            openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
+        )
+    }
+
+    composable(MANAGE_MEMBERS_SCREEN){
+        ManageMembersScreen(
             openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
         )
     }

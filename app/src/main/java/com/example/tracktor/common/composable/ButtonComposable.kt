@@ -12,6 +12,8 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -80,7 +82,7 @@ fun ExpandableButton(action: () -> Unit, modifier: Modifier= Modifier, expanded:
         modifier = modifier.padding(8.dp).size(48.dp),
         containerColor = getToolbarColor(),
     ){
-        Icon(imageVector = if (expanded) Icons.Filled.Close else Icons.Filled.Add,
+        Icon(imageVector = if (expanded) Icons.Rounded.Close else Icons.Rounded.Add,
             contentDescription = if (expanded) "Collapse" else "Expand",
             tint = Color.White,
             modifier = modifier

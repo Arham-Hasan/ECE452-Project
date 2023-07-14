@@ -1,6 +1,7 @@
 package com.example.tracktor.screens.farmsettings
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.tracktor.MANAGE_MEMBERS_SCREEN
 import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
@@ -65,7 +66,7 @@ class FarmSettingsViewModel @Inject constructor(
     }
 
     fun onManageMembersClick(openScreen: (String) -> Unit){
-        SnackbarManager.showMessage("manage members".toSnackbarMessage())
+        openScreen(MANAGE_MEMBERS_SCREEN)
     }
 
     fun onChangeFarmNameClick(){

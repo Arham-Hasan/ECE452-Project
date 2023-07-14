@@ -1,0 +1,99 @@
+package com.example.tracktor.screens.managemembers
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Checkbox
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.tracktor.common.composable.AcceptButton
+import com.example.tracktor.common.composable.BasicToolbar
+import com.example.tracktor.common.composable.RejectButton
+import com.example.tracktor.data.model.FarmUserRelation
+
+@Composable
+fun ManageMembersScreen(openAndPopUp: (String, String) -> Unit, viewModel: ManageMembersViewModel = hiltViewModel()) {
+
+    val uiState by viewModel.uiState
+
+    PickingModeScreenContent(
+        uiState,
+        viewModel::acceptUser,
+        viewModel::rejectUser,
+        viewModel::toggleAdmin,
+        viewModel::getUserName,
+    )
+
+
+}
+
+@Composable
+fun PickingModeScreenContent(
+    uiState: ManageMembersUiState,
+    acceptUser: (FarmUserRelation) -> Unit,
+    rejectUser: (FarmUserRelation) -> Unit,
+    toggleAdmin: (FarmUserRelation) -> Unit,
+    getUserName: (FarmUserRelation) -> String,
+)
+{
+
+    Column(
+        Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        BasicToolbar("Farm Settings")
+        Column(modifier = Modifier
+            .padding(vertical = 8.dp)
+            .padding(16.dp)) {
+            Column(Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ){
+                if(uiState.farmRequests.isNotEmpty()) {
+                    androidx.compose.material3.Text(text = "Requests to join farm")
+                    uiState.farmRequests.forEach { user ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            {}
+                            androidx.compose.material3.Text(text = user.userId)
+                            AcceptButton(action = { acceptUser(user) })
+                            RejectButton(action = { rejectUser(user) })
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(32.dp)) // Add spacing between the rows
+                }
+                if(uiState.farmMembers.isNotEmpty()) {
+                    androidx.compose.material3.Text(text = "Requests to join farm")
+                    uiState.farmRequests.forEach { user ->
+                        Row(
+                            modifier  = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            androidx.compose.material3.Text(text = user.userId) // this should use getUserName
+                            Checkbox(
+                                checked = user.isAdmin,
+                                onCheckedChange = {toggleAdmin(user)}
+                            )
+                            RejectButton(action = { rejectUser(user)} )
+                        }
+                    }
+                } else {
+                    androidx.compose.material3.Text(text = "You have no users on the farm")
+                }
+            }
+        }
+    }
+}
+

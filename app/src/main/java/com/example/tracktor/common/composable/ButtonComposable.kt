@@ -4,12 +4,14 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -62,3 +64,31 @@ fun CreateFarmButton(action: () -> Unit, modifier: Modifier= Modifier){
             modifier = modifier
         )})
 }
+
+@Composable
+fun CreateItemButton(action: () -> Unit, modifier: Modifier= Modifier){
+    ExtendedFloatingActionButton(
+        onClick = action,
+        text = {Text("Create an Item")},
+        modifier = modifier,
+        icon = {Icon(
+            imageVector = Icons.Rounded.Add,
+            contentDescription = "Create Item",
+            tint = Color.White,
+            modifier = modifier
+        )})
+}
+@Composable
+fun AcceptButton(action: () -> Unit){
+    IconButton(onClick = action) {
+        Icon(imageVector = Icons.Filled.Done, contentDescription = "Accept")
+    }
+}
+
+@Composable
+fun RejectButton(action: () -> Unit){
+    IconButton(onClick = action) {
+        Icon(imageVector = Icons.Filled.Delete, contentDescription = "Reject")
+    }
+}
+

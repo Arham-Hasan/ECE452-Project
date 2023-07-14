@@ -1,5 +1,7 @@
 package com.example.tracktor.common.composable
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ExtendedFloatingActionButton
@@ -8,11 +10,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -54,11 +58,32 @@ fun CreateFarmButton(action: () -> Unit, modifier: Modifier= Modifier){
     ExtendedFloatingActionButton(
         onClick = action,
         text = {Text("Create a Farm")},
-        modifier = modifier,
-        icon = {Icon(
-            imageVector = Icons.Rounded.Add,
-            contentDescription = "Add farm",
+        modifier = modifier.padding(8.dp),
+        backgroundColor = getToolbarColor()
+    )
+}
+
+@Composable
+fun JoinFarmButton(action: () -> Unit, modifier: Modifier= Modifier){
+    ExtendedFloatingActionButton(
+        onClick = action,
+        text = {Text("Join a Farm")},
+        modifier = modifier.padding(8.dp),
+        backgroundColor = getToolbarColor()
+    )
+}
+
+@Composable
+fun ExpandableButton(action: () -> Unit, modifier: Modifier= Modifier, expanded: Boolean){
+    FloatingActionButton(
+        onClick = action,
+        modifier = modifier.padding(8.dp).size(48.dp),
+        containerColor = getToolbarColor(),
+    ){
+        Icon(imageVector = if (expanded) Icons.Filled.Close else Icons.Filled.Add,
+            contentDescription = if (expanded) "Collapse" else "Expand",
             tint = Color.White,
             modifier = modifier
-        )})
+        )
+    }
 }

@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun BasicToolbar(title:String) {
-    TopAppBar(title = { Text(title) }, backgroundColor = toolbarColor())
+    TopAppBar(title = { Text(title) }, backgroundColor = getToolbarColor())
 
 }
 
@@ -29,7 +29,7 @@ fun OptionsToolbar(
 
     TopAppBar(
         title = { Text(title) },
-        backgroundColor = toolbarColor(),
+        backgroundColor = getToolbarColor(),
         actions = {
             IconButton(onClick = toggleDropDown) {
                 Icon(imageVector = Icons.Outlined.MoreVert, contentDescription = "Options")
@@ -60,7 +60,7 @@ fun SingleOptionToolbar(
 
     TopAppBar(
         title = { Text(title) },
-        backgroundColor = toolbarColor(),
+        backgroundColor = getToolbarColor(),
         actions = {
             DropdownMenu(expanded = dropDownExtended, onDismissRequest = onDismiss) {
                 DropdownMenuItem(onClick = firstAction) {
@@ -72,6 +72,6 @@ fun SingleOptionToolbar(
 }
 
 @Composable
-private fun toolbarColor(darkTheme: Boolean = isSystemInDarkTheme()): Color {
+fun getToolbarColor(darkTheme: Boolean = isSystemInDarkTheme()): Color {
     return if (darkTheme) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant
 }

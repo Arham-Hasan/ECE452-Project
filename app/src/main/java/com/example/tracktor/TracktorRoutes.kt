@@ -12,6 +12,7 @@ const val INVENTORY_MODE_SCREEN = "InventoryModeScreen"
 const val CREATE_FARM_SCREEN = "CreateFarmScreen"
 const val FARM_SETTINGS_SCREEN = "FarmSettingsScreen"
 const val SELECT_FARM_SCREEN = "SelectFarmScreen"
+const val JOIN_FARM_SCREEN = "JoinFarmScreen"
 
 const val FARM_ID = "farmID"
 const val FARM_ID_ARG = "?$FARM_ID={$FARM_ID}"

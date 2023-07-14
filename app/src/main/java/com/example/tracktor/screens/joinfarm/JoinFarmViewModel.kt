@@ -22,7 +22,7 @@ class JoinFarmViewModel @Inject constructor(private val farmManagerRepository: F
     private val name
         get() = uiState.value.farmId
 
-    fun onNameChange(newValue:String){
+    fun onFarmIDChange(newValue:String){
         uiState.value = uiState.value.copy(farmId = newValue)
     }
 

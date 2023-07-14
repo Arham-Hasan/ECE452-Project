@@ -19,19 +19,19 @@ fun JoinFarmScreen(openAndPopUp: (String, String) -> Unit, viewModel: JoinFarmVi
 
     val uiState by viewModel.uiState
 
-    CreateFarmScreenContent(
+    JoinFarmScreenContent(
         uiState,
-        viewModel::onNameChange,
+        viewModel::onFarmIDChange,
         {viewModel.onJoinFarmClick(openAndPopUp)},
     )
 
 }
 
 @Composable
-fun CreateFarmScreenContent(
+fun JoinFarmScreenContent(
     uiState: JoinFarmUiState,
-    onNameChange : (String)->Unit,
-    onCreateFarmClick: ()-> Unit,
+    onFarmIDChange : (String)->Unit,
+    onJoinFarmClick: ()-> Unit,
 ) {
     BasicToolbar("Join a Farm")
 
@@ -39,17 +39,17 @@ fun CreateFarmScreenContent(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BasicTextField(text = "Enter the Farm UUID", value = uiState.farmId, onNewValue = onNameChange)
-        BasicButton("Join Farm", Modifier, action = onCreateFarmClick)
+        BasicTextField(text = "Enter the Farm UUID", value = uiState.farmId, onNewValue = onFarmIDChange)
+        BasicButton("Join Farm", Modifier, action = onJoinFarmClick)
     }
 }
 
 
 @Preview
 @Composable
-fun CreateFarmScreenPreview(){
+fun JoinFarmScreenPreview(){
     TracktorTheme {
-        CreateFarmScreenContent(JoinFarmUiState(),{},{})
+        JoinFarmScreenContent(JoinFarmUiState(),{},{})
 
     }
 }

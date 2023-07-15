@@ -1,5 +1,6 @@
 package com.example.tracktor.data.repository
 
+import android.util.Log
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,7 +26,7 @@ class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFire
 
     override suspend fun deleteFarm(farm: Farm) {
         val result2 = firestore.collection("farms")
-            .whereEqualTo("farmId", farm.id)
+            .whereEqualTo("id", farm.id)
             .get().await()
         if (result2.documents.isNotEmpty()) {
             result2.documents[0].reference.delete().await()
@@ -34,7 +35,7 @@ class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFire
 
     override suspend fun farmExists(farmId: String): Boolean {
         val result = firestore.collection("farms")
-            .whereEqualTo("farmId", farmId)
+            .whereEqualTo("id", farmId)
             .get().await()
         return !result.isEmpty()
     }

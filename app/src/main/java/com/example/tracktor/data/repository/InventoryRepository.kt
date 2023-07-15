@@ -11,7 +11,7 @@ interface InventoryRepository {
     suspend fun userStatExistsForItem(itemName : String, userId : String, inventoryId: String) : Boolean
     suspend fun addUserStatForItem(itemName : String, userId : String, inventoryId: String) : Unit
     suspend fun addPickTransaction(pickTransaction: Transaction, itemName: String,userId: String, inventoryId: String) : Unit
-    suspend fun addSellTransaction(pickTransaction: Transaction, itemName: String,userId: String, inventoryId: String) : Unit
+    suspend fun addSellTransaction(sellTransaction: Transaction, itemName: String,userId: String, inventoryId: String) : Unit
 
 
 }

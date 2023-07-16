@@ -11,6 +11,7 @@ import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.InventoryItem
+import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.InventoryRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class InventoryModeViewModel @Inject constructor(userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository) {
+class InventoryModeViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
+                                                 userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository) {
 
     var uiState = mutableStateOf(InventoryModeUiState())
         private set
@@ -35,9 +37,16 @@ class InventoryModeViewModel @Inject constructor(userManagerRepository: UserMana
         openScreen(CREATE_ITEM_SCREEN)
     }
 
-    fun onSelectItemClick(openScreen: (String) -> Unit, item: InventoryItem) {
+    fun onSelectItemClick(openScreen: (String) -> Unit, item: String) {
 //        go to manage item page
         SnackbarManager.showMessage("Going to manage item $item Page".toSnackbarMessage())
+
+    }
+
+    fun retrieveItems(){
+        launchCatching {
+            uiState.value = uiState.value.copy(items = farmManagerRepository.getInventoryItems())
+        }
 
     }
 }

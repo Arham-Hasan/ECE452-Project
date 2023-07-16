@@ -16,7 +16,8 @@ class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFire
         if (farmIds.isEmpty()) return farms
         val result2 = firestore.collection("farms").whereIn("id",farmIds).get().await()
         for(document in result2){
-            farms.add(Farm(id = document.getString("id")!!, name = document.getString("name")!!))
+            farms.add(Farm(id = document.getString("id")!!, name = document.getString("name")!!,
+            inventoryId = document.getString("inventoryId")!!))
         }
         return farms
     }

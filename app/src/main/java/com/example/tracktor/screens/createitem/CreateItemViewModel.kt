@@ -5,6 +5,7 @@ import com.example.tracktor.CREATE_ITEM_SCREEN
 import com.example.tracktor.INVENTORY_MODE_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.InventoryRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
@@ -13,7 +14,7 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateItemViewModel @Inject constructor(private val itemManagerRepository: InventoryRepository,
+class CreateItemViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
                                               userManagerRepository: UserManagerRepository
 ) : TracktorViewModel(userManagerRepository)  {
     var uiState = mutableStateOf(CreateItemUiState())
@@ -35,7 +36,7 @@ class CreateItemViewModel @Inject constructor(private val itemManagerRepository:
         launchCatching{
             SnackbarManager.showMessage("Creating Item".toSnackbarMessage())
             delay(500)
-//            itemManagerRepository.addItem(name = uiState.value.name, inventoryId = )
+            farmManagerRepository.addInventoryItem(itemName = uiState.value.name)
             openAndPopUp(INVENTORY_MODE_SCREEN, CREATE_ITEM_SCREEN)
         }
     }

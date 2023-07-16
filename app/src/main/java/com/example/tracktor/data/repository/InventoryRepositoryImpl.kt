@@ -1,5 +1,6 @@
 package com.example.tracktor.data.repository
 
+import android.util.Log
 import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
 import com.example.tracktor.data.model.UserInventoryStat
@@ -15,9 +16,9 @@ import javax.inject.Inject
 class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): InventoryRepository{
 
     override suspend fun createInventory(id: String) {
-        val inventory: Inventory =  Inventory()
+        val emptyHashMap = hashMapOf<String, Any>()
         firestore.collection("inventory").document(id)
-            .set(inventory)
+            .set(emptyHashMap).await()
     }
 
     override suspend fun getInventoryById(id: String) : DocumentSnapshot {
@@ -35,11 +36,12 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
     }
 
     override suspend fun addItem(name: String, inventoryId: String) {
-        val item = InventoryItem()
+        val item = InventoryItem(name = name)
+        val newFieldData = hashMapOf(
+            name to item
+        )
         firestore.collection("inventory").document(inventoryId)
-            .set(mapOf(
-                name to item,
-            ), SetOptions.merge())
+            .set(newFieldData, SetOptions.merge()).await()
     }
 
     override suspend fun userStatExistsForItem(
@@ -85,5 +87,10 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
         doc.reference.update(itemName+"."+userId+".sellList", FieldValue.arrayUnion(sellTransaction))
+    }
+
+    override suspend fun getItems(inventoryId: String): List<String>? {
+        val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
+        return documentSnapshot.data?.keys?.toList()
     }
 }

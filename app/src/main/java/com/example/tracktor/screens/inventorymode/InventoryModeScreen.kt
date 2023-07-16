@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +23,10 @@ import kotlin.reflect.KFunction2
 fun InventoryModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit,viewModel: InventoryModeViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState
+
+    SideEffect {
+        viewModel.retrieveItems()
+    }
 
     InventoryModeScreenContent(
         viewModel.bottomNavBarActions(openScreen),
@@ -43,7 +48,7 @@ fun InventoryModeScreenContent(
     toggleDropDown: ()->Unit,
     dropDownOptions: List<Pair<String,()->Unit>>,
     addItemToInventory: () ->Unit,
-    onSelectItemClick: KFunction2<(String) -> Unit, InventoryItem, Unit>,
+    onSelectItemClick: KFunction2<(String) -> Unit, String, Unit>,
     openScreen: (String) -> Unit,
     )
 {
@@ -58,16 +63,16 @@ fun InventoryModeScreenContent(
             toggleDropDown = toggleDropDown,
             dropDownOptions = dropDownOptions
         )
-        if(uiState.items.isEmpty()){
+        if(uiState.items!!.isEmpty()){
             androidx.compose.material3.Text(text = "Please Create an Item")
         }
         else {
             androidx.compose.material3.Text(text = "Select Item")
-            uiState.items.forEach { item ->
-                Button(onClick ={onSelectItemClick(openScreen, item!!)}
+            uiState.items?.forEach { item ->
+                Button(onClick ={onSelectItemClick(openScreen, item)}
 
                 ) {
-                    androidx.compose.material3.Text(text = item!!.name)
+                    androidx.compose.material3.Text(text = item!!)
                 }
             }
         }

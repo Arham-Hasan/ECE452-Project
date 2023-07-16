@@ -1,6 +1,8 @@
 package com.example.tracktor.data.repository
 
+import android.util.Log
 import com.example.tracktor.data.model.Farm
+import com.example.tracktor.data.model.InventoryItem
 import java.util.UUID
 import javax.inject.Inject
 
@@ -70,5 +72,13 @@ class FarmManagerRepositoryImpl @Inject constructor(
     override suspend fun declineUserRequest(userId: String) {
         if(currentFarm == null)return
         farmUserRepository.deleteFarmUserRelation(userId = userId, farmId = currentFarm!!.id)
+    }
+
+    override suspend fun addInventoryItem(itemName: String) {
+        inventoryRepository.addItem(name = itemName, inventoryId = currentFarm!!.inventoryId)
+    }
+
+    override suspend fun getInventoryItems(): List<String>? {
+        return inventoryRepository.getItems(inventoryId = currentFarm!!.inventoryId)
     }
 }

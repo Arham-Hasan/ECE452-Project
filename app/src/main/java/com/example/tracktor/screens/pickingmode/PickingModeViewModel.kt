@@ -5,11 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.text.isDigitsOnly
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.example.tracktor.data.model.UserTransaction
 import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.runBlocking
+import java.time.LocalDate
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,6 +67,11 @@ class PickingModeViewModel @Inject constructor(
         val pickRecord = Pair(convertNumberToInt(inputArray.first()), inputArray.last())
 
         SnackbarManager.showMessage("Picked ${pickRecord.first} ${pickRecord.second}".toSnackbarMessage())
+        val pickTransaction = UserTransaction(date = Date(), amount = pickRecord.first!!)
+        runBlocking{
+            farmManagerRepository.addPickTransaction(itemName = pickRecord.second, userTransaction = pickTransaction)
+        }
+
     }
 
     private fun verifyInput(input: String): Boolean {

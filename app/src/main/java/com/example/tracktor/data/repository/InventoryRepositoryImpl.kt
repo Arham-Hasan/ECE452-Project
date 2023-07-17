@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
 import com.example.tracktor.data.model.UserInventoryStat
+import com.example.tracktor.data.model.UserTransaction
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -64,29 +65,33 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         )
 
         val map2 = mapOf(
-            itemName to map
+            "userStats" to map
         )
-        firestore.collection("inventory").document(inventoryId).set(map2, SetOptions.merge())
+
+        val map3 = mapOf(
+            itemName to map2
+        )
+        firestore.collection("inventory").document(inventoryId).set(map3, SetOptions.merge())
     }
 
     override suspend fun addPickTransaction(
-        pickTransaction: Transaction,
+        pickTransaction: UserTransaction,
         itemName: String,
         userId: String,
         inventoryId: String
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
-        doc.reference.update(itemName+"."+userId+".pickList", FieldValue.arrayUnion(pickTransaction))
+        doc.reference.update(itemName+".userStats."+userId+".pickList", FieldValue.arrayUnion(pickTransaction))
     }
 
     override suspend fun addSellTransaction(
-        sellTransaction: Transaction,
+        sellTransaction: UserTransaction,
         itemName: String,
         userId: String,
         inventoryId: String
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
-        doc.reference.update(itemName+"."+userId+".sellList", FieldValue.arrayUnion(sellTransaction))
+        doc.reference.update(itemName+".userStats."+userId+".sellList", FieldValue.arrayUnion(sellTransaction))
     }
 
     override suspend fun getItems(inventoryId: String): List<String>? {

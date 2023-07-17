@@ -1,6 +1,7 @@
 package com.example.tracktor.data.repository
 
 import com.example.tracktor.data.model.InventoryItem
+import com.example.tracktor.data.model.UserTransaction
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Transaction
 
@@ -11,8 +12,8 @@ interface InventoryRepository {
     suspend fun addItem(name : String, inventoryId: String) : Unit
     suspend fun userStatExistsForItem(itemName : String, userId : String, inventoryId: String) : Boolean
     suspend fun addUserStatForItem(itemName : String, userId : String, inventoryId: String) : Unit
-    suspend fun addPickTransaction(pickTransaction: Transaction, itemName: String,userId: String, inventoryId: String) : Unit
-    suspend fun addSellTransaction(sellTransaction: Transaction, itemName: String,userId: String, inventoryId: String) : Unit
+    suspend fun addPickTransaction(pickTransaction: UserTransaction, itemName: String,userId: String, inventoryId: String) : Unit
+    suspend fun addSellTransaction(sellTransaction: UserTransaction, itemName: String,userId: String, inventoryId: String) : Unit
     suspend fun getItems(inventoryId: String) : List<String>?
 
 }

@@ -6,6 +6,7 @@ import com.example.tracktor.data.model.InventoryItem
 import com.example.tracktor.data.model.UserInventoryStat
 import com.example.tracktor.data.model.UserTransaction
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -51,9 +52,7 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         inventoryId: String
     ): Boolean {
         val result = firestore.collection("inventory").document(inventoryId).get().await()
-        val data = result.data
-        val item = data?.get(itemName) as Map<*, *>
-        if(item == null || !item.containsKey(userId)){
+        if(result == null || !result.contains(FieldPath.of(itemName,"userStats",userId))){
             return false
         }
         return true
@@ -81,7 +80,7 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         inventoryId: String
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
-        doc.reference.update(itemName+".userStats."+userId+".pickList", FieldValue.arrayUnion(pickTransaction))
+        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"pickList"), FieldValue.arrayUnion(pickTransaction))
     }
 
     override suspend fun addSellTransaction(
@@ -91,7 +90,7 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         inventoryId: String
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
-        doc.reference.update(itemName+".userStats."+userId+".sellList", FieldValue.arrayUnion(sellTransaction))
+        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"sellList"), FieldValue.arrayUnion(sellTransaction))
     }
 
     override suspend fun getItems(inventoryId: String): List<String>? {

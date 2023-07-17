@@ -3,6 +3,8 @@ package com.example.tracktor.screens.pickingmode
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.text.isDigitsOnly
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.model.UserTransaction
@@ -63,15 +65,11 @@ class PickingModeViewModel @Inject constructor(
 //        Record to db
         val inputArray = speechLower.split(" ")
 
+        val item = inputArray.last()
+        val quantity = convertNumberToInt(inputArray.first())
 
-        val pickRecord = Pair(convertNumberToInt(inputArray.first()), inputArray.last())
-
-        SnackbarManager.showMessage("Picked ${pickRecord.first} ${pickRecord.second}".toSnackbarMessage())
-        val pickTransaction = UserTransaction(date = Date(), amount = pickRecord.first!!)
-        runBlocking{
-            farmManagerRepository.addPickTransaction(itemName = pickRecord.second, userTransaction = pickTransaction)
-        }
-
+        (uiState.value.transactions)[item] = (uiState.value.transactions).getOrDefault(item, 0) + quantity!!
+        SnackbarManager.showMessage("Picked ${(uiState.value.transactions)[item]} $item".toSnackbarMessage())
     }
 
     private fun verifyInput(input: String): Boolean {
@@ -104,6 +102,18 @@ class PickingModeViewModel @Inject constructor(
         return number.toInt()
     }
 
-
+    fun saveTransactions() {
+        if(uiState.value.transactions.isEmpty()){
+            return
+        }
+        runBlocking{
+            Log.i("Picking","Recording items: "+uiState.value.transactions.toString())
+            for (transaction in uiState.value.transactions) {
+                Log.i("Picking","Recording ${transaction.key}, quantity: ${transaction.value}")
+                val pickTransaction = UserTransaction(date = Date(), amount = transaction.value)
+                farmManagerRepository.addPickTransaction(itemName = transaction.key, userTransaction = pickTransaction)
+            }
+        }
+    }
 
 }

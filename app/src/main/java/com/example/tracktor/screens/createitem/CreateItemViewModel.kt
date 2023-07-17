@@ -6,7 +6,6 @@ import com.example.tracktor.INVENTORY_MODE_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.repository.FarmManagerRepository
-import com.example.tracktor.data.repository.InventoryRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,7 +35,7 @@ class CreateItemViewModel @Inject constructor(private val farmManagerRepository:
         launchCatching{
             SnackbarManager.showMessage("Creating Item".toSnackbarMessage())
             delay(500)
-            farmManagerRepository.addInventoryItem(itemName = uiState.value.name)
+            farmManagerRepository.addInventoryItem(itemName = uiState.value.name.trim())
             openAndPopUp(INVENTORY_MODE_SCREEN, CREATE_ITEM_SCREEN)
         }
     }

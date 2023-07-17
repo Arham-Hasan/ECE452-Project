@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -41,7 +42,9 @@ fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit
         speechContext.speechInput.value = ""
     }
     LaunchedEffect(viewModel) { viewModel.retrieveItems() }
-
+    DisposableEffect(viewModel) {
+        onDispose {viewModel.saveTransactions()}
+    }
     }
 
 @Composable

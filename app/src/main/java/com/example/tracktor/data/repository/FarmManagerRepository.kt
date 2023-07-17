@@ -1,7 +1,7 @@
 package com.example.tracktor.data.repository
 
 import com.example.tracktor.data.model.Farm
-import com.example.tracktor.data.model.InventoryItem
+import com.example.tracktor.data.model.UserTransaction
 
 interface FarmManagerRepository {
 
@@ -17,4 +17,5 @@ interface FarmManagerRepository {
     suspend fun isAdmin():Boolean
     suspend fun addInventoryItem(itemName : String): Unit
     suspend fun getInventoryItems(): List<String>?
+    suspend fun addPickTransaction(itemName: String, userTransaction: UserTransaction):Unit
 }

@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,10 +30,6 @@ import kotlin.reflect.KFunction2
 @Composable
 fun SelectFarmScreen(openScreen: (String) -> Unit, clearAndNavigate:(String)->Unit,viewModel: SelectFarmViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState
-    SideEffect {
-        viewModel.retrieveFarms()
-    }
-
     SelectFarmScreenContent(
         uiState = uiState,
         toggleDropDown = { viewModel.toggleDropDown() },
@@ -42,7 +39,7 @@ fun SelectFarmScreen(openScreen: (String) -> Unit, clearAndNavigate:(String)->Un
         onSelectFarmClick = viewModel::onFarmNameClick,
         onJoinFarmClick = {viewModel.onJoinFarmClick(openScreen)}
     )
-
+    LaunchedEffect(viewModel) { viewModel.retrieveFarms() }
 }
 @Composable
 fun SelectFarmScreenContent(

@@ -1,5 +1,7 @@
 package com.example.tracktor.screens.selectfarm
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.viewModelScope
 import com.example.tracktor.CREATE_FARM_SCREEN
 import com.example.tracktor.JOIN_FARM_SCREEN
 import com.example.tracktor.PICKING_MODE_SCREEN
@@ -27,18 +29,13 @@ class SelectFarmViewModel @Inject constructor(
 
     init {
         farmManagerRepository.removeSelectedFarm()
-        runBlocking {
-            uiState.value =
-                uiState.value.copy(farms = farmManagerRepository.getActiveFarms())
-        }
     }
 
     fun retrieveFarms() {
         // Simulated data retrieval
         // return listOf(Farm(id="1", name = "Heeko farm"), Farm(id="2", name = "Boge farm"), Farm(id="3", name = "Arham farm"))
-        runBlocking {
-            uiState.value =
-                uiState.value.copy(farms = farmManagerRepository.getActiveFarms())
+        launchCatching {
+            uiState.value = uiState.value.copy(farms = farmManagerRepository.getActiveFarms())
         }
     }
 

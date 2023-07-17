@@ -3,6 +3,7 @@ package com.example.tracktor.screens.inventorymode
 import android.app.AlertDialog
 import android.content.Context
 import android.text.InputType
+import android.util.Log
 import android.widget.EditText
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.CREATE_FARM_SCREEN

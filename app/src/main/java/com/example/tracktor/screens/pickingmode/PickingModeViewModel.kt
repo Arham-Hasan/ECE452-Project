@@ -1,10 +1,12 @@
 package com.example.tracktor.screens.pickingmode
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.text.isDigitsOnly
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,6 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PickingModeViewModel @Inject constructor(
+    private val farmManagerRepository: FarmManagerRepository,
     userManagerRepository: UserManagerRepository
 ) : TracktorViewModel(userManagerRepository)  {
 
@@ -25,13 +28,19 @@ class PickingModeViewModel @Inject constructor(
         uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 
-    private val validFruits: Set<String> = setOf(
-        "apple", "banana", "orange","apples", "bananas", "oranges"
-    )
     private val numberMap = mapOf(
         "zero" to 0, "one" to 1, "two" to 2, "three" to 3, "four" to 4,
         "five" to 5, "six" to 6, "seven" to 7, "eight" to 8, "nine" to 9
     )
+
+    fun retrieveItems(){
+        launchCatching {
+            val itemSet = farmManagerRepository.getInventoryItems()?.toSet()
+            if(itemSet == null) uiState.value = uiState.value.copy( validItems = setOf())
+            else uiState.value = uiState.value.copy( validItems = itemSet)
+            Log.i("Picking","Valid items: "+uiState.value.validItems.toString())
+        }
+    }
 
     fun parseInput(speechInput: String){
 
@@ -65,7 +74,7 @@ class PickingModeViewModel @Inject constructor(
 
         val fruit = inputArray.last()
         val number = inputArray.first()
-        if (fruit !in validFruits){
+        if (fruit !in uiState.value.validItems){
             return false
         }
 

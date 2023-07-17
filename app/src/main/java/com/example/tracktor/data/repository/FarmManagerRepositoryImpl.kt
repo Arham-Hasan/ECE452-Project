@@ -2,7 +2,7 @@ package com.example.tracktor.data.repository
 
 import android.util.Log
 import com.example.tracktor.data.model.Farm
-import com.example.tracktor.data.model.InventoryItem
+import com.example.tracktor.data.model.UserTransaction
 import java.util.UUID
 import javax.inject.Inject
 
@@ -80,5 +80,17 @@ class FarmManagerRepositoryImpl @Inject constructor(
 
     override suspend fun getInventoryItems(): List<String>? {
         return inventoryRepository.getItems(inventoryId = currentFarm!!.inventoryId)
+    }
+
+    override suspend fun addPickTransaction(itemName: String, userTransaction: UserTransaction) {
+        if(inventoryRepository.itemExists(inventoryId = currentFarm!!.inventoryId, name = itemName)){
+            if(!inventoryRepository.userStatExistsForItem(itemName = itemName, userId = authRepository.currentUserId,
+                inventoryId = currentFarm!!.inventoryId)){
+                inventoryRepository.addUserStatForItem(itemName=itemName, userId = authRepository.currentUserId,
+                    inventoryId = currentFarm!!.inventoryId)
+            }
+            inventoryRepository.addPickTransaction(itemName = itemName, pickTransaction = userTransaction,
+                inventoryId = currentFarm!!.inventoryId, userId = authRepository.currentUserId)
+        }
     }
 }

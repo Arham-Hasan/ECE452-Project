@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,6 @@ fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit
 
     val context = LocalContext.current
     val speechContext = context as TracktorActivity
-
     PickingModeScreenContent(
         { speechContext.onMicButtonClick(context) },
         viewModel.bottomNavBarActions(openScreen),
@@ -40,6 +40,7 @@ fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit
 //        resets value of input so its not used again
         speechContext.speechInput.value = ""
     }
+    LaunchedEffect(viewModel) { viewModel.retrieveItems() }
 
     }
 

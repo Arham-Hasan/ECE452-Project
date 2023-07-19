@@ -1,5 +1,6 @@
 package com.example.tracktor.data.repository
 
+import android.util.Log
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
 import com.google.firebase.firestore.FirebaseFirestore
@@ -87,5 +88,33 @@ class FarmUserRepositoryImpl @Inject constructor(private val firestore: Firebase
             .whereEqualTo("userId", userId)
             .get().await()
         if(!result.isEmpty) result.documents[0].reference.update("isActive",true)
+    }
+
+    override suspend fun getNonActiveUsers(farmId: String): List<FarmUserRelation> {
+        val result = firestore.collection("farmUserRelation")
+            .whereEqualTo("farmId", farmId)
+            .whereEqualTo("isActive", false)
+            .get().await()
+        val requests = mutableListOf<FarmUserRelation>()
+        if(!result.isEmpty){
+            for(doc in result.documents){
+                requests.add(FarmUserRelation(userId = doc.getString("userId")!!, farmId = farmId, isAdmin = false,isActive = false))
+            }
+        }
+        return requests
+    }
+
+    override suspend fun getActiveUsers(farmId: String): List<FarmUserRelation> {
+        val result = firestore.collection("farmUserRelation")
+            .whereEqualTo("farmId", farmId)
+            .whereEqualTo("isActive", true)
+            .get().await()
+        val users = mutableListOf<FarmUserRelation>()
+        if(!result.isEmpty){
+            for(doc in result.documents){
+                users.add(FarmUserRelation(userId = doc.getString("userId")!!, farmId = farmId, isAdmin = doc.getBoolean("isAdmin")!!,isActive = true))
+            }
+        }
+        return users
     }
 }

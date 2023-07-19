@@ -2,6 +2,7 @@ package com.example.tracktor.data.repository
 
 import android.util.Log
 import com.example.tracktor.data.model.Farm
+import com.example.tracktor.data.model.FarmUserRelation
 import com.example.tracktor.data.model.UserTransaction
 import java.util.UUID
 import javax.inject.Inject
@@ -104,5 +105,13 @@ class FarmManagerRepositoryImpl @Inject constructor(
             inventoryRepository.addSellTransaction(itemName = itemName, sellTransaction = userTransaction,
                 inventoryId = currentFarm!!.inventoryId, userId = authRepository.currentUserId)
         }
+    }
+
+    override suspend fun getJoinRequests(): List<FarmUserRelation>? {
+        return farmUserRepository.getNonActiveUsers(farmId = currentFarm!!.id)
+    }
+
+    override suspend fun getFarmUsers(): List<FarmUserRelation>? {
+        return farmUserRepository.getActiveUsers(farmId = currentFarm!!.id)
     }
 }

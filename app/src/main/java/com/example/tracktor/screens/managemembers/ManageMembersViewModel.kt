@@ -8,6 +8,7 @@ import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
 import com.example.tracktor.data.model.User
 import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManageMembersViewModel @Inject constructor(
+    private val farmManagerRepository: FarmManagerRepository,
     userManagerRepository: UserManagerRepository
 ) : TracktorViewModel(userManagerRepository)  {
 
@@ -46,6 +48,22 @@ class ManageMembersViewModel @Inject constructor(
 //        are admin then the checkbox is filled
     }
 
+    fun getRequests(){
+        launchCatching {
+            val requests = farmManagerRepository.getJoinRequests()
+            if(!requests.isNullOrEmpty()){
+                uiState.value = uiState.value.copy(farmRequests = requests)
+            }
+        }
+    }
 
+    fun getUsers(){
+        launchCatching {
+            val users = farmManagerRepository.getFarmUsers()
+            if(!users.isNullOrEmpty()){
+                uiState.value = uiState.value.copy(farmMembers = users)
+            }
+        }
+    }
 
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -43,6 +44,10 @@ fun SellingModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Uni
 
 //        resets value of input so its not used again
         speechContext.speechInput.value = ""
+    }
+    LaunchedEffect(viewModel) { viewModel.retrieveItems() }
+    DisposableEffect(viewModel) {
+        onDispose {viewModel.saveTransactions()}
     }
 }
 

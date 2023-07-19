@@ -93,4 +93,16 @@ class FarmManagerRepositoryImpl @Inject constructor(
                 inventoryId = currentFarm!!.inventoryId, userId = authRepository.currentUserId)
         }
     }
+
+    override suspend fun addSellTransaction(itemName: String, userTransaction: UserTransaction) {
+        if(inventoryRepository.itemExists(inventoryId = currentFarm!!.inventoryId, name = itemName)){
+            if(!inventoryRepository.userStatExistsForItem(itemName = itemName, userId = authRepository.currentUserId,
+                    inventoryId = currentFarm!!.inventoryId)){
+                inventoryRepository.addUserStatForItem(itemName=itemName, userId = authRepository.currentUserId,
+                    inventoryId = currentFarm!!.inventoryId)
+            }
+            inventoryRepository.addSellTransaction(itemName = itemName, sellTransaction = userTransaction,
+                inventoryId = currentFarm!!.inventoryId, userId = authRepository.currentUserId)
+        }
+    }
 }

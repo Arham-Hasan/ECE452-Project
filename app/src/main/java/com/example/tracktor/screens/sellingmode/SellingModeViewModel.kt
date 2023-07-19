@@ -29,9 +29,6 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
         uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 
-    private val validFruits: Set<String> = setOf(
-        "apple", "banana", "orange","apples", "bananas", "oranges"
-    )
     private val numberMap = mapOf(
         "zero" to 0, "one" to 1, "two" to 2, "three" to 3, "four" to 4,
         "five" to 5, "six" to 6, "seven" to 7, "eight" to 8, "nine" to 9
@@ -79,7 +76,7 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
 
         val fruit = inputArray.last()
         val number = inputArray.first()
-        if (fruit !in validFruits){
+        if (fruit !in uiState.value.validItems){
             return false
         }
 

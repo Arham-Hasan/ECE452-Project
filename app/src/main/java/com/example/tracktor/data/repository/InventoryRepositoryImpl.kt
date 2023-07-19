@@ -80,7 +80,9 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         inventoryId: String
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
-        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"pickList"), FieldValue.arrayUnion(pickTransaction))
+        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"pickList"), FieldValue.arrayUnion(pickTransaction)).await()
+        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"userTotal"), FieldValue.increment(pickTransaction.amount.toLong())).await()
+        doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(pickTransaction.amount.toLong())).await()
     }
 
     override suspend fun addSellTransaction(
@@ -91,6 +93,8 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
         doc.reference.update(FieldPath.of(itemName,"userStats",userId,"sellList"), FieldValue.arrayUnion(sellTransaction))
+        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"userTotal"), FieldValue.increment(-1*sellTransaction.amount.toLong()))
+        doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(-1*sellTransaction.amount.toLong())).await()
     }
 
     override suspend fun getItems(inventoryId: String): List<String>? {

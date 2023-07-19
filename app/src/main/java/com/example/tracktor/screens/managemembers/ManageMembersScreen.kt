@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Checkbox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +25,11 @@ import com.example.tracktor.data.model.FarmUserRelation
 fun ManageMembersScreen(openAndPopUp: (String, String) -> Unit, viewModel: ManageMembersViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState
+
+    LaunchedEffect(viewModel) {
+        viewModel.getRequests()
+        viewModel.getUsers()
+    }
 
     PickingModeScreenContent(
         uiState,
@@ -74,8 +80,8 @@ fun PickingModeScreenContent(
                     Spacer(modifier = Modifier.height(32.dp)) // Add spacing between the rows
                 }
                 if(uiState.farmMembers.isNotEmpty()) {
-                    androidx.compose.material3.Text(text = "Requests to join farm")
-                    uiState.farmRequests.forEach { user ->
+                    androidx.compose.material3.Text(text = "Farm Members")
+                    uiState.farmMembers.forEach { user ->
                         Row(
                             modifier  = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,

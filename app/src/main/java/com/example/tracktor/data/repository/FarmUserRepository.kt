@@ -1,6 +1,7 @@
 package com.example.tracktor.data.repository
 
 import com.example.tracktor.data.model.Farm
+import com.example.tracktor.data.model.FarmUserRelation
 
 interface FarmUserRepository {
     suspend fun createFarm(farm: Farm, userId: String) : Unit
@@ -21,4 +22,6 @@ interface FarmUserRepository {
 
     suspend fun deleteFarmUserRelation(userId: String, farmId: String): Unit
     suspend fun setUserToActive(userId: String, farmId: String): Unit
+    suspend fun getNonActiveUsers(farmId: String): List<FarmUserRelation>?
+    suspend fun getActiveUsers(farmId: String): List<FarmUserRelation>?
 }

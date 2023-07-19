@@ -18,4 +18,6 @@ interface FarmManagerRepository {
     suspend fun addInventoryItem(itemName : String): Unit
     suspend fun getInventoryItems(): List<String>?
     suspend fun addPickTransaction(itemName: String, userTransaction: UserTransaction):Unit
+    suspend fun addSellTransaction(itemName: String, userTransaction: UserTransaction):Unit
+
 }

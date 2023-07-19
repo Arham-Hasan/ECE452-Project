@@ -1,17 +1,23 @@
 package com.example.tracktor.screens.sellingmode
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.text.isDigitsOnly
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.example.tracktor.data.repository.AuthRepository
+import com.example.tracktor.data.model.UserTransaction
+import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.runBlocking
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class SellingModeViewModel @Inject constructor(userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository ) {
+class SellingModeViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository
+                                               ,userManagerRepository: UserManagerRepository)
+                                                : TracktorViewModel(userManagerRepository ) {
 
     var uiState = mutableStateOf(SellingModeUiState())
         private set
@@ -31,6 +37,15 @@ class SellingModeViewModel @Inject constructor(userManagerRepository: UserManage
         "five" to 5, "six" to 6, "seven" to 7, "eight" to 8, "nine" to 9
     )
 
+    fun retrieveItems(){
+        launchCatching {
+            val itemSet = farmManagerRepository.getInventoryItems()?.toSet()
+            if(itemSet == null) uiState.value = uiState.value.copy( validItems = setOf())
+            else uiState.value = uiState.value.copy( validItems = itemSet)
+            Log.i("Selling","Valid items: "+uiState.value.validItems.toString())
+        }
+    }
+
     fun parseInput(speechInput: String){
 
         if (speechInput.isEmpty()){
@@ -46,10 +61,12 @@ class SellingModeViewModel @Inject constructor(userManagerRepository: UserManage
 //        Record to db
         val inputArray = speechLower.split(" ")
 
-//        This should prob be changed in the future to an array or something that holds (quantity, item, price)
-        val sellRecordTuple = Pair(convertNumberToInt(inputArray.first()), inputArray.last())
+        val item = inputArray.last()
+        val quantity = convertNumberToInt(inputArray.first())
 
-        SnackbarManager.showMessage("Sold ${sellRecordTuple.first} ${sellRecordTuple.second}".toSnackbarMessage())
+        (uiState.value.transactions)[item] = (uiState.value.transactions).getOrDefault(item, 0) + quantity!!
+
+        SnackbarManager.showMessage("Sold $quantity $item".toSnackbarMessage())
     }
 
     private fun verifyInput(input: String): Boolean {
@@ -80,6 +97,20 @@ class SellingModeViewModel @Inject constructor(userManagerRepository: UserManage
         }
 
         return number.toInt()
+    }
+
+    fun saveTransactions() {
+        if(uiState.value.transactions.isEmpty()){
+            return
+        }
+        runBlocking{
+            Log.i("Selling","Recording items: "+uiState.value.transactions.toString())
+            for (transaction in uiState.value.transactions) {
+                Log.i("Selling","Recording ${transaction.key}, quantity: ${transaction.value}")
+                val sellTransaction = UserTransaction(date = Date(), amount = transaction.value)
+                farmManagerRepository.addSellTransaction(itemName = transaction.key, userTransaction = sellTransaction)
+            }
+        }
     }
 
 

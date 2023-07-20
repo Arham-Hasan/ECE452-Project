@@ -4,6 +4,7 @@ import com.example.tracktor.data.model.User
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class UserManagerRepositoryImpl @Inject constructor(
@@ -33,4 +34,9 @@ class UserManagerRepositoryImpl @Inject constructor(
         userRepository.createUser(name, currentUserId)
 
     }
+
+    override suspend fun getUserName(userId: String): String {
+        return userRepository.getUserName(userId)
+    }
+
 }

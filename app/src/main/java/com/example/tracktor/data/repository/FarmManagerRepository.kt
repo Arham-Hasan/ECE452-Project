@@ -22,5 +22,6 @@ interface FarmManagerRepository {
     suspend fun addSellTransaction(itemName: String, userTransaction: UserTransaction):Unit
     suspend fun getJoinRequests() : List<FarmUserRelation>?
     suspend fun getFarmUsers() : List<FarmUserRelation>?
+    suspend fun toggleAdmin(userId: String) : Unit
 
 }

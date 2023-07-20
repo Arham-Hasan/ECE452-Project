@@ -114,4 +114,12 @@ class FarmManagerRepositoryImpl @Inject constructor(
     override suspend fun getFarmUsers(): List<FarmUserRelation>? {
         return farmUserRepository.getActiveUsers(farmId = currentFarm!!.id)
     }
+
+    override suspend fun toggleAdmin(userId: String) : Unit {
+        if(currentFarm == null){
+            return
+        }
+        farmUserRepository.toggleAdmin(userId, currentFarm!!)
+    }
+
 }

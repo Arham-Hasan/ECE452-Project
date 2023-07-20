@@ -3,7 +3,9 @@ package com.example.tracktor.common.composable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -27,7 +29,14 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun BasicTextButton(text:String, modifier: Modifier, action: () -> Unit) {
-    TextButton(onClick = action, modifier = modifier) { Text(text = text) }
+    TextButton(
+        onClick = action,
+        modifier = modifier,
+        colors =
+        ButtonDefaults.buttonColors(
+            backgroundColor = Color(0xFF2F6F3D),
+            contentColor = MaterialTheme.colors.onPrimary
+    )) { Text(text = text) }
 }
 
 @Composable
@@ -37,7 +46,7 @@ fun BasicButton(text:String, modifier: Modifier, action: () -> Unit) {
         modifier = modifier,
         colors =
         ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
+            backgroundColor = Color(0xFF2F6F3D),
             contentColor = MaterialTheme.colors.onPrimary
         )
     ) {

@@ -73,5 +73,5 @@ fun SingleOptionToolbar(
 
 @Composable
 fun getToolbarColor(darkTheme: Boolean = isSystemInDarkTheme()): Color {
-    return if (darkTheme) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant
+    return if (darkTheme) Color(0xFF2F6F3D) else Color(0xFFB5E6C1)
 }

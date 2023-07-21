@@ -75,8 +75,8 @@ class FarmManagerRepositoryImpl @Inject constructor(
         farmUserRepository.deleteFarmUserRelation(userId = userId, farmId = currentFarm!!.id)
     }
 
-    override suspend fun addInventoryItem(itemName: String) {
-        inventoryRepository.addItem(name = itemName, inventoryId = currentFarm!!.inventoryId)
+    override suspend fun addInventoryItem(itemName: String, itemPrice: Double) {
+        inventoryRepository.addItem(name = itemName, inventoryId = currentFarm!!.inventoryId, itemPrice=itemPrice)
     }
 
     override suspend fun getInventoryItems(): List<String>? {

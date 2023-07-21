@@ -1,5 +1,6 @@
 package com.example.tracktor.screens.createitem
 
+import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.CREATE_ITEM_SCREEN
 import com.example.tracktor.INVENTORY_MODE_SCREEN
@@ -10,8 +11,6 @@ import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import java.text.NumberFormat
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +28,9 @@ class CreateItemViewModel @Inject constructor(private val farmManagerRepository:
 
     private val price
         get() = uiState.value.price
+
+    private val itemImage
+        get() = uiState.value.itemImage
 
     fun onNameChange(newValue:String){
         uiState.value = uiState.value.copy(name = newValue)
@@ -59,12 +61,23 @@ class CreateItemViewModel @Inject constructor(private val farmManagerRepository:
             return
         }
 
+        if(itemImage == Uri.EMPTY){
+            SnackbarManager.showMessage("Please provide a an image for the item".toSnackbarMessage())
+            return
+        }
+
         launchCatching{
             SnackbarManager.showMessage("Creating Item".toSnackbarMessage())
             delay(500)
             farmManagerRepository.addInventoryItem(itemName = uiState.value.name.trim(), itemPrice = price.toDouble(), imageUri = null)
             openAndPopUp(INVENTORY_MODE_SCREEN, CREATE_ITEM_SCREEN)
         }
+    }
+
+    fun handleImageUpload(uri: Uri) {
+        println(uri)
+        println("HERE WE HANDLE THE IMAGE BEING UPLOADED")
+        uiState.value.itemImage = uri
     }
 
 }

@@ -37,8 +37,8 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         return true
     }
 
-    override suspend fun addItem(name: String, inventoryId: String) {
-        val item = InventoryItem(name = name)
+    override suspend fun addItem(name: String, inventoryId: String, itemPrice: Double) {
+        val item = InventoryItem(name = name, itemPrice = itemPrice)
         val newFieldData = hashMapOf(
             name to item
         )

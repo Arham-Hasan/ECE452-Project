@@ -33,14 +33,14 @@ class CreateItemViewModel @Inject constructor(private val farmManagerRepository:
         get() = uiState.value.itemImage
 
     fun onNameChange(newValue:String){
-        uiState.value = uiState.value.copy(name = newValue)
+        uiState.value = uiState.value.copy(name = newValue.trim())
     }
 
     fun onPriceChange(newValue:String){
         if (newValue.startsWith("0")) {
             ""
         } else {
-            uiState.value = uiState.value.copy(price = newValue)
+            uiState.value = uiState.value.copy(price = newValue.trim())
         }
     }
 
@@ -69,14 +69,13 @@ class CreateItemViewModel @Inject constructor(private val farmManagerRepository:
         launchCatching{
             SnackbarManager.showMessage("Creating Item".toSnackbarMessage())
             delay(500)
-            farmManagerRepository.addInventoryItem(itemName = uiState.value.name.trim(), itemPrice = price.toDouble(), imageUri = null)
+            farmManagerRepository.addInventoryItem(itemName = name, price.toDouble(), itemImage)
+            farmManagerRepository.uploadInventoryItemImage(name, itemImage)
             openAndPopUp(INVENTORY_MODE_SCREEN, CREATE_ITEM_SCREEN)
         }
     }
 
     fun handleImageUpload(uri: Uri) {
-        println(uri)
-        println("HERE WE HANDLE THE IMAGE BEING UPLOADED")
         uiState.value.itemImage = uri
     }
 

@@ -55,25 +55,6 @@ fun MoneyNumberField(
         }
     )
 }
-//fun BasicNumberField(
-//    text: String,
-//    value: String,
-//    onNewValue: (String) -> Unit,
-//    modifier: Modifier = Modifier
-//){
-//    OutlinedTextField(
-//        value = value,
-//        modifier = modifier,
-//        singleLine = true,
-//        onValueChange = { onNewValue },
-//
-//        keyboardOptions = KeyboardOptions(
-//            keyboardType = KeyboardType.Decimal
-//        ),
-////        leadingIcon = { Icon(imageVector=Icons.Filled.Done, contentDescription = null) },
-//        placeholder = { Text(text) }
-//    )
-//}
 
 @Composable
 fun TextFieldWithIcons(
@@ -98,7 +79,7 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         value = value,
         label = "Email Address",
         icon = Icons.Default.Email,
-        onNewValue= onNewValue,
+        onNewValue= onNewValue
     )
 }
 

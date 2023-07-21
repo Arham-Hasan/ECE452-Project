@@ -1,5 +1,6 @@
 package com.example.tracktor.data.repository
 
+import android.net.Uri
 import android.util.Log
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
@@ -75,8 +76,20 @@ class FarmManagerRepositoryImpl @Inject constructor(
         farmUserRepository.deleteFarmUserRelation(userId = userId, farmId = currentFarm!!.id)
     }
 
-    override suspend fun addInventoryItem(itemName: String, itemPrice: Double) {
-        inventoryRepository.addItem(name = itemName, inventoryId = currentFarm!!.inventoryId, itemPrice=itemPrice)
+    override suspend fun uploadInventoryItemImage(itemName: String, imageUri: Uri?) {
+        var imageRef : String? = null
+        if(imageUri != null){
+            val inventoryId = currentFarm!!.inventoryId
+            imageRef = "inventoryImages/$inventoryId/$itemName"
+            inventoryRepository.uploadItemImage(imageRef = imageRef, imageUri = imageUri)
+        }
+    }
+
+    override suspend fun addInventoryItem(itemName: String, itemPrice: Double, imageUri: Uri?) {
+        val inventoryId = currentFarm!!.inventoryId
+        var imageRef : String? = "inventoryImages/$inventoryId/$itemName"
+        uploadInventoryItemImage(itemName=itemName, imageUri = imageUri)
+        inventoryRepository.addItem(name = itemName, inventoryId = inventoryId, itemPrice=itemPrice, imageRef = imageRef)
     }
 
     override suspend fun getInventoryItems(): List<String>? {

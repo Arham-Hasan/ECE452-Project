@@ -1,5 +1,6 @@
 package com.example.tracktor.data.repository
 
+import android.net.Uri
 import android.util.Log
 import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
@@ -11,11 +12,12 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.Transaction
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
 
-class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): InventoryRepository{
+class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore, private val storage: FirebaseStorage): InventoryRepository{
 
     override suspend fun createInventory(id: String) {
         val emptyHashMap = hashMapOf<String, Any>()
@@ -37,8 +39,8 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         return true
     }
 
-    override suspend fun addItem(name: String, inventoryId: String, itemPrice: Double) {
-        val item = InventoryItem(name = name, itemPrice = itemPrice)
+    override suspend fun addItem(name: String, inventoryId: String, itemPrice: Double, imageRef : String?) {
+        val item = InventoryItem(name = name, itemPrice = itemPrice, imageRef = imageRef)
         val newFieldData = hashMapOf(
             name to item
         )
@@ -100,5 +102,10 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
     override suspend fun getItems(inventoryId: String): List<String>? {
         val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
         return documentSnapshot.data?.keys?.toList()
+    }
+
+    override suspend fun uploadItemImage(imageRef: String?, imageUri: Uri) {
+        val storageRef = storage.reference.child(imageRef!!)
+        storageRef.putFile(imageUri).await()
     }
 }

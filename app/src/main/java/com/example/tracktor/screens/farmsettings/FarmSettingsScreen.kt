@@ -36,7 +36,7 @@ fun FarmSettingsScreen(openScreen: (String) -> Unit,clearAndNavigate:(String)->U
         {viewModel.toggleChangeFarmNameAlert()},
         viewModel::onNewFarmNameChange,
         uiState.newFarmName,
-        {viewModel.comfirmRenameFarm()},
+        {viewModel.comfirmRenameFarm(clearAndNavigate)},
         {viewModel.comfirmDeleteFarm(clearAndNavigate)}
     )
 }
@@ -86,7 +86,7 @@ fun FarmSettingsScreenContent(
                         AlertVisible = changeNameVisible,
                         mainText = "Enter the new name for this farm",
                         textFieldPlaceholder = "New Farm Name",
-                        value = "",
+                        value = newName,
                         onNewValue = onNameChange,
                         label="Enter New Name"
 

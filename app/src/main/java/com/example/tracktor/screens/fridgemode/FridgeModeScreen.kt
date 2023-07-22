@@ -46,13 +46,13 @@ fun FridgeModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit,
         uiState.fridges,
         viewModel::onMarkerClick,
         openScreen,
-        {viewModel.toggleAlert()}
+        viewModel::toggleAlert
     )
 
 }
 
 @Composable
-fun FridgeMap(fridges: List<Fridge>, onMarkerClick: KFunction2<(String) -> Unit, String, Unit>, openScreen: (String)->Unit, toggleAlert:()->Unit){
+fun FridgeMap(fridges: List<Fridge>, onMarkerClick: KFunction2<(String) -> Unit, String, Unit>, openScreen: (String)->Unit, toggleAlert:(Fridge)->Unit){
     val cameraPositionState = rememberCameraPositionState{
         position = CameraPosition(LatLng(43.4477659,-80.4862877),15f,0f,0f)
     }
@@ -65,9 +65,9 @@ fun FridgeMap(fridges: List<Fridge>, onMarkerClick: KFunction2<(String) -> Unit,
             fridges.forEach { fridge -> Marker(
                 state = MarkerState(position = fridge.latlng),
                 title = fridge.name,
-                snippet = fridge.address,
+                snippet = "Click for more info",
                 onInfoWindowClick = {
-                    toggleAlert()
+                    toggleAlert(fridge)
                 }
             )
 //            ){
@@ -88,11 +88,19 @@ fun FridgeModeScreenContent(
     fridges: List<Fridge>,
     onMarkerClick: KFunction2<(String) -> Unit, String, Unit>,
     openScreen: (String)->Unit,
-    toggleAlert: () -> Unit
+    toggleAlert: (Fridge) -> Unit
 )
 {
+    fridges.forEach{
+        fridge ->  FridgeAlertDialog(
+            toggleAlert,
+            uiState.mapAlertMap[fridge.name]!!,
+            fridge = fridge,
+            onMarkerClick,
+            openScreen
+        )
+    }
 
-    FridgeAlertDialog(toggleAlert,uiState.mapAlert, fridge = fridges[0],onMarkerClick, openScreen)
     Column(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally

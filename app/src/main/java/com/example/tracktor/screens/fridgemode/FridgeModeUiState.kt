@@ -6,4 +6,5 @@ data class FridgeModeUiState (
     val dropDrownExtended: Boolean = false,
     val fridges: List<Fridge> = listOf(),
     val mapAlert: Boolean= false,
+    val mapAlertMap : MutableMap<String,Boolean> = mutableMapOf()
 )

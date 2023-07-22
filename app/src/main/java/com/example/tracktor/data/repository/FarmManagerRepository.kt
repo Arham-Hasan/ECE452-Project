@@ -23,4 +23,6 @@ interface FarmManagerRepository {
     suspend fun getJoinRequests() : List<FarmUserRelation>?
     suspend fun getFarmUsers() : List<FarmUserRelation>?
 
+    suspend fun changeFarmName(newName:String): Unit
+
 }

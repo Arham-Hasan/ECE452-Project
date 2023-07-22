@@ -94,8 +94,8 @@ fun FridgeInfo (fridge: Fridge,toggle: ()->Unit){
                 append(fridge.name)
             }
         },
-        style = MaterialTheme.typography.bodyMedium,
-        textAlign = TextAlign.End,
+        style = MaterialTheme.typography.bodyLarge,
+        textAlign = TextAlign.Start,
         modifier = Modifier.padding(15.dp)
 
     )
@@ -107,7 +107,7 @@ fun FridgeInfo (fridge: Fridge,toggle: ()->Unit){
             append(fridge.address)
         },
         style = MaterialTheme.typography.bodyLarge,
-        textAlign = TextAlign.End,
+        textAlign = TextAlign.Start,
         modifier = Modifier.padding(15.dp)
     )
     Text(
@@ -118,7 +118,7 @@ fun FridgeInfo (fridge: Fridge,toggle: ()->Unit){
             append(fridge.hashtag)
         },
         style = MaterialTheme.typography.bodyLarge,
-        textAlign = TextAlign.End,
+        textAlign = TextAlign.Start,
         modifier = Modifier.padding(15.dp)
     )
     ClickableText(

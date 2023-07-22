@@ -114,4 +114,12 @@ class FarmManagerRepositoryImpl @Inject constructor(
     override suspend fun getFarmUsers(): List<FarmUserRelation>? {
         return farmUserRepository.getActiveUsers(farmId = currentFarm!!.id)
     }
+
+    override suspend fun changeFarmName(newName: String) {
+        val currentUserId = authRepository.currentUserId
+        val farm = currentFarm!!
+        if(farmUserRepository.isAdmin(currentUserId, farm)){
+            farmRepository.changeFarmName(newName,farm)
+        }
+    }
 }

@@ -34,10 +34,25 @@ class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFire
         }
     }
 
+    override suspend fun changeFarmName(newName: String, farm: Farm) {
+        val docId = farmDocId(farm.id)
+        firestore.collection("farms").document(docId).update("name",newName).await()
+    }
+
     override suspend fun farmExists(farmId: String): Boolean {
         val result = firestore.collection("farms")
             .whereEqualTo("id", farmId)
             .get().await()
         return !result.isEmpty()
+    }
+
+    override suspend fun farmDocId(farmId: String): String {
+        val result = firestore.collection("farms")
+            .whereEqualTo("id", farmId).limit(1)
+            .get().await()
+        for(doc in result){
+            return doc.id
+        }
+        return ""
     }
 }

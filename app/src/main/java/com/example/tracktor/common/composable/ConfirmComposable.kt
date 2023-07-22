@@ -76,26 +76,26 @@ fun HashtagAlertDialog(toggleAlert:()->Unit, AlertVisible:Boolean){
 }
 
 @Composable
-fun FridgeAlertDialog(toggleAlert:()->Unit, AlertVisible:Boolean, fridge: Fridge, onMarkerClick: KFunction2<(String) -> Unit, String, Unit>,
+fun FridgeAlertDialog(toggleAlert:(Fridge)->Unit, AlertVisible:Boolean, fridge: Fridge, onMarkerClick: KFunction2<(String) -> Unit, String, Unit>,
                       openScreen: (String)->Unit,){
     if (AlertVisible) {
 
         AlertDialog(
             onDismissRequest =
-            toggleAlert,
+            { toggleAlert(fridge) },
             title = {
-                Text(text = "Using Fridge Hashtags")
+                Text(text = fridge.name)
             },
             text = {
-                Text("Photos from Instagram posts using #tracktorapp and the designated fridge hashtag (see the fridge info page), will help show an up to date state of the fridge.\nHelp everyone out and post today! ")
+                Text(fridge.address)
             },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        toggleAlert()
+                        toggleAlert(fridge)
                         onMarkerClick(openScreen,fridge.name)
                     }) {
-                    Text("OK")
+                    Text("View pictures and more info")
                 }
             }
         )

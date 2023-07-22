@@ -8,5 +8,9 @@ interface FarmRepository {
 
     suspend fun deleteFarm(farm: Farm): Unit
 
+    suspend fun changeFarmName(newName:String, farm: Farm): Unit
+
     suspend fun farmExists(farmId: String): Boolean
+
+    suspend fun farmDocId(farmId: String): String
 }

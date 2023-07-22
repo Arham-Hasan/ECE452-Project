@@ -74,5 +74,7 @@ object RepositoryModule {
     fun provideInstagramRepository(
         firestore: FirebaseFirestore
     ):InstagramPostRepository = InstagramPostRepositoryImpl(firestore)
+    @Provides
+    @Singleton
     fun provideImageStoreManager(storage: FirebaseStorage): ImageStorageManager = ImageStorageManagerImpl(storage)
 }

@@ -9,14 +9,15 @@
 | 2023/06/16||1||||  | D2: Buddy team's evaluation|
 | 2023/06/20||1||||  | Reserach most suitable architecture|
 | 2023/06/20||1||||  | Reserach most suitable android framework/library|
-| 2023/06/25|10|3||||  | Added auth and mvvm architecture|
+| 2023/06/25|10|||||  | Added auth and mvvm architecture|
+| 2023/06/25||3||||  | Added auth and mvvm architecture|
 | 2023/06/25||3||||  | Added auth and mvvm architecture|
 | 2023/06/25||1||||  | Setup Firestore DB|
 | 2023/06/26|1|||||  | Fixed Login Bug|
-| 2023/06/27 |8|1|||| | Navbar + Screens to navigate|
+| 2023/06/27 |8||||| | Navbar + Screens to navigate|
 | 2023/06/27 ||1|||| | Navbar + Screens to navigate|
 | 2023/06/27 |1||||| | Navigation Bug fix|
-| 2023/06/28  |1|1||||| D3: Prototype Demo|
+| 2023/06/28  |1|||||| D3: Prototype Demo|
 | 2023/06/28  ||1||||| D3: Prototype Demo|
 | 2023/06/30  |2|||||| D3: Prototype Document|
 | 2023/06/30  ||2||||| D3: Prototype Document|

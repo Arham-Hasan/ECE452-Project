@@ -36,7 +36,7 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
 
     fun retrieveItems(){
         launchCatching {
-            val itemSet = farmManagerRepository.getInventoryItems()?.toSet()
+            val itemSet = farmManagerRepository.getInventoryItemNames()?.toSet()
             if(itemSet == null) uiState.value = uiState.value.copy( validItems = setOf())
             else uiState.value = uiState.value.copy( validItems = itemSet)
             Log.i("Selling","Valid items: "+uiState.value.validItems.toString())

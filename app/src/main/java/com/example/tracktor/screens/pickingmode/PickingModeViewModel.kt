@@ -42,7 +42,7 @@ class PickingModeViewModel @Inject constructor(
 
     fun retrieveItems(){
         launchCatching {
-            val itemSet = farmManagerRepository.getInventoryItems()?.toSet()
+            val itemSet = farmManagerRepository.getInventoryItemNames()?.toSet()
             if(itemSet == null) uiState.value = uiState.value.copy( validItems = setOf())
             else uiState.value = uiState.value.copy( validItems = itemSet)
             Log.i("Picking","Valid items: "+uiState.value.validItems.toString())

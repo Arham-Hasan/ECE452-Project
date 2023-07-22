@@ -19,7 +19,9 @@ interface FarmManagerRepository {
     suspend fun isAdmin():Boolean
     suspend fun addInventoryItem(itemName : String, itemPrice: Double, imageUri: Uri?): Unit
     suspend fun uploadInventoryItemImage(itemName : String, imageUri: Uri?): Unit
-    suspend fun getInventoryItems(): List<String>?
+    suspend fun getInventoryItemImage(itemName: String) : Any?
+    suspend fun getInventoryItemNames(): List<String>?
+    suspend fun getInventoryItemNamesToPrice(): Map<String,Double>
     suspend fun addPickTransaction(itemName: String, userTransaction: UserTransaction):Unit
     suspend fun addSellTransaction(itemName: String, userTransaction: UserTransaction):Unit
     suspend fun getJoinRequests() : List<FarmUserRelation>?

@@ -10,20 +10,36 @@ import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import java.text.NumberFormat
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateItemViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
                                               userManagerRepository: UserManagerRepository
 ) : TracktorViewModel(userManagerRepository)  {
+
+    private val currencyPattern = Regex("^\\d+(\\.\\d{1,2})?$")
+
     var uiState = mutableStateOf(CreateItemUiState())
         private set
 
     private val name
         get() = uiState.value.name
 
+    private val price
+        get() = uiState.value.price
+
     fun onNameChange(newValue:String){
         uiState.value = uiState.value.copy(name = newValue)
+    }
+
+    fun onPriceChange(newValue:String){
+        if (newValue.startsWith("0")) {
+            ""
+        } else {
+            uiState.value = uiState.value.copy(price = newValue)
+        }
     }
 
     fun onCreateItemClick(openAndPopUp: (String, String) -> Unit) {
@@ -32,11 +48,23 @@ class CreateItemViewModel @Inject constructor(private val farmManagerRepository:
             SnackbarManager.showMessage("Please create an item name".toSnackbarMessage())
             return
         }
+
+        if(price.isBlank()){
+            SnackbarManager.showMessage("Please add an item price".toSnackbarMessage())
+            return
+        }
+
+        if(!currencyPattern.matches(price)){
+            SnackbarManager.showMessage("Please provide a valid item price".toSnackbarMessage())
+            return
+        }
+
         launchCatching{
             SnackbarManager.showMessage("Creating Item".toSnackbarMessage())
             delay(500)
-            farmManagerRepository.addInventoryItem(itemName = uiState.value.name.trim())
+            farmManagerRepository.addInventoryItem(itemName = uiState.value.name.trim(), itemPrice = price.toDouble(), imageUri = null)
             openAndPopUp(INVENTORY_MODE_SCREEN, CREATE_ITEM_SCREEN)
         }
     }
+
 }

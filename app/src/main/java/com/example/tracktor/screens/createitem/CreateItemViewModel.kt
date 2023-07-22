@@ -62,7 +62,7 @@ class CreateItemViewModel @Inject constructor(private val farmManagerRepository:
         launchCatching{
             SnackbarManager.showMessage("Creating Item".toSnackbarMessage())
             delay(500)
-            farmManagerRepository.addInventoryItem(itemName = uiState.value.name.trim(), price.toDouble())
+            farmManagerRepository.addInventoryItem(itemName = uiState.value.name.trim(), itemPrice = price.toDouble(), imageUri = null)
             openAndPopUp(INVENTORY_MODE_SCREEN, CREATE_ITEM_SCREEN)
         }
     }

@@ -8,6 +8,8 @@ import com.example.tracktor.data.repository.FarmRepository
 import com.example.tracktor.data.repository.FarmRepositoryImpl
 import com.example.tracktor.data.repository.FarmUserRepository
 import com.example.tracktor.data.repository.FarmUserRepositoryImpl
+import com.example.tracktor.data.repository.ImageStorageManager
+import com.example.tracktor.data.repository.ImageStorageManagerImpl
 import com.example.tracktor.data.repository.InventoryRepository
 import com.example.tracktor.data.repository.InventoryRepositoryImpl
 import com.example.tracktor.data.repository.UserManagerRepository
@@ -16,6 +18,7 @@ import com.example.tracktor.data.repository.UserRepository
 import com.example.tracktor.data.repository.UserRepositoryImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +42,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideInventoryRepository(firestore: FirebaseFirestore): InventoryRepository = InventoryRepositoryImpl(firestore)
+    fun provideInventoryRepository(firestore: FirebaseFirestore,): InventoryRepository = InventoryRepositoryImpl(firestore)
 
 
     @Provides
@@ -48,8 +51,9 @@ object RepositoryModule {
         authRepository: AuthRepository,
         farmRepository: FarmRepository,
         farmUserRepository: FarmUserRepository,
-        inventoryRepository: InventoryRepository
-    ):FarmManagerRepository = FarmManagerRepositoryImpl(authRepository,farmRepository, farmUserRepository, inventoryRepository)
+        inventoryRepository: InventoryRepository,
+        imageStorageManager: ImageStorageManager,
+    ):FarmManagerRepository = FarmManagerRepositoryImpl(authRepository,farmRepository, farmUserRepository, inventoryRepository, imageStorageManager)
 
     @Provides
     @Singleton
@@ -62,4 +66,8 @@ object RepositoryModule {
         authRepository: AuthRepository,
         userRepository: UserRepository
     ):UserManagerRepository = UserManagerRepositoryImpl(userRepository, authRepository)
+
+    @Provides
+    @Singleton
+    fun provideImageStoreManager(storage: FirebaseStorage): ImageStorageManager = ImageStorageManagerImpl(storage)
 }

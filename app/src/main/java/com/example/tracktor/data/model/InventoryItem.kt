@@ -5,4 +5,5 @@ data class InventoryItem (
     val name: String = "",
     val itemTotal : Int = 0,
     val itemPrice: Double = 0.0,
+    val imageRef: String? = null,
 )

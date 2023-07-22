@@ -32,6 +32,7 @@ import com.example.tracktor.screens.inventorymode.InventoryModeScreen
 import com.example.tracktor.screens.joinfarm.JoinFarmScreen
 import com.example.tracktor.screens.login.LoginScreen
 import com.example.tracktor.screens.managemembers.ManageMembersScreen
+import com.example.tracktor.screens.market.MarketScreen
 import com.example.tracktor.screens.pickingmode.PickingModeScreen
 import com.example.tracktor.screens.selectfarm.SelectFarmScreen
 import com.example.tracktor.screens.selectmode.SelectModeScreen
@@ -183,6 +184,10 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
         ManageMembersScreen(
             openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
         )
+    }
+
+    composable(route="$MARKET_SCREEN$FRIDGE_NAME_ARG", arguments = listOf(navArgument(FRIDGE_NAME) { defaultValue = "" })){
+        MarketScreen(it.arguments?.getString(FRIDGE_NAME) ?: "")
     }
 
 }

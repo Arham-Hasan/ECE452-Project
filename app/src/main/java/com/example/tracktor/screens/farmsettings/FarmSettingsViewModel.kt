@@ -45,7 +45,7 @@ class FarmSettingsViewModel @Inject constructor(
         uiState.value = uiState.value.copy(deleteFarmAlert = !deleteFarmAlert)
     }
     fun toggleChangeFarmNameAlert(){
-        uiState.value = uiState.value.copy(deleteFarmAlert = !changeFarmNameAlert)
+        uiState.value = uiState.value.copy(changeFarmNameAlert = !changeFarmNameAlert)
     }
 
     fun onDeleteFarmClick(){
@@ -61,8 +61,15 @@ class FarmSettingsViewModel @Inject constructor(
         }
     }
 
-    fun comfirmRenameFarm(){
-        SnackbarManager.showMessage(newFarmName.toSnackbarMessage())
+    fun comfirmRenameFarm(clearAndNavigate:(String)->Unit){
+        if(newFarmName.isEmpty()){
+            SnackbarManager.showMessage("Please enter a farm name".toSnackbarMessage())
+        }
+        launchCatching{
+            farmManagerRepository.changeFarmName(newFarmName)
+            clearAndNavigate(SELECT_FARM_SCREEN)
+            SnackbarManager.showMessage("Sucessfully renamed farm to $newFarmName".toSnackbarMessage())
+        }
     }
 
     fun onManageMembersClick(openScreen: (String) -> Unit){

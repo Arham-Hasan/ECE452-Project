@@ -15,6 +15,10 @@ const val SELECT_FARM_SCREEN = "SelectFarmScreen"
 const val JOIN_FARM_SCREEN = "JoinFarmScreen"
 const val CREATE_ITEM_SCREEN = "CreateItemScreen"
 const val MANAGE_MEMBERS_SCREEN = "ManageMembersScreen"
+const val MARKET_SCREEN = "MarketScreen"
 
 const val FARM_ID = "farmID"
 const val FARM_ID_ARG = "?$FARM_ID={$FARM_ID}"
+
+const val FRIDGE_NAME = "fridgeName"
+const val FRIDGE_NAME_ARG = "?$FRIDGE_NAME={$FRIDGE_NAME}"

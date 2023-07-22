@@ -58,10 +58,12 @@ async function check_hashtags(checked){
     const TRACKTORAPP_HASHTAG = process.env.TRACKTORAPP_HASHTAG;
     const KITCHENERMARKET_HASHTAG = process.env.KITCHENERMARKET_HASHTAG;
     const FULLCIRCLEFOODS_HASHTAG = process.env.FULLCIRCLEFOODS_HASHTAG;
-
+    console.log("pre insta")
+    //console.log(`https://graph.facebook.com/v17.0/${TRACKTORAPP_HASHTAG}/recent_media?user_id=${USER_ID}&fields=media_url%2Ccaption%2Ctimestamp%2Cmedia_type&access_token=${ACCESS_TOKEN}`)
     const response = await axios.get(
-		`https://graph.facebook.com/v17.0/17841563020115819/recent_media?user_id=${USER_ID}&fields=media_url%2Ccaption%2Ctimestamp%2Cmedia_type&access_token=${ACCESS_TOKEN}`
-	);
+        `https://graph.facebook.com/v17.0/${TRACKTORAPP_HASHTAG}/recent_media?user_id=${USER_ID}&fields=media_url%2Ccaption%2Ctimestamp%2Cmedia_type&access_token=${ACCESS_TOKEN}`
+    );
+    console.log("post insta")
     const data= response["data"]["data"]
     let kitchener_posts = [];
     let fullcircle_posts = [];
@@ -75,7 +77,7 @@ async function check_hashtags(checked){
             if(post.media_type == "IMAGE"){
                 kitchener_posts.push({
                     "image_url": post.media_url,
-                    "time_stamp": Date(post.timestamp)
+                    "time_stamp": post.timestamp
                 });
                 ids.push(post.id);
             }
@@ -85,7 +87,7 @@ async function check_hashtags(checked){
             if(post.media_type == "IMAGE"){
                 fullcircle_posts.push({
                     "image_url": post.media_url,
-                    "time_stamp": Date(post.timestamp)
+                    "time_stamp": post.timestamp
                 })
             }
             ids.push(post.id);
@@ -118,11 +120,24 @@ app.listen(port, () => {
 instagram()
 setInterval(instagram,60*1000*3)
 
-// (async() => {
-//     await db_stuff();
-//   })();
-// function get_instagram_info()
 
-// setInterval(function() {
-//     // your code goes here...
-// }, 60 * 1000 * 10);
+
+[
+    {
+        "image_url":"https://scontent.cdninstagram.com/v/t51.29350-15/361908566_656604863021462_5379703750619264285_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=ciGaUHgiJ74AX9Dl8x7&_nc_ht=scontent.cdninstagram.com&edm=AEoDcc0EAAAA&oh=00_AfCEF8obNvP-qtjxutVdPY0h4frVhYpDrlVQZLiuvQC2_g&oe=64C00978",
+        "time_stamp":"2023-07-21T07:54:57+0000"
+    },
+    {
+        "image_url":"https://scontent.cdninstagram.com/v/t51.29350-15/361776319_242952821873744_1113187544652349644_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=4cT1xpPsQ40AX9RQAM8&_nc_oc=AQkAjCWqcb3hzjtfEv_kzaBhkusK_WP51njHITptXx1OaCoU62eWD7mon7QGo4uNjjgBg9XMWcaPZNEjSGWw1cOz&_nc_ht=scontent.cdninstagram.com&edm=AEoDcc0EAAAA&oh=00_AfDIClVSGVe37LVVtKWy23j0RqkiWnGqgLK5TrcFVS0H-Q&oe=64BF08D9",
+        "time_stamp":"2023-07-21T07:48:29+0000"
+    },
+    {
+        "image_url":"https://scontent.cdninstagram.com/v/t51.29350-15/361744504_686772926627081_7696414488619951809_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=OfD94zWPQOAAX8w1Cgv&_nc_oc=AQm-ysNXzm_Gz8uCdqf4giEqRdNhuG1vm4q14WD3YGCwfgqTybrQ-c8ymcZZH1WXcgt7yeAxmS_YjVAspi2yNBnm&_nc_ht=scontent.cdninstagram.com&edm=AEoDcc0EAAAA&oh=00_AfBVDO51qToNIiLRUZar7-4IjIR502e6WIxGeiEFNJnRVg&oe=64BFB729",
+        
+        "time_stamp":"2023-07-21T07:55:29+0000"
+    }
+]
+
+
+
+

@@ -28,4 +28,6 @@ interface FarmManagerRepository {
     suspend fun getFarmUsers() : List<FarmUserRelation>?
     suspend fun toggleAdmin(userId: String) : Unit
 
+    suspend fun changeFarmName(newName:String): Unit
+
 }

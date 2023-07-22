@@ -31,3 +31,7 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+
+instagram/.env
+instagram/tracktor-a01ee-firebase-adminsdk-hk62p-50ee2f6b6f.json

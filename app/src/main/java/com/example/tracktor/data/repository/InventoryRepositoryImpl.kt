@@ -1,5 +1,6 @@
 package com.example.tracktor.data.repository
 
+import android.net.Uri
 import android.util.Log
 import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
@@ -11,6 +12,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.Transaction
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
@@ -37,8 +39,8 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         return true
     }
 
-    override suspend fun addItem(name: String, inventoryId: String) {
-        val item = InventoryItem(name = name)
+    override suspend fun addItem(name: String, inventoryId: String, itemPrice: Double, imageRef : String?) {
+        val item = InventoryItem(name = name, itemPrice = itemPrice, imageRef = imageRef)
         val newFieldData = hashMapOf(
             name to item
         )
@@ -97,8 +99,21 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(-1*sellTransaction.amount.toLong())).await()
     }
 
-    override suspend fun getItems(inventoryId: String): List<String>? {
+    override suspend fun getItemNames(inventoryId: String): List<String>? {
         val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
         return documentSnapshot.data?.keys?.toList()
     }
+
+    override suspend fun getItemNameToPrice(inventoryId: String): Map<String, Double> {
+        val nameList = getItemNames(inventoryId)
+        val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
+        var map = mutableMapOf<String,Double>()
+        if(!nameList.isNullOrEmpty()){
+            for(name in nameList){
+                map[name] = documentSnapshot.get(FieldPath.of(name,"itemPrice")) as Double
+            }
+        }
+        return map
+    }
+
 }

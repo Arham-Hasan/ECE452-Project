@@ -117,4 +117,14 @@ class FarmUserRepositoryImpl @Inject constructor(private val firestore: Firebase
         }
         return users
     }
+
+    override suspend fun toggleAdmin(userId: String, farm: Farm): Unit {
+        val admin = isAdmin(userId, farm)
+        val result = firestore.collection("farmUserRelation")
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("farmId", farm.id)
+            .get().await()
+        if(!result.isEmpty) result.documents[0].reference.update("isAdmin",!admin)
+    }
+
 }

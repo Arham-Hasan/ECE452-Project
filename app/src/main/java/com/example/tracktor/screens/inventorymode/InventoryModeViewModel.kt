@@ -46,7 +46,7 @@ class InventoryModeViewModel @Inject constructor(private val farmManagerReposito
 
     fun retrieveItems(){
         launchCatching {
-            uiState.value = uiState.value.copy(items = farmManagerRepository.getInventoryItems())
+            uiState.value = uiState.value.copy(items = farmManagerRepository.getInventoryItemNames())
         }
 
     }

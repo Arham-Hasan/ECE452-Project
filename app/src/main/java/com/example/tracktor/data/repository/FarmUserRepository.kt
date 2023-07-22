@@ -24,4 +24,5 @@ interface FarmUserRepository {
     suspend fun setUserToActive(userId: String, farmId: String): Unit
     suspend fun getNonActiveUsers(farmId: String): List<FarmUserRelation>?
     suspend fun getActiveUsers(farmId: String): List<FarmUserRelation>?
+    suspend fun toggleAdmin(userId: String, farm: Farm, ): Unit
 }

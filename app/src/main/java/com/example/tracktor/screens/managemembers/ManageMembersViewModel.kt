@@ -1,13 +1,8 @@
 package com.example.tracktor.screens.managemembers
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.text.isDigitsOnly
-import com.example.tracktor.common.snackbar.SnackbarManager
-import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.example.tracktor.data.model.Farm
+import androidx.compose.runtime.toMutableStateList
 import com.example.tracktor.data.model.FarmUserRelation
-import com.example.tracktor.data.model.User
-import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
@@ -20,48 +15,52 @@ class ManageMembersViewModel @Inject constructor(
     userManagerRepository: UserManagerRepository
 ) : TracktorViewModel(userManagerRepository)  {
 
+    val currUserId = userManagerRepository.currentUserId
+    val currFarmId = farmManagerRepository.getSelectedFarm()!!.id
+
     var uiState = mutableStateOf(ManageMembersUiState())
         private set
 
     fun acceptUser(user: FarmUserRelation) {
-        println("user accepted")
-//        This function sets the accepted boolean on the farm thing to true
+        launchCatching {
+           farmManagerRepository.acceptUserRequest(user.userId)
+        }
+        uiState.value.farmRequests.remove(user)
+        uiState.value.farmMembers.add(user)
     }
 
     fun rejectUser(user: FarmUserRelation) {
-        println("user rejected")
-//        this function should delete the entry of the
-//        farm request no matter if the user is part of the farm or not
-    }
-
-    fun getUserName(user: FarmUserRelation): String {
-
-        println("return user name")
-//        This function should return the users name so we can display the users
-//        name instead of their userID
-        return user.userId
+        launchCatching {
+            farmManagerRepository.declineUserRequest(user.userId)
+        }
+        uiState.value.farmMembers.remove(user)
     }
 
     fun toggleAdmin(user: FarmUserRelation) {
-        println("user admin toggled")
-//        this function should toggle the admin permission of the user, if they
-//        are admin then the checkbox is filled
+        launchCatching {
+            farmManagerRepository.toggleAdmin(user.userId)
+        }
     }
 
-    fun getRequests(){
+    fun pageStartup() {
+        getRequests()
+        getUsers()
+    }
+
+    private fun getRequests(){
         launchCatching {
             val requests = farmManagerRepository.getJoinRequests()
             if(!requests.isNullOrEmpty()){
-                uiState.value = uiState.value.copy(farmRequests = requests)
+                uiState.value = uiState.value.copy(farmRequests = requests.toMutableStateList())
             }
         }
     }
 
-    fun getUsers(){
+    private fun getUsers(){
         launchCatching {
             val users = farmManagerRepository.getFarmUsers()
             if(!users.isNullOrEmpty()){
-                uiState.value = uiState.value.copy(farmMembers = users)
+                uiState.value = uiState.value.copy(farmMembers = users.toMutableStateList())
             }
         }
     }

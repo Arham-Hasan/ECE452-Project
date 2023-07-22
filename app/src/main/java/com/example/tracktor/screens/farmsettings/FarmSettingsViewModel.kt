@@ -45,7 +45,7 @@ class FarmSettingsViewModel @Inject constructor(
         uiState.value = uiState.value.copy(deleteFarmAlert = !deleteFarmAlert)
     }
     fun toggleChangeFarmNameAlert(){
-        uiState.value = uiState.value.copy(deleteFarmAlert = !changeFarmNameAlert)
+        uiState.value = uiState.value.copy(changeFarmNameAlert = !changeFarmNameAlert)
     }
 
     fun onDeleteFarmClick(){

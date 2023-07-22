@@ -7,7 +7,10 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.Colors
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import com.example.tracktor.common.Fridges.Fridge
+import kotlin.reflect.KFunction2
 
 @Composable
 fun AlertDialogConfirm(onConfirmClick:()->Unit, onDeclineClick:()->Unit, toggleAlert:()->Unit, AlertVisible:Boolean, mainText:String, secondText:String) {
@@ -45,6 +48,58 @@ fun AlertDialogConfirm(onConfirmClick:()->Unit, onDeclineClick:()->Unit, toggleA
             }
 
 
+}
+
+@Composable
+fun HashtagAlertDialog(toggleAlert:()->Unit, AlertVisible:Boolean){
+    if (AlertVisible) {
+
+        AlertDialog(
+            onDismissRequest =
+            toggleAlert,
+            title = {
+                Text(text = "Using Fridge Hashtags")
+            },
+            text = {
+                Text("Photos from Instagram posts using #tracktorapp and the designated fridge hashtag (see the fridge info page), will help show an up to date state of the fridge.\nHelp everyone out and post today! ")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        toggleAlert()
+                    }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun FridgeAlertDialog(toggleAlert:()->Unit, AlertVisible:Boolean, fridge: Fridge, onMarkerClick: KFunction2<(String) -> Unit, String, Unit>,
+                      openScreen: (String)->Unit,){
+    if (AlertVisible) {
+
+        AlertDialog(
+            onDismissRequest =
+            toggleAlert,
+            title = {
+                Text(text = "Using Fridge Hashtags")
+            },
+            text = {
+                Text("Photos from Instagram posts using #tracktorapp and the designated fridge hashtag (see the fridge info page), will help show an up to date state of the fridge.\nHelp everyone out and post today! ")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        toggleAlert()
+                        onMarkerClick(openScreen,fridge.name)
+                    }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
 }
 
 @Composable

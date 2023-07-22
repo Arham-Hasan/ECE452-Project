@@ -139,6 +139,13 @@ class FarmManagerRepositoryImpl @Inject constructor(
         return farmUserRepository.getActiveUsers(farmId = currentFarm!!.id)
     }
 
+    override suspend fun changeFarmName(newName: String) {
+        val currentUserId = authRepository.currentUserId
+        val farm = currentFarm!!
+        if(farmUserRepository.isAdmin(currentUserId, farm)){
+            farmRepository.changeFarmName(newName,farm)
+        }
+    }
     override suspend fun toggleAdmin(userId: String) : Unit {
         if(currentFarm == null){
             return

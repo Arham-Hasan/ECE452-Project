@@ -15,7 +15,6 @@ interface InventoryRepository {
     suspend fun addUserStatForItem(itemName : String, userId : String, inventoryId: String) : Unit
     suspend fun addPickTransaction(pickTransaction: UserTransaction, itemName: String,userId: String, inventoryId: String) : Unit
     suspend fun addSellTransaction(sellTransaction: UserTransaction, itemName: String,userId: String, inventoryId: String) : Unit
-    suspend fun getItems(inventoryId: String) : List<String>?
-    suspend fun uploadItemImage(imageRef: String?, imageUri: Uri) : Unit
-
+    suspend fun getItemNames(inventoryId: String) : List<String>?
+    suspend fun getItemNameToPrice(inventoryId: String) : Map<String, Double>
 }

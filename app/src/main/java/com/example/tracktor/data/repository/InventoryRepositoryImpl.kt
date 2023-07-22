@@ -17,7 +17,7 @@ import kotlinx.coroutines.tasks.await
 import java.util.UUID
 import javax.inject.Inject
 
-class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore, private val storage: FirebaseStorage): InventoryRepository{
+class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): InventoryRepository{
 
     override suspend fun createInventory(id: String) {
         val emptyHashMap = hashMapOf<String, Any>()
@@ -99,13 +99,21 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(-1*sellTransaction.amount.toLong())).await()
     }
 
-    override suspend fun getItems(inventoryId: String): List<String>? {
+    override suspend fun getItemNames(inventoryId: String): List<String>? {
         val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
         return documentSnapshot.data?.keys?.toList()
     }
 
-    override suspend fun uploadItemImage(imageRef: String?, imageUri: Uri) {
-        val storageRef = storage.reference.child(imageRef!!)
-        storageRef.putFile(imageUri).await()
+    override suspend fun getItemNameToPrice(inventoryId: String): Map<String, Double> {
+        val nameList = getItemNames(inventoryId)
+        val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
+        var map = mutableMapOf<String,Double>()
+        if(!nameList.isNullOrEmpty()){
+            for(name in nameList){
+                map[name] = documentSnapshot.get(FieldPath.of(name,"itemPrice")) as Double
+            }
+        }
+        return map
     }
+
 }

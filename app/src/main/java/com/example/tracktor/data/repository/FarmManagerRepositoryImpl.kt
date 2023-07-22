@@ -13,6 +13,7 @@ class FarmManagerRepositoryImpl @Inject constructor(
     private val farmRepository: FarmRepository,
     private val farmUserRepository: FarmUserRepository,
     private val inventoryRepository: InventoryRepository,
+    private val imageStorageManager: ImageStorageManager,
     ): FarmManagerRepository {
 
     private var currentFarm:Farm?= null
@@ -81,8 +82,14 @@ class FarmManagerRepositoryImpl @Inject constructor(
         if(imageUri != null){
             val inventoryId = currentFarm!!.inventoryId
             imageRef = "inventoryImages/$inventoryId/$itemName"
-            inventoryRepository.uploadItemImage(imageRef = imageRef, imageUri = imageUri)
+            imageStorageManager.uploadImage(imageRef = imageRef, imageUri = imageUri)
         }
+    }
+
+    override suspend fun getInventoryItemImage(itemName: String): Any? {
+        val inventoryId = currentFarm!!.inventoryId
+        val imageRef = "inventoryImages/$inventoryId/$itemName"
+        return imageStorageManager.getImage(imageRef = imageRef)
     }
 
     override suspend fun addInventoryItem(itemName: String, itemPrice: Double, imageUri: Uri?) {
@@ -92,8 +99,12 @@ class FarmManagerRepositoryImpl @Inject constructor(
         inventoryRepository.addItem(name = itemName, inventoryId = inventoryId, itemPrice=itemPrice, imageRef = imageRef)
     }
 
-    override suspend fun getInventoryItems(): List<String>? {
-        return inventoryRepository.getItems(inventoryId = currentFarm!!.inventoryId)
+    override suspend fun getInventoryItemNames(): List<String>? {
+        return inventoryRepository.getItemNames(inventoryId = currentFarm!!.inventoryId)
+    }
+
+    override suspend fun getInventoryItemNamesToPrice(): Map<String, Double> {
+        return inventoryRepository.getItemNameToPrice(inventoryId = currentFarm!!.inventoryId)
     }
 
     override suspend fun addPickTransaction(itemName: String, userTransaction: UserTransaction) {

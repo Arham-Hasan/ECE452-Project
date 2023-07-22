@@ -82,7 +82,7 @@ dependencies {
 
     implementation("com.google.firebase:firebase-firestore-ktx:24.6.1")
     implementation 'com.google.firebase:firebase-core:21.1.1'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.2.1'
+    implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
 
 
     def appcompat_version = "1.6.1"

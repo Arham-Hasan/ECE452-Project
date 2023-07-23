@@ -1,5 +1,8 @@
 package com.example.tracktor.screens.createitem
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,11 +23,17 @@ fun CreateItemScreen(openAndPopUp: (String, String) -> Unit, viewModel: CreateIt
 
     val uiState by viewModel.uiState
 
+    val pickImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        // Handle the selected image URI here (e.g., display the image or upload it)
+        // uri is the selected image URI
+    }
+
     CreateItemScreenContent(
         uiState,
         viewModel::onNameChange,
         {viewModel.onCreateItemClick(openAndPopUp)},
         viewModel::onPriceChange,
+        viewModel::handleImageUpload
     )
 
 }
@@ -35,7 +44,9 @@ fun CreateItemScreenContent(
     onNameChange: (String)->Unit,
     onCreateFarmClick: ()-> Unit,
     onPriceChange: (String)->Unit,
+    handleImage: (Uri) -> Unit
 ) {
+
     BasicToolbar("Create an Item")
 
     Column(
@@ -48,7 +59,12 @@ fun CreateItemScreenContent(
         androidx.compose.material3.Text(text = "Item Price")
         MoneyNumberField(text = "1.23", value = uiState.price, onNewValue = onPriceChange, label = "Item Price"
         )
-
+        val pickImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            if (uri != null) {
+                handleImage(uri)
+            }
+        }
+        BasicButton("Select Item Image", Modifier, action = { pickImageLauncher.launch("image/*") })
 
         BasicButton("Create Item", Modifier, action = onCreateFarmClick)
     }
@@ -59,6 +75,6 @@ fun CreateItemScreenContent(
 @Composable
 fun CreateItemScreenPreview(){
     TracktorTheme {
-        CreateItemScreenContent(CreateItemUiState(),{},{},{})
+        CreateItemScreenContent(CreateItemUiState(),{},{},{},{})
     }
 }

@@ -1,9 +1,7 @@
 package com.example.tracktor.data.repository
 
-import android.net.Uri
-import android.util.Log
-import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
+import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.UserInventoryStat
 import com.example.tracktor.data.model.UserTransaction
 import com.google.firebase.firestore.DocumentSnapshot
@@ -11,10 +9,7 @@ import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.Transaction
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
-import java.util.UUID
 import javax.inject.Inject
 
 class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): InventoryRepository{
@@ -88,15 +83,17 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
     }
 
     override suspend fun addSellTransaction(
-        sellTransaction: UserTransaction,
+        sellTransaction: SellTransaction,
         itemName: String,
         userId: String,
         inventoryId: String
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
+        val revenue = sellTransaction.transaction.amount * sellTransaction.price
         doc.reference.update(FieldPath.of(itemName,"userStats",userId,"sellList"), FieldValue.arrayUnion(sellTransaction))
-        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"sellTotal"), FieldValue.increment(sellTransaction.amount.toLong()))
-        doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(-1*sellTransaction.amount.toLong())).await()
+        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"sellTotal"), FieldValue.increment(sellTransaction.transaction.amount.toLong()))
+        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"revenueTotal"), FieldValue.increment(revenue))
+        doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(-1*sellTransaction.transaction.amount.toLong())).await()
     }
 
     override suspend fun getItemNames(inventoryId: String): List<String>? {
@@ -115,5 +112,17 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         }
         return map
     }
+    override suspend fun getInventoryItemNamesToQuantity(inventoryId: String): Map<String, Long> {
+        val nameList = getItemNames(inventoryId)
+        val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
+        var map = mutableMapOf<String,Long>()
+        if(!nameList.isNullOrEmpty()){
+            for(name in nameList){
+                map[name] = documentSnapshot.get(FieldPath.of(name,"itemTotal")) as Long
+            }
+        }
+        return map
+    }
+
 
 }

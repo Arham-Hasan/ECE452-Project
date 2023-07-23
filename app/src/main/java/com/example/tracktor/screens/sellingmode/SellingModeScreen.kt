@@ -1,10 +1,8 @@
 package com.example.tracktor.screens.sellingmode
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -16,11 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.SELLING_MODE_SCREEN
 import com.example.tracktor.TracktorActivity
-import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.MicButton
 import com.example.tracktor.common.composable.NavBarComposable
 import com.example.tracktor.common.composable.OptionsToolbar
-import com.example.tracktor.screens.pickingmode.PickingModeUiState
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
@@ -45,7 +41,7 @@ fun SellingModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Uni
 //        resets value of input so its not used again
         speechContext.speechInput.value = ""
     }
-    LaunchedEffect(viewModel) { viewModel.retrieveItems() }
+    LaunchedEffect(viewModel) { viewModel.retrieveItemsAndPrices() }
     DisposableEffect(viewModel) {
         onDispose {viewModel.saveTransactions()}
     }

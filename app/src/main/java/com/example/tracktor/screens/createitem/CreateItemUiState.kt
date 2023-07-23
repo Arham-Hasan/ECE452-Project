@@ -1,6 +1,9 @@
 package com.example.tracktor.screens.createitem
 
-data class CreateItemUiState (
+import android.net.Uri
+
+data class CreateItemUiState(
     val name: String = "",
     val price: String = "",
+    var itemImage: Uri = Uri.EMPTY
 )

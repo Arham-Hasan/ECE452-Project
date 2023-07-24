@@ -1,7 +1,9 @@
 package com.example.tracktor.common.composable
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
@@ -23,6 +25,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,28 +34,35 @@ import androidx.compose.ui.unit.sp
 fun BasicTextButton(text:String, modifier: Modifier, action: () -> Unit) {
     TextButton(
         onClick = action,
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(percent = 50))
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         colors =
         ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF2F6F3D),
             contentColor = MaterialTheme.colors.onPrimary
     )) { Text(text = text) }
 }
-
 @Composable
-fun BasicButton(text:String, modifier: Modifier, action: () -> Unit) {
+fun BasicButton(text: String, modifier: Modifier, action: () -> Unit) {
     Button(
         onClick = action,
-        modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors(
+        modifier = modifier
+            .clip(RoundedCornerShape(percent = 50))
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF2F6F3D),
             contentColor = MaterialTheme.colors.onPrimary
         )
     ) {
-        Text(text = text, fontSize = 16.sp)
+        Text(
+            text = text,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
     }
 }
+
 
 @Composable
 fun MicButton(text:String, modifier: Modifier, action: () -> Unit) {

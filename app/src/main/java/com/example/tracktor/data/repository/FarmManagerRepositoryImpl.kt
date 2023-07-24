@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
+import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.UserTransaction
 import java.util.UUID
 import javax.inject.Inject
@@ -107,6 +108,11 @@ class FarmManagerRepositoryImpl @Inject constructor(
         return inventoryRepository.getItemNameToPrice(inventoryId = currentFarm!!.inventoryId)
     }
 
+    override suspend fun getInventoryItemNamesToQuantity(): Map<String, Long> {
+        return inventoryRepository.getInventoryItemNamesToQuantity(inventoryId = currentFarm!!.inventoryId)
+    }
+
+
     override suspend fun addPickTransaction(itemName: String, userTransaction: UserTransaction) {
         if(inventoryRepository.itemExists(inventoryId = currentFarm!!.inventoryId, name = itemName)){
             if(!inventoryRepository.userStatExistsForItem(itemName = itemName, userId = authRepository.currentUserId,
@@ -119,7 +125,7 @@ class FarmManagerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addSellTransaction(itemName: String, userTransaction: UserTransaction) {
+    override suspend fun addSellTransaction(itemName: String, userTransaction: SellTransaction) {
         if(inventoryRepository.itemExists(inventoryId = currentFarm!!.inventoryId, name = itemName)){
             if(!inventoryRepository.userStatExistsForItem(itemName = itemName, userId = authRepository.currentUserId,
                     inventoryId = currentFarm!!.inventoryId)){

@@ -71,7 +71,7 @@ fun MicButton(text:String, modifier: Modifier, action: () -> Unit) {
         modifier = modifier,
         colors =
         ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
+            backgroundColor = Color(0xFF2F6F3D),
             contentColor = MaterialTheme.colors.onPrimary
         )
     ) {

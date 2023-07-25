@@ -56,7 +56,10 @@ fun MarketScreen(fridgeName: String,viewModel: MarketViewModel = hiltViewModel()
 @Composable
 fun Photos(posts: List<Pair<String, List<InstagramPost>>>){
     posts.forEach {post ->
-        InstagramPostDay(post.first,post.second)
+        Row{
+            InstagramPostDay(post.first,post.second)
+        }
+
     }
 
 }
@@ -169,10 +172,10 @@ fun MarketScreenContent(
             )
         }
         Divider()
-        Row {
 
-            Photos(uiState.posts)
-        }
+
+        Photos(uiState.posts)
+
     }
 
 }

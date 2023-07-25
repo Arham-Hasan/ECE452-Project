@@ -4,6 +4,7 @@ import android.net.Uri
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
 import com.example.tracktor.data.model.SellTransaction
+import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.UserTransaction
 
 interface FarmManagerRepository {
@@ -29,7 +30,7 @@ interface FarmManagerRepository {
     suspend fun getJoinRequests() : List<FarmUserRelation>?
     suspend fun getFarmUsers() : List<FarmUserRelation>?
     suspend fun toggleAdmin(userId: String) : Unit
-
     suspend fun changeFarmName(newName:String): Unit
+    suspend fun getInventory(): Inventory
 
 }

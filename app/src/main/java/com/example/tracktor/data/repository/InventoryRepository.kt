@@ -1,6 +1,7 @@
 package com.example.tracktor.data.repository
 
 import android.net.Uri
+import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
 import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.UserTransaction
@@ -19,4 +20,5 @@ interface InventoryRepository {
     suspend fun getItemNames(inventoryId: String) : List<String>?
     suspend fun getItemNameToPrice(inventoryId: String) : Map<String, Double>
     suspend fun getInventoryItemNamesToQuantity(inventoryId: String): Map<String, Long>
+    suspend fun getInventory(inventoryId: String): Inventory
 }

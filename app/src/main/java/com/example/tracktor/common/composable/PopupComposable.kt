@@ -27,10 +27,10 @@ fun ModifyItem(toggleAlert:()->Unit, onSave:(String, String) -> Unit, AlertVisib
 
             text = {
                 Column {
-                    NumberField(text = "1.23", value = price.value, onNewValue = {newValue -> price.value = newValue}, label = "Price", moneyField = true)
+                    MoneyNumberField(text = "1.23", value = price.value, onNewValue = { newValue -> price.value = newValue}, label = "Price")
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    NumberField(text = "123", value = quantity.value, onNewValue = {newValue -> quantity.value = newValue}, label = "Quantity")
+                    NumberField(text = "123", value = quantity.value, onNewValue = { newValue -> quantity.value = newValue}, label = "Quantity")
 
                 }
             },

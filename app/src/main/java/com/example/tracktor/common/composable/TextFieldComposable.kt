@@ -34,13 +34,12 @@ fun BasicTextField(
     )
 }
 @Composable
-fun NumberField(
+fun MoneyNumberField(
     text: String,
     value: String,
     onNewValue: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String = "",
-    moneyField: Boolean = false
 ) {
     OutlinedTextField(
         singleLine = true,
@@ -52,12 +51,32 @@ fun NumberField(
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal
         ),
-        leadingIcon = {if(moneyField) {
+        leadingIcon = {
             Text("$", style = MaterialTheme.typography.body1, color = Color.Gray)
-        } }
+        }
     )
 }
 
+@Composable
+fun NumberField(
+    text: String,
+    value: String,
+    onNewValue: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    label: String = "",
+) {
+    OutlinedTextField(
+        singleLine = true,
+        modifier = modifier,
+        value = value,
+        onValueChange = { onNewValue(it) },
+        label = { Text(text = label) },
+        placeholder = { Text(text) },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Decimal
+        ),
+    )
+}
 
 @Composable
 fun TextFieldWithIcons(

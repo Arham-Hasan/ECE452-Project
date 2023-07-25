@@ -14,8 +14,8 @@ class ImageStorageManagerImpl @Inject constructor(
         storageRef.putFile(imageUri).await()
     }
 
-    override suspend fun getImage(imageRef: String?): Any? {
-        val storageRef = storage.reference.child(imageRef!!)
+    override suspend fun getImage(imageRef: String): ByteArray {
+        val storageRef = storage.reference.child(imageRef)
         val ONE_MEGABYTE: Long = 1024 * 1024
         return storageRef.getBytes(ONE_MEGABYTE).await()
     }

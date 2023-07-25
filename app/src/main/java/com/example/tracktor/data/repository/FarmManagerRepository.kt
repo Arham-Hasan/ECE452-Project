@@ -21,7 +21,7 @@ interface FarmManagerRepository {
     suspend fun isAdmin():Boolean
     suspend fun addInventoryItem(itemName : String, itemPrice: Double, imageUri: Uri?): Unit
     suspend fun uploadInventoryItemImage(itemName : String, imageUri: Uri?): Unit
-    suspend fun getInventoryItemImage(itemName: String) : Any?
+    suspend fun getInventoryItemImage(itemName: String) : ByteArray
     suspend fun getInventoryItemNames(): List<String>?
     suspend fun getInventoryItemNamesToPrice(): Map<String,Double>
     suspend fun getInventoryItemNamesToQuantity(): Map<String,Long>

@@ -4,5 +4,5 @@ import com.example.tracktor.data.model.InventoryItem
 
 data class InventoryModeUiState (
     val dropDrownExtended: Boolean = false,
-    val items : List<String>? = listOf<String>(),
+    val items : List<InventoryItem> = listOf<InventoryItem>(),
 )

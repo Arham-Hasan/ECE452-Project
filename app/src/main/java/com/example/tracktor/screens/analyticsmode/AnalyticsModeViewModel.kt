@@ -152,8 +152,8 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
         launchCatching {
             val users = farmManagerRepository.getFarmUsers()
             if(!users.isNullOrEmpty()){
-                val userIdList = users.map { user -> user.userId }
-                uiState.value = uiState.value.copy(userList = userIdList)
+                val userNameList = users.map { user -> userManagerRepository.getUserName(user.userId) }
+                uiState.value = uiState.value.copy(userList = userNameList)
                 Log.i("Analytics","User on Farm: "+uiState.value.userList.toString())
             }
 

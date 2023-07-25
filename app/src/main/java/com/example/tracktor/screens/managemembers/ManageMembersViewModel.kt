@@ -43,25 +43,26 @@ class ManageMembersViewModel @Inject constructor(
     }
 
     fun pageStartup() {
-        getRequests()
-        getUsers()
-    }
-
-    private fun getRequests(){
         launchCatching {
             val requests = farmManagerRepository.getJoinRequests()
             if(!requests.isNullOrEmpty()){
+                requests.forEach{request ->
+                    val userName = userManagerRepository.getUserName(request.userId)
+                    uiState.value.userNameMap[request.userId] = userName
+                }
                 uiState.value = uiState.value.copy(farmRequests = requests.toMutableStateList())
             }
-        }
-    }
 
-    private fun getUsers(){
-        launchCatching {
             val users = farmManagerRepository.getFarmUsers()
             if(!users.isNullOrEmpty()){
+                users.forEach{user ->
+                    val userName = userManagerRepository.getUserName(user.userId)
+                    uiState.value.userNameMap[user.userId] = userName
+                }
                 uiState.value = uiState.value.copy(farmMembers = users.toMutableStateList())
             }
+
+
         }
     }
 

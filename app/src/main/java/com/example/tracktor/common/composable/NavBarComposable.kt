@@ -1,5 +1,6 @@
 package com.example.tracktor.common.composable
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -9,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tracktor.ANALYTICS_MODE_SCREEN
 import com.example.tracktor.FRIDGE_MODE_SCREEN
@@ -30,14 +32,19 @@ fun NavBarComposable(
         BottomNavItem.Notification,
         BottomNavItem.Jobs
     ) zip actions
-    BottomNavigation(contentColor = Color.Black) {
+
+    BottomNavigation(
+        backgroundColor = Color(0xFF2F6F3D),
+        contentColor = Color.White,
+        elevation = 8.dp
+    ) {
         items.forEach { item ->
             BottomNavigationItem(
                 icon = { Icon(painterResource(id = item.first.icon), contentDescription = item.first.title) },
                 label = { Text(text = item.first.title,
-                    fontSize = 9.sp) },
-                selectedContentColor = Color.Black,
-                unselectedContentColor = Color.Black.copy(0.4f),
+                    fontSize = if (currentScreen == item.first.screen_name) 10.sp else 9.sp,
+                    color = if (currentScreen == item.first.screen_name) Color.White else Color.White.copy(alpha = 0.7f)
+                ) },
                 alwaysShowLabel = true,
                 selected = currentScreen == item.first.screen_name,
                 onClick = item.second

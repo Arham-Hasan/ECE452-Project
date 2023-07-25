@@ -80,7 +80,7 @@ fun PickingModeScreenContent(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             {}
-                            androidx.compose.material3.Text(text = user.userId)
+                            androidx.compose.material3.Text(text = uiState.userNameMap[user.userId]!!)
                             AcceptButton(action = { acceptUser(user) })
                             RejectButton(action = { rejectUser(user) })
                         }
@@ -96,7 +96,7 @@ fun PickingModeScreenContent(
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            androidx.compose.material3.Text(text = user.userId) // this should use getUserName
+                            androidx.compose.material3.Text(text = uiState.userNameMap[user.userId]!!) // this should use getUserName
                             if(currentUserId != user.userId) {
                                 Checkbox(
                                     checked = checked.value,

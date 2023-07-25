@@ -1,5 +1,6 @@
 package com.example.tracktor.data.repository
 
+import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
 import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.UserInventoryStat
@@ -124,5 +125,12 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         return map
     }
 
+
+    override suspend fun getInventory(inventoryId: String): Inventory {
+        val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
+
+        val inventoryMap = documentSnapshot.data as Map<String, InventoryItem>
+        return Inventory(inventoryMap as MutableMap<String, InventoryItem>)
+    }
 
 }

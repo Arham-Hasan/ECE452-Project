@@ -2,6 +2,7 @@ package com.example.tracktor.data.repository
 
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
+import com.example.tracktor.data.model.Inventory
 
 interface FarmUserRepository {
     suspend fun createFarm(farm: Farm, userId: String) : Unit

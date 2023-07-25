@@ -37,12 +37,13 @@ fun BasicTextButton(text:String, modifier: Modifier, action: () -> Unit) {
         modifier = modifier
             .clip(RoundedCornerShape(percent = 50))
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        colors =
-        ButtonDefaults.buttonColors(
+        colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF2F6F3D),
-            contentColor = MaterialTheme.colors.onPrimary
-    )) { Text(text = text) }
+            contentColor = Color.White
+        )
+    ) { Text(text = text, color = Color.White) }
 }
+
 @Composable
 fun BasicButton(text: String, modifier: Modifier, action: () -> Unit) {
     Button(
@@ -52,39 +53,38 @@ fun BasicButton(text: String, modifier: Modifier, action: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 8.dp),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF2F6F3D),
-            contentColor = MaterialTheme.colors.onPrimary
+            contentColor = Color.White // Changed here
         )
     ) {
         Text(
             text = text,
             fontSize = 16.sp,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = Modifier.padding(horizontal = 8.dp),
+            color = Color.White // Changed here
         )
     }
 }
-
 
 @Composable
 fun MicButton(text:String, modifier: Modifier, action: () -> Unit) {
     Button(
         onClick = action,
         modifier = modifier,
-        colors =
-        ButtonDefaults.buttonColors(
+        colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF2F6F3D),
-            contentColor = MaterialTheme.colors.onPrimary
+            contentColor = Color.White
         )
     ) {
-        Text(text = text, fontSize = 16.sp)
+        Text(text = text, fontSize = 16.sp, color = Color.White)
     }
 }
 @Composable
 fun CreateFarmButton(action: () -> Unit, modifier: Modifier= Modifier){
     ExtendedFloatingActionButton(
         onClick = action,
-        text = {Text("Create a Farm")},
+        text = {Text("Create a Farm", color = Color.White)},
         modifier = modifier.padding(8.dp),
-        backgroundColor = getToolbarColor()
+        backgroundColor = Color(0xFF2F6F3D)
     )
 }
 
@@ -92,9 +92,9 @@ fun CreateFarmButton(action: () -> Unit, modifier: Modifier= Modifier){
 fun JoinFarmButton(action: () -> Unit, modifier: Modifier= Modifier){
     ExtendedFloatingActionButton(
         onClick = action,
-        text = {Text("Join a Farm")},
+        text = {Text("Join a Farm", color = Color.White)},
         modifier = modifier.padding(8.dp),
-        backgroundColor = getToolbarColor()
+        backgroundColor = Color(0xFF2F6F3D)
     )
 }
 
@@ -103,7 +103,7 @@ fun ExpandableButton(action: () -> Unit, modifier: Modifier= Modifier, expanded:
     FloatingActionButton(
         onClick = action,
         modifier = modifier.padding(8.dp).size(48.dp),
-        containerColor = getToolbarColor(),
+        containerColor = Color(0xFF2F6F3D),
     ){
         Icon(imageVector = if (expanded) Icons.Rounded.Close else Icons.Rounded.Add,
             contentDescription = if (expanded) "Collapse" else "Expand",
@@ -113,20 +113,22 @@ fun ExpandableButton(action: () -> Unit, modifier: Modifier= Modifier, expanded:
     }
 }
 
-
 @Composable
 fun CreateItemButton(action: () -> Unit, modifier: Modifier= Modifier){
     ExtendedFloatingActionButton(
         onClick = action,
-        text = {Text("Create an Item")},
+        text = {Text("Create an Item", color = Color.White)},
         modifier = modifier,
         icon = {Icon(
             imageVector = Icons.Rounded.Add,
             contentDescription = "Create Item",
             tint = Color.White,
             modifier = modifier
-        )})
+        )},
+        backgroundColor = Color(0xFF2F6F3D)
+    )
 }
+
 @Composable
 fun AcceptButton(action: () -> Unit){
     IconButton(onClick = action) {

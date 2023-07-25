@@ -14,7 +14,8 @@ import androidx.compose.ui.unit.dp
 fun BasicDropdown(
     options: List<String>,
     action: (String) -> Unit,
-    label: String
+    label: String,
+    modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf("Please Select") }
@@ -24,7 +25,7 @@ fun BasicDropdown(
         onExpandedChange = {
             expanded = !expanded
         },
-        Modifier.padding(8.dp)
+        Modifier.padding(8.dp).then(modifier) // add modifier
     ) {
         OutlinedTextField(
             readOnly = true,

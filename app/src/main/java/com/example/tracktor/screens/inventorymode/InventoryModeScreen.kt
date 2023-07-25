@@ -4,22 +4,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.INVENTORY_MODE_SCREEN
 import com.example.tracktor.common.composable.CreateItemButton
+import com.example.tracktor.common.composable.ModifyItem
 import com.example.tracktor.common.composable.NavBarComposable
 import com.example.tracktor.common.composable.OptionsToolbar
-import com.example.tracktor.data.model.InventoryItem
-import kotlinx.coroutines.runBlocking
-import kotlin.reflect.KFunction2
+import com.example.tracktor.common.composable.ProductCard
 
 @Composable
 fun InventoryModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit,viewModel: InventoryModeViewModel = hiltViewModel()) {
@@ -32,8 +31,7 @@ fun InventoryModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->U
         {viewModel.toggleDropDown()},
         viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate),
         { viewModel.addItemToInventory(openScreen) },
-        viewModel::onSelectItemClick,
-        openScreen
+        viewModel::onItemSave,
     )
     LaunchedEffect(viewModel) { viewModel.retrieveItems() }
 }
@@ -47,8 +45,7 @@ fun InventoryModeScreenContent(
     toggleDropDown: ()->Unit,
     dropDownOptions: List<Pair<String,()->Unit>>,
     addItemToInventory: () ->Unit,
-    onSelectItemClick: KFunction2<(String) -> Unit, String, Unit>,
-    openScreen: (String) -> Unit,
+    onItemSave: (String, String, String) -> Unit
     )
 {
 
@@ -62,19 +59,37 @@ fun InventoryModeScreenContent(
             toggleDropDown = toggleDropDown,
             dropDownOptions = dropDownOptions
         )
-        if(uiState.items!!.isEmpty()){
-            androidx.compose.material3.Text(text = "Please Create an Item")
-        }
-        else {
-            androidx.compose.material3.Text(text = "Select Item")
-            uiState.items?.forEach { item ->
-                Button(onClick ={onSelectItemClick(openScreen, item)}
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-                ) {
-                    androidx.compose.material3.Text(text = item!!)
+            if(uiState.items.isEmpty()){
+                androidx.compose.material3.Text(text = "Please Create an Item")
+            }
+            else {
+                androidx.compose.material3.Text(text = "Select Item")
+                uiState.items.forEach { item ->
+                    val editPopup = remember { mutableStateOf(false)}
+                    ProductCard(
+                        action = {
+                            editPopup.value = !editPopup.value
+                        },
+                        imageBitmap = item.imageBitmap!!,
+                        name = item.name,
+                        price = item.itemPrice,
+                        quantity = item.itemTotal
+                    )
+                    ModifyItem(
+                        toggleAlert = {editPopup.value = !editPopup.value},
+                        AlertVisible = editPopup.value,
+                        item = item,
+                        onSave = {price, quantity ->
+                            onItemSave(price, quantity, item.name)
+                         },
+                    )
                 }
             }
+
         }
+
         Column(modifier = Modifier.padding(30.dp),verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End){
             CreateItemButton(action = addItemToInventory)
         }

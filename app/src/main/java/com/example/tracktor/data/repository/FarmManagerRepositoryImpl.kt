@@ -88,7 +88,7 @@ class FarmManagerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getInventoryItemImage(itemName: String): Any? {
+    override suspend fun getInventoryItemImage(itemName: String): ByteArray {
         val inventoryId = currentFarm!!.inventoryId
         val imageRef = "inventoryImages/$inventoryId/$itemName"
         return imageStorageManager.getImage(imageRef = imageRef)

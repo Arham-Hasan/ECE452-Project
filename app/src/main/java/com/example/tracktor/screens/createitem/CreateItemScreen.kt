@@ -23,11 +23,6 @@ fun CreateItemScreen(openAndPopUp: (String, String) -> Unit, viewModel: CreateIt
 
     val uiState by viewModel.uiState
 
-    val pickImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        // Handle the selected image URI here (e.g., display the image or upload it)
-        // uri is the selected image URI
-    }
-
     CreateItemScreenContent(
         uiState,
         viewModel::onNameChange,
@@ -54,11 +49,9 @@ fun CreateItemScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         androidx.compose.material3.Text(text = "Item Name")
-        BasicTextField(text = "Apple", value = uiState.name, onNewValue = onNameChange, label = "Item Name"
-        )
+        BasicTextField(text = "Apple", value = uiState.name, onNewValue = onNameChange, label = "Item Name")
         androidx.compose.material3.Text(text = "Item Price")
-        MoneyNumberField(text = "1.23", value = uiState.price, onNewValue = onPriceChange, label = "Item Price"
-        )
+        MoneyNumberField(text = "1.23", value = uiState.price, onNewValue = onPriceChange, label = "Item Price")
         val pickImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             if (uri != null) {
                 handleImage(uri)

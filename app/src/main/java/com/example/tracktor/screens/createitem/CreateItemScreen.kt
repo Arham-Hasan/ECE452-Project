@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.common.composable.BasicButton
-import com.example.tracktor.common.composable.MoneyNumberField
 import com.example.tracktor.common.composable.BasicTextField
 import com.example.tracktor.common.composable.BasicToolbar
+import com.example.tracktor.common.composable.MoneyNumberField
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable

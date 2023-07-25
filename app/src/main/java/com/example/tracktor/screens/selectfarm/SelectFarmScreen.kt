@@ -10,7 +10,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,9 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.common.composable.CreateFarmButton
+import com.example.tracktor.common.composable.ExpandableButton
 import com.example.tracktor.common.composable.JoinFarmButton
 import com.example.tracktor.common.composable.OptionsToolbar
-import com.example.tracktor.common.composable.ExpandableButton
 import com.example.tracktor.data.model.Farm
 import kotlin.reflect.KFunction2
 

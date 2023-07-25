@@ -1,12 +1,9 @@
 package com.example.tracktor.data.repository
 
-import android.net.Uri
 import com.example.tracktor.data.model.Inventory
-import com.example.tracktor.data.model.InventoryItem
 import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.UserTransaction
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Transaction
 
 interface InventoryRepository {
     suspend fun createInventory(id: String) : Unit

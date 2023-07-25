@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
-import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable

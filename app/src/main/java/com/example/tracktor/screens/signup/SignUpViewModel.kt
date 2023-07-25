@@ -2,13 +2,11 @@ package com.example.tracktor.screens.signup
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.SELECT_FARM_SCREEN
-import com.example.tracktor.SIGN_UP_SCREEN
 import com.example.tracktor.common.functions.isValidEmail
 import com.example.tracktor.common.functions.isValidPassword
 import com.example.tracktor.common.functions.passwordsMatch
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

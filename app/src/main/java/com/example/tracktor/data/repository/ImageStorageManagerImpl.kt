@@ -2,7 +2,6 @@ package com.example.tracktor.data.repository
 
 import android.net.Uri
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 

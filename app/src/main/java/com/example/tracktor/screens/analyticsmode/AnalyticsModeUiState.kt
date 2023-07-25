@@ -1,7 +1,5 @@
 package com.example.tracktor.screens.analyticsmode
 
-import com.example.tracktor.data.model.Inventory
-
 data class AnalyticsModeUiState (
     val dropDrownExtended: Boolean = false,
     val userList: List<String> = listOf<String>("Select User"),

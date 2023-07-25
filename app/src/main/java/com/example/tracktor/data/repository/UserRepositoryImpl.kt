@@ -1,7 +1,5 @@
 package com.example.tracktor.data.repository
 
-import com.example.tracktor.data.model.Farm
-import com.example.tracktor.data.model.User
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

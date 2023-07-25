@@ -18,7 +18,6 @@ import com.example.tracktor.common.composable.AlertDialogConfirm
 import com.example.tracktor.common.composable.AlertTextConfirm
 import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.SettingOption
-import com.example.tracktor.screens.login.LoginViewModel
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable

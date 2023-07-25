@@ -3,19 +3,14 @@ package com.example.tracktor.screens.pickingmode
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.model.UserTransaction
-import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
-import java.time.LocalDate
-import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 

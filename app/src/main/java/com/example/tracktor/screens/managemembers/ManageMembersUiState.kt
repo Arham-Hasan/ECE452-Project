@@ -1,7 +1,6 @@
 package com.example.tracktor.screens.managemembers
 
 import com.example.tracktor.data.model.FarmUserRelation
-import com.example.tracktor.data.model.User
 
 data class ManageMembersUiState (
     val dropDrownExtended: Boolean = false,

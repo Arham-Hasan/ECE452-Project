@@ -3,8 +3,8 @@ package com.example.tracktor.data.repository
 import android.net.Uri
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
-import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.Inventory
+import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.UserTransaction
 
 interface FarmManagerRepository {

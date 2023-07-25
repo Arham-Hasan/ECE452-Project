@@ -1,7 +1,6 @@
 package com.example.tracktor.data.repository
 
 import com.example.tracktor.data.model.User
-import kotlinx.coroutines.flow.Flow
 
 interface UserManagerRepository {
     val loggedIn: Boolean

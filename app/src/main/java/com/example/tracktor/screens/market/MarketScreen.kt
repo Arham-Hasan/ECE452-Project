@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.common.Fridges.Fridge
@@ -33,7 +32,6 @@ import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.HashtagAlertDialog
 import com.example.tracktor.common.composable.InstagramPostDay
 import com.example.tracktor.data.model.InstagramPost
-import com.example.tracktor.ui.theme.TracktorTheme
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker

@@ -12,7 +12,6 @@ import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.SELLING_MODE_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope

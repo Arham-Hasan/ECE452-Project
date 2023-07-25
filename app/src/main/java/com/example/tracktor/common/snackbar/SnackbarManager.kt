@@ -1,6 +1,5 @@
 package com.example.tracktor.common.snackbar
 
-import androidx.annotation.StringRes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

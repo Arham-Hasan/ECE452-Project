@@ -1,12 +1,8 @@
 package com.example.tracktor.data.repository
 
-import android.util.Log
 import com.example.tracktor.data.model.Farm
-import com.example.tracktor.data.model.FarmUserRelation
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
-import java.util.UUID
 import javax.inject.Inject
 
 class FarmRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): FarmRepository {

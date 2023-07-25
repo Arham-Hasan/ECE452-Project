@@ -5,7 +5,6 @@ import com.example.tracktor.MANAGE_MEMBERS_SCREEN
 import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
-import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel

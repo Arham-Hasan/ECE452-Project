@@ -1,6 +1,5 @@
 package com.example.tracktor.data.repository
 
-import android.util.Log
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
 import com.google.firebase.firestore.FirebaseFirestore

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,8 +16,6 @@ import com.example.tracktor.INVENTORY_MODE_SCREEN
 import com.example.tracktor.common.composable.CreateItemButton
 import com.example.tracktor.common.composable.NavBarComposable
 import com.example.tracktor.common.composable.OptionsToolbar
-import com.example.tracktor.data.model.InventoryItem
-import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KFunction2
 
 @Composable

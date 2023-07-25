@@ -2,7 +2,6 @@ package com.example.tracktor.screens.selectmode
 
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.PICKING_MODE_SCREEN
-import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

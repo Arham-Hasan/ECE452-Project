@@ -17,15 +17,19 @@ import com.example.tracktor.common.composable.PasswordField
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun LoginScreen(openAndPopUp: (String, String) -> Unit, openScreen: (String) -> Unit, viewModel: LoginViewModel = hiltViewModel()) {
+fun LoginScreen(
+    openAndPopUp: (String, String) -> Unit,
+    openScreen: (String) -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState
 
     LoginScreenContent(
         uiState,
         viewModel::onEmailChange,
         viewModel::onPasswordChange,
-        {viewModel.onSignInClick(openAndPopUp)},
-        {viewModel.onSignUpClick(openScreen)},
+        { viewModel.onSignInClick(openAndPopUp) },
+        { viewModel.onSignUpClick(openScreen) },
         {}
     )
 
@@ -34,11 +38,11 @@ fun LoginScreen(openAndPopUp: (String, String) -> Unit, openScreen: (String) -> 
 @Composable
 fun LoginScreenContent(
     uiState: LoginUiState,
-    onEmailChange : (String)->Unit,
-    onPasswordChange: (String)->Unit,
-    onSignInClick: ()->Unit,
-    onCreateAccountClick: ()-> Unit,
-    onForgotPasswordClick: ()->Unit
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSignInClick: () -> Unit,
+    onCreateAccountClick: () -> Unit,
+    onForgotPasswordClick: () -> Unit
 ) {
     BasicToolbar("Please enter your login details")
 
@@ -56,15 +60,15 @@ fun LoginScreenContent(
 
 @Preview
 @Composable
-fun LoginScreenContentPreview(){
-    TracktorTheme() {
+fun LoginScreenContentPreview() {
+    TracktorTheme {
         LoginScreenContent(
             uiState = LoginUiState(),
             onEmailChange = {},
             onPasswordChange = {},
             onSignInClick = {},
             onCreateAccountClick = {},
-            onForgotPasswordClick= {}
+            onForgotPasswordClick = {}
         )
     }
 

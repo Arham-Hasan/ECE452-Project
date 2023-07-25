@@ -32,20 +32,20 @@ fun SplashScreen(
 }
 
 @Composable
-fun SplashScreenContent(modifier: Modifier = Modifier){
+fun SplashScreenContent(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         CircularProgressIndicator()
     }
 }
 
 @Preview
 @Composable
-fun SplashScreenContentPreview(){
-    TracktorTheme() {
+fun SplashScreenContentPreview() {
+    TracktorTheme {
         SplashScreenContent()
     }
 

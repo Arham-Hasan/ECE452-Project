@@ -1,6 +1,6 @@
 package com.example.tracktor.screens.inventorymode
 
-data class InventoryModeUiState (
+data class InventoryModeUiState(
     val dropDrownExtended: Boolean = false,
-    val items : List<String>? = listOf<String>(),
+    val items: List<String>? = listOf<String>(),
 )

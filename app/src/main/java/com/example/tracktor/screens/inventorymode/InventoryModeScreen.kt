@@ -19,15 +19,19 @@ import com.example.tracktor.common.composable.OptionsToolbar
 import kotlin.reflect.KFunction2
 
 @Composable
-fun InventoryModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit,viewModel: InventoryModeViewModel = hiltViewModel()) {
+fun InventoryModeScreen(
+    openScreen: (String) -> Unit,
+    clearAndNavigate: (String) -> Unit,
+    viewModel: InventoryModeViewModel = hiltViewModel()
+) {
 
     val uiState by viewModel.uiState
 
     InventoryModeScreenContent(
         viewModel.bottomNavBarActions(openScreen),
         uiState,
-        {viewModel.toggleDropDown()},
-        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate),
+        { viewModel.toggleDropDown() },
+        viewModel.dropDownActionsAfterFarmSelected(openScreen, clearAndNavigate),
         { viewModel.addItemToInventory(openScreen) },
         viewModel::onSelectItemClick,
         openScreen
@@ -36,18 +40,16 @@ fun InventoryModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->U
 }
 
 
-
 @Composable
 fun InventoryModeScreenContent(
     bottomNavBarActions: List<() -> Unit>,
     uiState: InventoryModeUiState,
-    toggleDropDown: ()->Unit,
-    dropDownOptions: List<Pair<String,()->Unit>>,
-    addItemToInventory: () ->Unit,
+    toggleDropDown: () -> Unit,
+    dropDownOptions: List<Pair<String, () -> Unit>>,
+    addItemToInventory: () -> Unit,
     onSelectItemClick: KFunction2<(String) -> Unit, String, Unit>,
     openScreen: (String) -> Unit,
-    )
-{
+) {
 
     Column(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
@@ -59,20 +61,23 @@ fun InventoryModeScreenContent(
             toggleDropDown = toggleDropDown,
             dropDownOptions = dropDownOptions
         )
-        if(uiState.items!!.isEmpty()){
+        if (uiState.items!!.isEmpty()) {
             androidx.compose.material3.Text(text = "Please Create an Item")
-        }
-        else {
+        } else {
             androidx.compose.material3.Text(text = "Select Item")
-            uiState.items?.forEach { item ->
-                Button(onClick ={onSelectItemClick(openScreen, item)}
+            uiState.items.forEach { item ->
+                Button(onClick = { onSelectItemClick(openScreen, item) }
 
                 ) {
-                    androidx.compose.material3.Text(text = item!!)
+                    androidx.compose.material3.Text(text = item)
                 }
             }
         }
-        Column(modifier = Modifier.padding(30.dp),verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End){
+        Column(
+            modifier = Modifier.padding(30.dp),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.End
+        ) {
             CreateItemButton(action = addItemToInventory)
         }
         NavBarComposable(INVENTORY_MODE_SCREEN, bottomNavBarActions)

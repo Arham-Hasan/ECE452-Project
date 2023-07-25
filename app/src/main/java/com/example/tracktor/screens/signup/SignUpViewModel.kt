@@ -13,7 +13,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository ) {
+class SignUpViewModel @Inject constructor(userManagerRepository: UserManagerRepository) :
+    TracktorViewModel(userManagerRepository) {
     var uiState = mutableStateOf(SignUpUiState())
         private set
 
@@ -72,7 +73,7 @@ class SignUpViewModel @Inject constructor(userManagerRepository: UserManagerRepo
         }
     }
 
-    fun onLoginClick(PopUp : ()->Unit){
+    fun onLoginClick(PopUp: () -> Unit) {
         PopUp()
     }
 

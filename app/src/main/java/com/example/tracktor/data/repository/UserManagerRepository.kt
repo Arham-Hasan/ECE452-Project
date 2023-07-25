@@ -13,7 +13,7 @@ interface UserManagerRepository {
 
     suspend fun getCurrentUser(): User
 
-    suspend fun signUp(name:String, email: String, password: String):Unit
+    suspend fun signUp(name: String, email: String, password: String): Unit
 
     suspend fun getUserName(userId: String): String
 

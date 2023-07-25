@@ -12,8 +12,10 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class InventoryModeViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
-                                                 userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository) {
+class InventoryModeViewModel @Inject constructor(
+    private val farmManagerRepository: FarmManagerRepository,
+    userManagerRepository: UserManagerRepository
+) : TracktorViewModel(userManagerRepository) {
 
     var uiState = mutableStateOf(InventoryModeUiState())
         private set
@@ -21,11 +23,11 @@ class InventoryModeViewModel @Inject constructor(private val farmManagerReposito
     private val dropDrownExtended
         get() = uiState.value.dropDrownExtended
 
-    fun toggleDropDown(){
+    fun toggleDropDown() {
         uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 
-    fun addItemToInventory(openScreen: (String) -> Unit){
+    fun addItemToInventory(openScreen: (String) -> Unit) {
         openScreen(CREATE_ITEM_SCREEN)
     }
 
@@ -35,9 +37,10 @@ class InventoryModeViewModel @Inject constructor(private val farmManagerReposito
 
     }
 
-    fun retrieveItems(){
+    fun retrieveItems() {
         launchCatching {
-            uiState.value = uiState.value.copy(items = farmManagerRepository.getInventoryItemNames())
+            uiState.value =
+                uiState.value.copy(items = farmManagerRepository.getInventoryItemNames())
         }
 
     }

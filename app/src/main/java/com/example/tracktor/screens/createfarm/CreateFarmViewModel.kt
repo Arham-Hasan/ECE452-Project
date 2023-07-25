@@ -13,26 +13,27 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateFarmViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
-                                              userManagerRepository: UserManagerRepository
-) : TracktorViewModel(userManagerRepository)  {
+class CreateFarmViewModel @Inject constructor(
+    private val farmManagerRepository: FarmManagerRepository,
+    userManagerRepository: UserManagerRepository
+) : TracktorViewModel(userManagerRepository) {
     var uiState = mutableStateOf(CreateFarmUiState())
         private set
 
     private val name
         get() = uiState.value.name
 
-    fun onNameChange(newValue:String){
+    fun onNameChange(newValue: String) {
         uiState.value = uiState.value.copy(name = newValue)
     }
 
     fun onCreateFarmClick(openAndPopUp: (String, String) -> Unit) {
 
-        if(name.isBlank()){
+        if (name.isBlank()) {
             SnackbarManager.showMessage("Please create a farm name".toSnackbarMessage())
             return
         }
-        launchCatching{
+        launchCatching {
             SnackbarManager.showMessage("Creating Farm".toSnackbarMessage())
             delay(500)
             farmManagerRepository.createFarm(name = uiState.value.name)

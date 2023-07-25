@@ -18,7 +18,7 @@ import javax.inject.Inject
 class PickingModeViewModel @Inject constructor(
     private val farmManagerRepository: FarmManagerRepository,
     userManagerRepository: UserManagerRepository
-) : TracktorViewModel(userManagerRepository)  {
+) : TracktorViewModel(userManagerRepository) {
 
     var uiState = mutableStateOf(PickingModeUiState())
         private set
@@ -26,7 +26,7 @@ class PickingModeViewModel @Inject constructor(
     private val dropDrownExtended
         get() = uiState.value.dropDrownExtended
 
-    fun toggleDropDown(){
+    fun toggleDropDown() {
         uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 
@@ -35,23 +35,23 @@ class PickingModeViewModel @Inject constructor(
         "five" to 5, "six" to 6, "seven" to 7, "eight" to 8, "nine" to 9
     )
 
-    fun retrieveItems(){
+    fun retrieveItems() {
         launchCatching {
             val itemSet = farmManagerRepository.getInventoryItemNames()?.toSet()
-            if(itemSet == null) uiState.value = uiState.value.copy( validItems = setOf())
-            else uiState.value = uiState.value.copy( validItems = itemSet)
-            Log.i("Picking","Valid items: "+uiState.value.validItems.toString())
+            if (itemSet == null) uiState.value = uiState.value.copy(validItems = setOf())
+            else uiState.value = uiState.value.copy(validItems = itemSet)
+            Log.i("Picking", "Valid items: " + uiState.value.validItems.toString())
         }
     }
 
-    fun parseInput(speechInput: String){
+    fun parseInput(speechInput: String) {
 
-        if (speechInput.isEmpty()){
+        if (speechInput.isEmpty()) {
             return
         }
 
         val speechLower = speechInput.lowercase()
-        if (!verifyInput(speechLower)){
+        if (!verifyInput(speechLower)) {
 //            Not valid input return
             SnackbarManager.showMessage("Not a valid input, ignoring".toSnackbarMessage())
             return
@@ -63,7 +63,8 @@ class PickingModeViewModel @Inject constructor(
         val item = inputArray.last()
         val quantity = convertNumberToInt(inputArray.first())
 
-        (uiState.value.transactions)[item] = (uiState.value.transactions).getOrDefault(item, 0) + quantity!!
+        (uiState.value.transactions)[item] =
+            (uiState.value.transactions).getOrDefault(item, 0) + quantity!!
         SnackbarManager.showMessage("Picked ${(uiState.value.transactions)[item]} $item".toSnackbarMessage())
     }
 
@@ -77,11 +78,11 @@ class PickingModeViewModel @Inject constructor(
 
         val fruit = inputArray.last()
         val number = inputArray.first()
-        if (fruit !in uiState.value.validItems){
+        if (fruit !in uiState.value.validItems) {
             return false
         }
 
-        if (!number.isDigitsOnly() && number !in numberMap){
+        if (!number.isDigitsOnly() && number !in numberMap) {
             return false
         }
         return true
@@ -90,7 +91,7 @@ class PickingModeViewModel @Inject constructor(
 
     private fun convertNumberToInt(number: String): Int? {
 
-        if (number in numberMap){
+        if (number in numberMap) {
             return numberMap[number]
         }
 
@@ -98,15 +99,18 @@ class PickingModeViewModel @Inject constructor(
     }
 
     fun saveTransactions() {
-        if(uiState.value.transactions.isEmpty()){
+        if (uiState.value.transactions.isEmpty()) {
             return
         }
-        runBlocking{
-            Log.i("Picking","Recording items: "+uiState.value.transactions.toString())
+        runBlocking {
+            Log.i("Picking", "Recording items: " + uiState.value.transactions.toString())
             for (transaction in uiState.value.transactions) {
-                Log.i("Picking","Recording ${transaction.key}, quantity: ${transaction.value}")
+                Log.i("Picking", "Recording ${transaction.key}, quantity: ${transaction.value}")
                 val pickTransaction = UserTransaction(date = Date(), amount = transaction.value)
-                farmManagerRepository.addPickTransaction(itemName = transaction.key, userTransaction = pickTransaction)
+                farmManagerRepository.addPickTransaction(
+                    itemName = transaction.key,
+                    userTransaction = pickTransaction
+                )
             }
         }
     }

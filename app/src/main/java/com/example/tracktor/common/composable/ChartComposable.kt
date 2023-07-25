@@ -37,11 +37,13 @@ import java.time.format.DateTimeFormatter
 fun ChartComposable(dataMap: Map<String, Long>) {
 
     val xValuesToDates = dataMap.keys.associateBy { LocalDate.parse(it).toEpochDay().toFloat() }
-    val chartEntryModel = xValuesToDates.keys.zip(dataMap.values) { x, y -> entryOf(x, y) }.let { entryModelOf(it) }
-    val horizontalAxisValueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, _ ->
-        val date = LocalDate.ofEpochDay(value.toLong())
-        date.format(DateTimeFormatter.ofPattern("dd MMM"))
-    }
+    val chartEntryModel =
+        xValuesToDates.keys.zip(dataMap.values) { x, y -> entryOf(x, y) }.let { entryModelOf(it) }
+    val horizontalAxisValueFormatter =
+        AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, _ ->
+            val date = LocalDate.ofEpochDay(value.toLong())
+            date.format(DateTimeFormatter.ofPattern("dd MMM"))
+        }
 
     val chartEntryModelProducer = chartEntryModel + chartEntryModel
 
@@ -55,7 +57,8 @@ fun ChartComposable(dataMap: Map<String, Long>) {
                 defaultLine.copy(
                     lineBackgroundShader = null,
                     pointConnector = pointConnector,
-                    lineColor = Color.Green.hashCode())
+                    lineColor = Color.Green.hashCode()
+                )
             }
         },
     )
@@ -97,6 +100,7 @@ fun ChartComposable(dataMap: Map<String, Long>) {
                 margins = dimensionsOf(top = 4.dp),
                 typeface = Typeface.MONOSPACE,
             ),
-            title = "Date"),
+            title = "Date"
+        ),
     )
 }

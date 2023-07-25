@@ -10,10 +10,11 @@ import java.util.TimeZone
 import javax.inject.Inject
 
 
-class InstagramPostRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): InstagramPostRepository{
-    override suspend fun getInstagramPosts(fridge: Fridge):List<Pair<String, List<InstagramPost>>>{
+class InstagramPostRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore) :
+    InstagramPostRepository {
+    override suspend fun getInstagramPosts(fridge: Fridge): List<Pair<String, List<InstagramPost>>> {
         val doc = firestore.collection("instagram").document(fridge.db_doc_id).get().await()
-        val dataMapList = doc.get("posts") as? List<Map<String,String>>
+        val dataMapList = doc.get("posts") as? List<Map<String, String>>
         val posts = dataMapList!!.map { dataMap ->
             InstagramPost(
                 image_url = dataMap["image_url"] as String,
@@ -25,7 +26,7 @@ class InstagramPostRepositoryImpl @Inject constructor(private val firestore: Fir
 
     }
 
-    private fun sortPosts(posts: List<InstagramPost>):Map<String, List<InstagramPost>>{
+    private fun sortPosts(posts: List<InstagramPost>): Map<String, List<InstagramPost>> {
 
         val estTimeZone = TimeZone.getTimeZone("America/New_York")
         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())

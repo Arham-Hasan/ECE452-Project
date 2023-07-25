@@ -16,9 +16,10 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class SellingModeViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository
-                                               ,userManagerRepository: UserManagerRepository)
-                                                : TracktorViewModel(userManagerRepository ) {
+class SellingModeViewModel @Inject constructor(
+    private val farmManagerRepository: FarmManagerRepository,
+    userManagerRepository: UserManagerRepository
+) : TracktorViewModel(userManagerRepository) {
 
     var uiState = mutableStateOf(SellingModeUiState())
         private set
@@ -32,7 +33,7 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
     private val itemQuantityMap
         get() = uiState.value.itemToQuantityMap
 
-    fun toggleDropDown(){
+    fun toggleDropDown() {
         uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 
@@ -41,31 +42,32 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
         "five" to 5, "six" to 6, "seven" to 7, "eight" to 8, "nine" to 9
     )
 
-    fun retrieveItemsAndPrices(){
+    fun retrieveItemsAndPrices() {
         launchCatching {
             val itemSet = farmManagerRepository.getInventoryItemNames()?.toSet()
-            if(itemSet == null) uiState.value = uiState.value.copy( validItems = setOf())
-            else uiState.value = uiState.value.copy( validItems = itemSet)
-            Log.i("Selling","Valid items: "+uiState.value.validItems.toString())
+            if (itemSet == null) uiState.value = uiState.value.copy(validItems = setOf())
+            else uiState.value = uiState.value.copy(validItems = itemSet)
+            Log.i("Selling", "Valid items: " + uiState.value.validItems.toString())
 
             val priceMap = farmManagerRepository.getInventoryItemNamesToPrice()
-            uiState.value= uiState.value.copy(itemToPriceMap = priceMap)
-            Log.i("Selling","Price Mapping: "+uiState.value.itemToPriceMap.toString())
+            uiState.value = uiState.value.copy(itemToPriceMap = priceMap)
+            Log.i("Selling", "Price Mapping: " + uiState.value.itemToPriceMap.toString())
 
             val quantityMap = farmManagerRepository.getInventoryItemNamesToQuantity()
-            uiState.value= uiState.value.copy(itemToQuantityMap = quantityMap as MutableMap<String, Long>)
-            Log.i("Selling","Quantity Mapping: "+uiState.value.itemToQuantityMap.toString())
+            uiState.value =
+                uiState.value.copy(itemToQuantityMap = quantityMap as MutableMap<String, Long>)
+            Log.i("Selling", "Quantity Mapping: " + uiState.value.itemToQuantityMap.toString())
 
         }
     }
 
-    fun parseInput(speechInput: String){
+    fun parseInput(speechInput: String) {
 
-        if (speechInput.isEmpty()){
+        if (speechInput.isEmpty()) {
             return
         }
         val speechLower = speechInput.lowercase()
-        if (!verifyInput(speechLower)){
+        if (!verifyInput(speechLower)) {
 //            Not valid input return
             SnackbarManager.showMessage("Not a valid input, ignoring".toSnackbarMessage())
             return
@@ -77,14 +79,15 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
         val item = inputArray.last()
         val quantity = convertNumberToInt(inputArray.first())
 
-        if(quantity!!.toInt() > itemQuantityMap[item]!!){
+        if (quantity!!.toInt() > itemQuantityMap[item]!!) {
             SnackbarManager.showMessage("Not enough ${item}(s) in inventory to sell".toSnackbarMessage())
             return
         }
 
         itemQuantityMap[item] = itemQuantityMap[item]!! - quantity.toInt()
 
-        (uiState.value.transactions)[item] = (uiState.value.transactions).getOrDefault(item, 0) + quantity
+        (uiState.value.transactions)[item] =
+            (uiState.value.transactions).getOrDefault(item, 0) + quantity
 
         SnackbarManager.showMessage("Sold $quantity $item".toSnackbarMessage())
     }
@@ -99,11 +102,11 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
 
         val fruit = inputArray.last()
         val number = inputArray.first()
-        if (fruit !in uiState.value.validItems){
+        if (fruit !in uiState.value.validItems) {
             return false
         }
 
-        if (!number.isDigitsOnly() && number !in numberMap){
+        if (!number.isDigitsOnly() && number !in numberMap) {
             return false
         }
         return true
@@ -112,7 +115,7 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
 
     private fun convertNumberToInt(number: String): Int? {
 
-        if (number in numberMap){
+        if (number in numberMap) {
             return numberMap[number]
         }
 
@@ -120,17 +123,20 @@ class SellingModeViewModel @Inject constructor(private val farmManagerRepository
     }
 
     fun saveTransactions() {
-        if(uiState.value.transactions.isEmpty()){
+        if (uiState.value.transactions.isEmpty()) {
             return
         }
-        runBlocking{
-            Log.i("Selling","Recording items: "+uiState.value.transactions.toString())
+        runBlocking {
+            Log.i("Selling", "Recording items: " + uiState.value.transactions.toString())
             for (transaction in uiState.value.transactions) {
-                Log.i("Selling","Recording ${transaction.key}, quantity: ${transaction.value}")
+                Log.i("Selling", "Recording ${transaction.key}, quantity: ${transaction.value}")
                 val userTransaction = UserTransaction(date = Date(), amount = transaction.value)
                 val price = itemPriceMap.getOrDefault(transaction.key, 0.0)
                 val sellTransaction = SellTransaction(userTransaction, price)
-                farmManagerRepository.addSellTransaction(itemName = transaction.key, userTransaction = sellTransaction)
+                farmManagerRepository.addSellTransaction(
+                    itemName = transaction.key,
+                    userTransaction = sellTransaction
+                )
             }
         }
     }

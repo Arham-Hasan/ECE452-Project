@@ -22,7 +22,13 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SettingOption(action: ()->Unit, main_text:String, small_text:String, modifier:Modifier = Modifier, textColor:Color = Color.Black){
+fun SettingOption(
+    action: () -> Unit,
+    main_text: String,
+    small_text: String,
+    modifier: Modifier = Modifier,
+    textColor: Color = Color.Black
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()

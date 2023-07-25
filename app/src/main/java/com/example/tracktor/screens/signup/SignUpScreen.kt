@@ -18,7 +18,11 @@ import com.example.tracktor.common.composable.PasswordField
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun SignUpScreen(clearAndNavigate: (String) -> Unit, popUp:()->Unit,  viewModel: SignUpViewModel = hiltViewModel()) {
+fun SignUpScreen(
+    clearAndNavigate: (String) -> Unit,
+    popUp: () -> Unit,
+    viewModel: SignUpViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState
     SignUpScreenContent(
         uiState,
@@ -26,8 +30,8 @@ fun SignUpScreen(clearAndNavigate: (String) -> Unit, popUp:()->Unit,  viewModel:
         viewModel::onEmailChange,
         viewModel::onPasswordChange,
         viewModel::onSecondPasswordChange,
-        { viewModel.onSignUpClick(clearAndNavigate)},
-        {viewModel.onLoginClick(popUp)}
+        { viewModel.onSignUpClick(clearAndNavigate) },
+        { viewModel.onLoginClick(popUp) }
     )
 
 }
@@ -35,31 +39,31 @@ fun SignUpScreen(clearAndNavigate: (String) -> Unit, popUp:()->Unit,  viewModel:
 @Composable
 fun SignUpScreenContent(
     uiState: SignUpUiState,
-    onNameChange: (String)->Unit,
-    onEmailChange: (String)->Unit,
-    onPasswordChange: (String)->Unit,
-    onSecondPasswordChange: (String)->Unit,
-    onSignUpClick: ()->Unit,
-    onLogInClick: ()->Unit
-){
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSecondPasswordChange: (String) -> Unit,
+    onSignUpClick: () -> Unit,
+    onLogInClick: () -> Unit
+) {
     BasicToolbar("Please enter your details")
     Column(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         BasicTextField("Name", uiState.name, onNameChange, "Name")
         EmailField(value = uiState.email, onNewValue = onEmailChange)
         PasswordField(value = uiState.password, onNewValue = onPasswordChange)
         PasswordField(value = uiState.second_password, onNewValue = onSecondPasswordChange)
-        BasicButton("Sign Up", Modifier, action = onSignUpClick )
-        BasicTextButton("Already have an account? Login", Modifier, action = onLogInClick )
+        BasicButton("Sign Up", Modifier, action = onSignUpClick)
+        BasicTextButton("Already have an account? Login", Modifier, action = onLogInClick)
     }
 }
 
 @Preview
 @Composable
-fun SignUpScreenContentPreview(){
+fun SignUpScreenContentPreview() {
     TracktorTheme {
-        SignUpScreenContent(SignUpUiState(),{},{},{},{},{},{})
+        SignUpScreenContent(SignUpUiState(), {}, {}, {}, {}, {}, {})
     }
 }

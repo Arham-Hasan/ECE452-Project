@@ -14,18 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun BasicToolbar(title:String) {
+fun BasicToolbar(title: String) {
     TopAppBar(title = { Text(title) }, backgroundColor = getToolbarColor())
 
 }
 
 @Composable
 fun OptionsToolbar(
-    title:String,
-    dropDownExtended:Boolean,
-    toggleDropDown: ()->Unit,
-    dropDownOptions: List<Pair<String,()->Unit>>
-){
+    title: String,
+    dropDownExtended: Boolean,
+    toggleDropDown: () -> Unit,
+    dropDownOptions: List<Pair<String, () -> Unit>>
+) {
 
     TopAppBar(
         title = { Text(title) },
@@ -51,12 +51,12 @@ fun OptionsToolbar(
 
 @Composable
 fun SingleOptionToolbar(
-    title:String,
-    dropDownExtended:Boolean,
-    onDismiss: ()->Unit,
-    firstTitle:String,
-    firstAction: ()->Unit,
-){
+    title: String,
+    dropDownExtended: Boolean,
+    onDismiss: () -> Unit,
+    firstTitle: String,
+    firstAction: () -> Unit,
+) {
 
     TopAppBar(
         title = { Text(title) },

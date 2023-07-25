@@ -17,7 +17,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.PICKING_MODE_SCREEN
 
 @Composable
-fun SelectModeScreen(navigate: (String) -> Unit, farmID: String, viewModel: SelectModeViewModel = hiltViewModel()) {
+fun SelectModeScreen(
+    navigate: (String) -> Unit,
+    farmID: String,
+    viewModel: SelectModeViewModel = hiltViewModel()
+) {
     viewModel.setStateFarmId(farmID)
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -29,7 +33,7 @@ fun SelectModeScreen(navigate: (String) -> Unit, farmID: String, viewModel: Sele
             verticalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = {navigate(PICKING_MODE_SCREEN)},
+                onClick = { navigate(PICKING_MODE_SCREEN) },
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(text = "Farming")
@@ -55,6 +59,6 @@ fun SelectModeScreen(navigate: (String) -> Unit, farmID: String, viewModel: Sele
 @Preview
 @Composable
 fun SelectModeScreenPreview() {
-    SelectModeScreen(navigate = {}, farmID = "123" )
+    SelectModeScreen(navigate = {}, farmID = "123")
 }
 

@@ -33,6 +33,7 @@ fun BasicTextField(
         placeholder = { Text(text) }
     )
 }
+
 @Composable
 fun MoneyNumberField(
     text: String,
@@ -51,7 +52,8 @@ fun MoneyNumberField(
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Decimal
         ),
-        leadingIcon = {Text("$", style = MaterialTheme.typography.body1, color = Color.Gray)
+        leadingIcon = {
+            Text("$", style = MaterialTheme.typography.body1, color = Color.Gray)
         }
     )
 }
@@ -68,7 +70,7 @@ fun TextFieldWithIcons(
         value = value,
         onValueChange = { onNewValue(it) },
         label = { Text(text = label) },
-        leadingIcon = {Icon(icon,"email")}
+        leadingIcon = { Icon(icon, "email") }
     )
 }
 
@@ -79,15 +81,15 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         value = value,
         label = "Email Address",
         icon = Icons.Default.Email,
-        onNewValue= onNewValue
+        onNewValue = onNewValue
     )
 }
 
 @Preview
 @Composable
-fun EmailFieldPreview(){
-    TracktorTheme() {
-            EmailField(value = "", onNewValue = {})
+fun EmailFieldPreview() {
+    TracktorTheme {
+        EmailField(value = "", onNewValue = {})
 
     }
 
@@ -104,12 +106,12 @@ private fun PasswordField(
     placeholder: String,
     onNewValue: (String) -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     OutlinedTextField(
         modifier = modifier,
         value = value,
         onValueChange = { onNewValue(it) },
-        placeholder = { Text(text = placeholder)},
+        placeholder = { Text(text = placeholder) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
         visualTransformation = PasswordVisualTransformation()
     )

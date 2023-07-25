@@ -1,4 +1,5 @@
 package com.example.tracktor.screens.selectfarm
+
 import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.CREATE_FARM_SCREEN
 import com.example.tracktor.JOIN_FARM_SCREEN
@@ -14,8 +15,7 @@ import javax.inject.Inject
 class SelectFarmViewModel @Inject constructor(
     private val farmManagerRepository: FarmManagerRepository,
     userManagerRepository: UserManagerRepository
-)
-    : TracktorViewModel(userManagerRepository) {
+) : TracktorViewModel(userManagerRepository) {
 
     var uiState = mutableStateOf(SelectFarmUiState())
         private set

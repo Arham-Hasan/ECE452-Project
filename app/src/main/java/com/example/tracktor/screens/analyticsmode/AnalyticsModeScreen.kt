@@ -24,7 +24,11 @@ import com.example.tracktor.common.composable.OptionsToolbar
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AnalyticsModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit, viewModel: AnalyticsModeViewModel = hiltViewModel()) {
+fun AnalyticsModeScreen(
+    openScreen: (String) -> Unit,
+    clearAndNavigate: (String) -> Unit,
+    viewModel: AnalyticsModeViewModel = hiltViewModel()
+) {
 
     val uiState by viewModel.uiState
 
@@ -35,27 +39,25 @@ fun AnalyticsModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->U
     AnalyticsModeScreenContent(
         uiState,
         viewModel.bottomNavBarActions(openScreen),
-        {viewModel.toggleDropDown()},
-        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate),
+        { viewModel.toggleDropDown() },
+        viewModel.dropDownActionsAfterFarmSelected(openScreen, clearAndNavigate),
         viewModel::onUserDropDownSelect,
         viewModel::onItemDropDownSelect,
     )
 }
 
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AnalyticsModeScreenContent(
     uiState: AnalyticsModeUiState,
-    bottomNavActions:List<()->Unit>,
+    bottomNavActions: List<() -> Unit>,
     toggleDropDown: () -> Unit,
-    dropDownOptions: List<Pair<String,()->Unit>>,
+    dropDownOptions: List<Pair<String, () -> Unit>>,
     onUserDropDownSelect: (String) -> Unit,
     onItemDropDownSelect: (String) -> Unit,
-    )
-{
-   Column(
+) {
+    Column(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -67,13 +69,13 @@ fun AnalyticsModeScreenContent(
             dropDownOptions = dropDownOptions
         )
 
-        Column(Modifier.weight(1f)){
+        Column(Modifier.weight(1f)) {
             BasicDropdown(
                 options = uiState.userList,
                 action = onUserDropDownSelect,
                 label = "User(s)"
             )
-            BasicDropdown(uiState.itemList, onItemDropDownSelect,"Item(s)")
+            BasicDropdown(uiState.itemList, onItemDropDownSelect, "Item(s)")
 
             var data by remember { mutableStateOf(uiState.dataMap) }
 
@@ -88,7 +90,8 @@ fun AnalyticsModeScreenContent(
 
         }
         NavBarComposable(
-            ANALYTICS_MODE_SCREEN, bottomNavActions)
+            ANALYTICS_MODE_SCREEN, bottomNavActions
+        )
 
     }
 

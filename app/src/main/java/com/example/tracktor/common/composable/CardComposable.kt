@@ -23,7 +23,7 @@ fun AnalyticsCard(
             modifier = Modifier.padding(15.dp)
         ) {
             Text(
-                text= text
+                text = text
             )
         }
     }

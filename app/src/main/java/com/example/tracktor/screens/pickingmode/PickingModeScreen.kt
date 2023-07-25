@@ -18,7 +18,11 @@ import com.example.tracktor.common.composable.NavBarComposable
 import com.example.tracktor.common.composable.OptionsToolbar
 
 @Composable
-fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit, viewModel: PickingModeViewModel = hiltViewModel()) {
+fun PickingModeScreen(
+    openScreen: (String) -> Unit,
+    clearAndNavigate: (String) -> Unit,
+    viewModel: PickingModeViewModel = hiltViewModel()
+) {
 
     val uiState by viewModel.uiState
 
@@ -28,11 +32,11 @@ fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit
         { speechContext.onMicButtonClick(context) },
         viewModel.bottomNavBarActions(openScreen),
         uiState,
-        {viewModel.toggleDropDown()},
-        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate)
+        { viewModel.toggleDropDown() },
+        viewModel.dropDownActionsAfterFarmSelected(openScreen, clearAndNavigate)
     )
 
-    LaunchedEffect(speechContext.speechInput.value){
+    LaunchedEffect(speechContext.speechInput.value) {
         viewModel.parseInput(speechContext.speechInput.value)
 
 //        resets value of input so its not used again
@@ -40,19 +44,18 @@ fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit
     }
     LaunchedEffect(viewModel) { viewModel.retrieveItems() }
     DisposableEffect(viewModel) {
-        onDispose {viewModel.saveTransactions()}
+        onDispose { viewModel.saveTransactions() }
     }
-    }
+}
 
 @Composable
 fun PickingModeScreenContent(
     onMicButtonClick: () -> Unit,
     bottomNavBarActions: List<() -> Unit>,
     uiState: PickingModeUiState,
-    toggleDropDown: ()->Unit,
-    dropDownOptions: List<Pair<String,()->Unit>>
-)
-{
+    toggleDropDown: () -> Unit,
+    dropDownOptions: List<Pair<String, () -> Unit>>
+) {
 
 
     Column(
@@ -65,7 +68,7 @@ fun PickingModeScreenContent(
             toggleDropDown = toggleDropDown,
             dropDownOptions = dropDownOptions
         )
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center){
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
             MicButton("Start Picking", Modifier, action = onMicButtonClick)
         }
         NavBarComposable(PICKING_MODE_SCREEN, bottomNavBarActions)

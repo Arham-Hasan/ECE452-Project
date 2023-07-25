@@ -23,12 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun BasicTextButton(text:String, modifier: Modifier, action: () -> Unit) {
+fun BasicTextButton(text: String, modifier: Modifier, action: () -> Unit) {
     TextButton(onClick = action, modifier = modifier) { Text(text = text) }
 }
 
 @Composable
-fun BasicButton(text:String, modifier: Modifier, action: () -> Unit) {
+fun BasicButton(text: String, modifier: Modifier, action: () -> Unit) {
     Button(
         onClick = action,
         modifier = modifier,
@@ -43,7 +43,7 @@ fun BasicButton(text:String, modifier: Modifier, action: () -> Unit) {
 }
 
 @Composable
-fun MicButton(text:String, modifier: Modifier, action: () -> Unit) {
+fun MicButton(text: String, modifier: Modifier, action: () -> Unit) {
     Button(
         onClick = action,
         modifier = modifier,
@@ -56,34 +56,38 @@ fun MicButton(text:String, modifier: Modifier, action: () -> Unit) {
         Text(text = text, fontSize = 16.sp)
     }
 }
+
 @Composable
-fun CreateFarmButton(action: () -> Unit, modifier: Modifier= Modifier){
+fun CreateFarmButton(action: () -> Unit, modifier: Modifier = Modifier) {
     ExtendedFloatingActionButton(
         onClick = action,
-        text = {Text("Create a Farm")},
+        text = { Text("Create a Farm") },
         modifier = modifier.padding(8.dp),
         backgroundColor = getToolbarColor()
     )
 }
 
 @Composable
-fun JoinFarmButton(action: () -> Unit, modifier: Modifier= Modifier){
+fun JoinFarmButton(action: () -> Unit, modifier: Modifier = Modifier) {
     ExtendedFloatingActionButton(
         onClick = action,
-        text = {Text("Join a Farm")},
+        text = { Text("Join a Farm") },
         modifier = modifier.padding(8.dp),
         backgroundColor = getToolbarColor()
     )
 }
 
 @Composable
-fun ExpandableButton(action: () -> Unit, modifier: Modifier= Modifier, expanded: Boolean){
+fun ExpandableButton(action: () -> Unit, modifier: Modifier = Modifier, expanded: Boolean) {
     FloatingActionButton(
         onClick = action,
-        modifier = modifier.padding(8.dp).size(48.dp),
+        modifier = modifier
+            .padding(8.dp)
+            .size(48.dp),
         containerColor = getToolbarColor(),
-    ){
-        Icon(imageVector = if (expanded) Icons.Rounded.Close else Icons.Rounded.Add,
+    ) {
+        Icon(
+            imageVector = if (expanded) Icons.Rounded.Close else Icons.Rounded.Add,
             contentDescription = if (expanded) "Collapse" else "Expand",
             tint = Color.White,
             modifier = modifier
@@ -93,27 +97,30 @@ fun ExpandableButton(action: () -> Unit, modifier: Modifier= Modifier, expanded:
 
 
 @Composable
-fun CreateItemButton(action: () -> Unit, modifier: Modifier= Modifier){
+fun CreateItemButton(action: () -> Unit, modifier: Modifier = Modifier) {
     ExtendedFloatingActionButton(
         onClick = action,
-        text = {Text("Create an Item")},
+        text = { Text("Create an Item") },
         modifier = modifier,
-        icon = {Icon(
-            imageVector = Icons.Rounded.Add,
-            contentDescription = "Create Item",
-            tint = Color.White,
-            modifier = modifier
-        )})
+        icon = {
+            Icon(
+                imageVector = Icons.Rounded.Add,
+                contentDescription = "Create Item",
+                tint = Color.White,
+                modifier = modifier
+            )
+        })
 }
+
 @Composable
-fun AcceptButton(action: () -> Unit){
+fun AcceptButton(action: () -> Unit) {
     IconButton(onClick = action) {
         Icon(imageVector = Icons.Filled.Done, contentDescription = "Accept")
     }
 }
 
 @Composable
-fun RejectButton(action: () -> Unit){
+fun RejectButton(action: () -> Unit) {
     IconButton(onClick = action) {
         Icon(imageVector = Icons.Filled.Delete, contentDescription = "Reject")
     }

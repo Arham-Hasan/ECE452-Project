@@ -21,7 +21,7 @@ import com.example.tracktor.data.model.InstagramPost
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun InstagramPostDay(date:String,posts :List<InstagramPost>){
+fun InstagramPostDay(date: String, posts: List<InstagramPost>) {
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start) {
         Divider()
         Text(
@@ -33,7 +33,7 @@ fun InstagramPostDay(date:String,posts :List<InstagramPost>){
         )
         Divider()
         posts.forEach { post ->
-            Row(){InstagramPosts(post)}
+            Row { InstagramPosts(post) }
         }
 
 
@@ -41,12 +41,12 @@ fun InstagramPostDay(date:String,posts :List<InstagramPost>){
 }
 
 @Composable
-fun InstagramPosts(post: InstagramPost, modifier: Modifier= Modifier) {
+fun InstagramPosts(post: InstagramPost, modifier: Modifier = Modifier) {
     println(post.image_url)
 
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Row(Modifier.fillMaxWidth(0.87f), horizontalArrangement = Arrangement.End){
+        Row(Modifier.fillMaxWidth(0.87f), horizontalArrangement = Arrangement.End) {
             Text(
                 text = convertToEST12HourTime(post.time_stamp),
                 style = MaterialTheme.typography.bodyMedium,
@@ -69,17 +69,33 @@ fun InstagramPosts(post: InstagramPost, modifier: Modifier= Modifier) {
 
 @Composable
 @Preview
-fun InstagramPostsPreview(){
-    TracktorTheme() {
-        Column(){
-            InstagramPostDay("July 20, 2023",listOf(
-                InstagramPost("https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png","7:35 AM"),
-                InstagramPost("https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png","7:25 AM")
-            ))
-            InstagramPostDay("July 18, 2023",listOf(
-                InstagramPost("https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png","7:35 AM"),
-                InstagramPost("https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png","7:25 AM")
-            ))
+fun InstagramPostsPreview() {
+    TracktorTheme {
+        Column {
+            InstagramPostDay(
+                "July 20, 2023", listOf(
+                    InstagramPost(
+                        "https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+                        "7:35 AM"
+                    ),
+                    InstagramPost(
+                        "https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+                        "7:25 AM"
+                    )
+                )
+            )
+            InstagramPostDay(
+                "July 18, 2023", listOf(
+                    InstagramPost(
+                        "https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+                        "7:35 AM"
+                    ),
+                    InstagramPost(
+                        "https://www.google.ca/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+                        "7:25 AM"
+                    )
+                )
+            )
         }
 
     }

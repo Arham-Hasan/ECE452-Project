@@ -20,8 +20,8 @@ import com.example.tracktor.ui.theme.TracktorTheme
 @Composable
 fun NavBarComposable(
     currentScreen: String,
-    actions: List<()->Unit>,
-){
+    actions: List<() -> Unit>,
+) {
     val items = listOf(
         BottomNavItem.Home,
         BottomNavItem.MyNetwork,
@@ -32,9 +32,18 @@ fun NavBarComposable(
     BottomNavigation(contentColor = Color.Black) {
         items.forEach { item ->
             BottomNavigationItem(
-                icon = { Icon(painterResource(id = item.first.icon), contentDescription = item.first.title) },
-                label = { Text(text = item.first.title,
-                    fontSize = 9.sp) },
+                icon = {
+                    Icon(
+                        painterResource(id = item.first.icon),
+                        contentDescription = item.first.title
+                    )
+                },
+                label = {
+                    Text(
+                        text = item.first.title,
+                        fontSize = 9.sp
+                    )
+                },
                 selectedContentColor = Color.Black,
                 unselectedContentColor = Color.Black.copy(0.4f),
                 alwaysShowLabel = true,
@@ -44,25 +53,33 @@ fun NavBarComposable(
         }
     }
 }
+
 @Preview
 @Composable
-fun NavBarComposablePreview(){
+fun NavBarComposablePreview() {
     TracktorTheme {
         NavBarComposable(
             "PickingModeScreen",
-            listOf({},{},{},{},{})
+            listOf({}, {}, {}, {}, {})
         )
     }
 }
 
 
-sealed class BottomNavItem(var title:String, var icon:Int, var screen_name:String){
+sealed class BottomNavItem(var title: String, var icon: Int, var screen_name: String) {
 
     object Home : BottomNavItem("Picking", R.drawable.baseline_agriculture_24, PICKING_MODE_SCREEN)
-    object MyNetwork: BottomNavItem("Selling",R.drawable.baseline_point_of_sale_24,
-        SELLING_MODE_SCREEN)
-    object AddPost: BottomNavItem("Fridges",R.drawable.food_bank, FRIDGE_MODE_SCREEN)
-    object Notification: BottomNavItem("Analytics",R.drawable.baseline_bar_chart_24,
-        ANALYTICS_MODE_SCREEN)
-    object Jobs: BottomNavItem("Inventory",R.drawable.baseline_inventory_24, INVENTORY_MODE_SCREEN)
+    object MyNetwork : BottomNavItem(
+        "Selling", R.drawable.baseline_point_of_sale_24,
+        SELLING_MODE_SCREEN
+    )
+
+    object AddPost : BottomNavItem("Fridges", R.drawable.food_bank, FRIDGE_MODE_SCREEN)
+    object Notification : BottomNavItem(
+        "Analytics", R.drawable.baseline_bar_chart_24,
+        ANALYTICS_MODE_SCREEN
+    )
+
+    object Jobs :
+        BottomNavItem("Inventory", R.drawable.baseline_inventory_24, INVENTORY_MODE_SCREEN)
 }

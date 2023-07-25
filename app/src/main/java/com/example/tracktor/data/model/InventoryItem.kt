@@ -8,5 +8,4 @@ data class InventoryItem (
     val itemTotal : Long = 0,
     val itemPrice: Double = 0.0,
     val imageRef: String? = null,
-    val imageBitmap: ImageBitmap? = null
 )

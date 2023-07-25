@@ -21,4 +21,5 @@ interface InventoryRepository {
     suspend fun getItemNameToPrice(inventoryId: String) : Map<String, Double>
     suspend fun getInventoryItemNamesToQuantity(inventoryId: String): Map<String, Long>
     suspend fun getInventory(inventoryId: String): Inventory
+    suspend fun updateInventoryItem(inventoryId: String, inventoryItem: InventoryItem)
 }

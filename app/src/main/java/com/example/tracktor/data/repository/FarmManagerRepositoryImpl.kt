@@ -6,6 +6,7 @@ import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
 import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.Inventory
+import com.example.tracktor.data.model.InventoryItem
 import com.example.tracktor.data.model.UserTransaction
 import java.util.UUID
 import javax.inject.Inject
@@ -162,6 +163,19 @@ class FarmManagerRepositoryImpl @Inject constructor(
 
     override suspend fun getInventory(): Inventory {
         return inventoryRepository.getInventory(currentFarm!!.inventoryId)
+    }
+
+    override suspend fun updateInventoryItem(price:Double, uri: Uri?, itemName: String){
+        var imageRef : String? = null
+        val inventoryId = currentFarm!!.inventoryId
+
+        if(uri != Uri.EMPTY){
+            imageRef = "inventoryImages/$inventoryId/$itemName"
+
+        }
+
+        val inventoryItem = InventoryItem(itemPrice = price, imageRef = imageRef, name = itemName)
+        inventoryRepository.updateInventoryItem(inventoryId, inventoryItem)
     }
 
 }

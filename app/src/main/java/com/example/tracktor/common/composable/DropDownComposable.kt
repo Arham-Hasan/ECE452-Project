@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -37,7 +38,12 @@ fun BasicDropdown(
                     expanded = expanded
                 )
             },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFF2F6F3D),
+                textColor = Color.Black,
+                focusedLabelColor = Color.Black,
+                unfocusedBorderColor = Color.Gray,
+            )
         )
         ExposedDropdownMenu(
             expanded = expanded,

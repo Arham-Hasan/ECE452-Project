@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -19,6 +20,8 @@ import com.patrykandpatrick.vico.compose.component.shape.roundedCornerShape
 import com.patrykandpatrick.vico.compose.component.shapeComponent
 import com.patrykandpatrick.vico.compose.component.textComponent
 import com.patrykandpatrick.vico.compose.dimensions.dimensionsOf
+import com.patrykandpatrick.vico.compose.legend.verticalLegend
+import com.patrykandpatrick.vico.compose.legend.verticalLegendItem
 import com.patrykandpatrick.vico.compose.style.currentChartStyle
 import com.patrykandpatrick.vico.core.axis.AxisPosition
 import com.patrykandpatrick.vico.core.axis.formatter.AxisValueFormatter
@@ -30,6 +33,8 @@ import com.patrykandpatrick.vico.core.component.shape.Shapes
 import com.patrykandpatrick.vico.core.entry.composed.plus
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 import com.patrykandpatrick.vico.core.entry.entryOf
+import com.patrykandpatrick.vico.core.legend.Legend
+import com.patrykandpatrick.vico.core.legend.VerticalLegend
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -83,7 +88,7 @@ fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,
         model = chartEntryModelProducer,
         startAxis = startAxis(
             maxLabelCount = 5,
-            title = "Quantity Picked",
+            title = barAxis,
             titleComponent = textComponent(
                 background = shapeComponent(Shapes.pillShape, Color(0xff9db591)),
                 color = Color.White,
@@ -94,7 +99,7 @@ fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,
         ),
         endAxis = endAxis(
             maxLabelCount = 5,
-            title = "Quantity Sold",
+            title = lineAxis,
             titleComponent = textComponent(
                 background = shapeComponent(Shapes.pillShape, Color(0xff9db591)),
                 color = Color.White,
@@ -113,5 +118,18 @@ fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,
                 typeface = Typeface.MONOSPACE,
             ),
             title = "Date"),
+        legend = rememberLegend(),
     )
 }
+@Composable
+private fun rememberLegend() = verticalLegend(
+
+    items = listOf(verticalLegendItem(icon = shapeComponent(Shapes.pillShape, Color.Gray), label = textComponent(
+        color = currentChartStyle.axis.axisLabelColor), labelText = "Quantity Picked",
+        ),
+        verticalLegendItem(icon = shapeComponent(Shapes.pillShape, Color.Green), label = textComponent(
+            color = currentChartStyle.axis.axisLabelColor), labelText = "Quantity Sold",
+        )),
+    iconPadding = 2.dp,iconSize = 8.dp
+    
+)

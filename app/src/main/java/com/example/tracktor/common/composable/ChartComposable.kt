@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.patrykandpatrick.vico.compose.axis.horizontal.bottomAxis
+import com.patrykandpatrick.vico.compose.axis.vertical.endAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.startAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.column.columnChart
@@ -34,16 +35,17 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ChartComposable(dataMap: Map<String, Long>) {
+fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,xAxis:List<String>) {
 
-    val xValuesToDates = dataMap.keys.associateBy { LocalDate.parse(it).toEpochDay().toFloat() }
-    val chartEntryModel = xValuesToDates.keys.zip(dataMap.values) { x, y -> entryOf(x, y) }.let { entryModelOf(it) }
+    val formatter = DateTimeFormatter.ofPattern("MMMM dd yyyy")
+    val xValuesToDates = xAxis.withIndex().associateBy ({ it.index }, {it.value})
+    val sellGraph = xValuesToDates.keys.zip(line) { x, y -> entryOf(x, y) }.let { entryModelOf(it) }
+    val pickgraph = xValuesToDates.keys.zip(bar) { x, y -> entryOf(x, y) }.let { entryModelOf(it) }
     val horizontalAxisValueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, _ ->
-        val date = LocalDate.ofEpochDay(value.toLong())
-        date.format(DateTimeFormatter.ofPattern("dd MMM"))
+        xAxis[value.toInt()]
     }
 
-    val chartEntryModelProducer = chartEntryModel + chartEntryModel
+    val chartEntryModelProducer = sellGraph + pickgraph
 
     val defaultColumns = currentChartStyle.columnChart.columns
     val defaultLines = currentChartStyle.lineChart.lines
@@ -58,6 +60,7 @@ fun ChartComposable(dataMap: Map<String, Long>) {
                     lineColor = Color.Green.hashCode())
             }
         },
+        targetVerticalAxisPosition = AxisPosition.Vertical.End
     )
 
     val columnChart = columnChart(
@@ -70,6 +73,7 @@ fun ChartComposable(dataMap: Map<String, Long>) {
                 )
             }
         },
+        targetVerticalAxisPosition = AxisPosition.Vertical.Start
     )
 
     // Pass the updated chartEntryModel to the Chart component
@@ -79,7 +83,18 @@ fun ChartComposable(dataMap: Map<String, Long>) {
         model = chartEntryModelProducer,
         startAxis = startAxis(
             maxLabelCount = 5,
-            title = "Item Picked",
+            title = "Quantity Picked",
+            titleComponent = textComponent(
+                background = shapeComponent(Shapes.pillShape, Color(0xff9db591)),
+                color = Color.White,
+                padding = dimensionsOf(8.dp, 2.dp),
+                margins = dimensionsOf(top = 4.dp),
+                typeface = Typeface.MONOSPACE,
+            ),
+        ),
+        endAxis = endAxis(
+            maxLabelCount = 5,
+            title = "Quantity Sold",
             titleComponent = textComponent(
                 background = shapeComponent(Shapes.pillShape, Color(0xff9db591)),
                 color = Color.White,

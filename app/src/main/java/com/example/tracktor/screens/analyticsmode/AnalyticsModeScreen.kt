@@ -82,9 +82,13 @@ fun AnalyticsModeScreenContent(
                 data = uiState.dataMap
             }
 
-            ChartComposable(data)
-            AnalyticsCard("Total revenue: \$${uiState.totalItemRevenue}")
-            AnalyticsCard("Total item(s) sold: ${uiState.totalItemSold}")
+            ChartComposable(uiState.PickLast5arr,"Quantity Sold",uiState.SellLast5arr,"Quantity Picked",uiState.xAxis)
+            AnalyticsCard("Total item(s) sold over past 5 days: ${uiState.SellLast5total}")
+            AnalyticsCard("Total revenue over past 5 days: \$${uiState.SellLast5revenue}")
+            AnalyticsCard("Total item(s) picked over past 5 days: ${uiState.PickLast5total}")
+            AnalyticsCard("Total item(s) sold: ${uiState.SellAllTime}")
+            AnalyticsCard("Total revenue: \$${uiState.SellAllTimeRevenue}")
+            AnalyticsCard("Total item(s) picked: ${uiState.PickAllTime}")
 
         }
         NavBarComposable(

@@ -1,5 +1,5 @@
 package com.example.tracktor.screens.createfarm
 
-data class CreateFarmUiState (
+data class CreateFarmUiState(
     val name: String = "",
 )

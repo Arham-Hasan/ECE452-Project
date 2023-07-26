@@ -26,7 +26,11 @@ import com.example.tracktor.common.composable.PasswordField
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun SignUpScreen(clearAndNavigate: (String) -> Unit, popUp:()->Unit,  viewModel: SignUpViewModel = hiltViewModel()) {
+fun SignUpScreen(
+    clearAndNavigate: (String) -> Unit,
+    popUp: () -> Unit,
+    viewModel: SignUpViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState
     SignUpScreenContent(
         uiState,
@@ -34,8 +38,8 @@ fun SignUpScreen(clearAndNavigate: (String) -> Unit, popUp:()->Unit,  viewModel:
         viewModel::onEmailChange,
         viewModel::onPasswordChange,
         viewModel::onSecondPasswordChange,
-        { viewModel.onSignUpClick(clearAndNavigate)},
-        {viewModel.onLoginClick(popUp)}
+        { viewModel.onSignUpClick(clearAndNavigate) },
+        { viewModel.onLoginClick(popUp) }
     )
 
 }
@@ -43,13 +47,13 @@ fun SignUpScreen(clearAndNavigate: (String) -> Unit, popUp:()->Unit,  viewModel:
 @Composable
 fun SignUpScreenContent(
     uiState: SignUpUiState,
-    onNameChange: (String)->Unit,
-    onEmailChange: (String)->Unit,
-    onPasswordChange: (String)->Unit,
-    onSecondPasswordChange: (String)->Unit,
-    onSignUpClick: ()->Unit,
-    onLogInClick: ()->Unit
-){
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSecondPasswordChange: (String) -> Unit,
+    onSignUpClick: () -> Unit,
+    onLogInClick: () -> Unit
+) {
     BasicToolbar("Please enter your details")
     Column(
         Modifier
@@ -57,7 +61,7 @@ fun SignUpScreenContent(
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Image(
             painter = painterResource(id = R.drawable.tracktor_logo),
             contentDescription = "App logo",
@@ -80,19 +84,18 @@ fun SignUpScreenContent(
         PasswordField(value = uiState.second_password, onNewValue = onSecondPasswordChange)
         Spacer(modifier = Modifier.height(16.dp))
 
-        BasicButton("Sign Up", Modifier, action = onSignUpClick )
+        BasicButton("Sign Up", Modifier, action = onSignUpClick)
         Spacer(modifier = Modifier.height(16.dp))
 
-        BasicTextButton("Already have an account? Login", Modifier, action = onLogInClick )
+        BasicTextButton("Already have an account? Login", Modifier, action = onLogInClick)
     }
 }
 
 
-
 @Preview
 @Composable
-fun SignUpScreenContentPreview(){
+fun SignUpScreenContentPreview() {
     TracktorTheme {
-        SignUpScreenContent(SignUpUiState(),{},{},{},{},{},{})
+        SignUpScreenContent(SignUpUiState(), {}, {}, {}, {}, {}, {})
     }
 }

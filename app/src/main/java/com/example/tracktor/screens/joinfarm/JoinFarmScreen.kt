@@ -15,14 +15,17 @@ import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun JoinFarmScreen(openAndPopUp: (String, String) -> Unit, viewModel: JoinFarmViewModel = hiltViewModel()) {
+fun JoinFarmScreen(
+    openAndPopUp: (String, String) -> Unit,
+    viewModel: JoinFarmViewModel = hiltViewModel()
+) {
 
     val uiState by viewModel.uiState
 
     JoinFarmScreenContent(
         uiState,
         viewModel::onFarmIDChange,
-        {viewModel.onJoinFarmClick(openAndPopUp)},
+        { viewModel.onJoinFarmClick(openAndPopUp) },
     )
 
 }
@@ -30,8 +33,8 @@ fun JoinFarmScreen(openAndPopUp: (String, String) -> Unit, viewModel: JoinFarmVi
 @Composable
 fun JoinFarmScreenContent(
     uiState: JoinFarmUiState,
-    onFarmIDChange : (String)->Unit,
-    onJoinFarmClick: ()-> Unit,
+    onFarmIDChange: (String) -> Unit,
+    onJoinFarmClick: () -> Unit,
 ) {
     BasicToolbar("Join a Farm")
 
@@ -39,7 +42,11 @@ fun JoinFarmScreenContent(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BasicTextField(text = "Enter the Farm UUID", value = uiState.farmId, onNewValue = onFarmIDChange)
+        BasicTextField(
+            text = "Enter the Farm UUID",
+            value = uiState.farmId,
+            onNewValue = onFarmIDChange
+        )
         BasicButton("Join Farm", Modifier, action = onJoinFarmClick)
     }
 }
@@ -47,9 +54,9 @@ fun JoinFarmScreenContent(
 
 @Preview
 @Composable
-fun JoinFarmScreenPreview(){
+fun JoinFarmScreenPreview() {
     TracktorTheme {
-        JoinFarmScreenContent(JoinFarmUiState(),{},{})
+        JoinFarmScreenContent(JoinFarmUiState(), {}, {})
 
     }
 }

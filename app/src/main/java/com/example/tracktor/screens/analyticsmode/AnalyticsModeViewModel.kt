@@ -22,8 +22,9 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: FarmManagerRepository,
-                                                    userManagerRepository: UserManagerRepository
+class AnalyticsModeViewModel @Inject constructor(
+    val farmManagerRepository: FarmManagerRepository,
+    userManagerRepository: UserManagerRepository
 ) : TracktorViewModel(userManagerRepository) {
     var uiState = mutableStateOf(AnalyticsModeUiState())
         private set
@@ -49,7 +50,7 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
 
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
-    fun toggleDropDown(){
+    fun toggleDropDown() {
         uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 
@@ -67,61 +68,67 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onCreateChart() {
-        uiState.value = uiState.value.copy(xAxis=last5days())
+        uiState.value = uiState.value.copy(xAxis = last5days())
 
-        if(itemName == "" || userId == "" || itemName == "Please Select" || userId == "Please Select"){
+        if (itemName == "" || userId == "" || itemName == "Please Select" || userId == "Please Select") {
             SnackbarManager.showMessage("Please Select a user and an item from the dropdown".toSnackbarMessage())
 
             return
         }
 
-        val values = getItem(itemName,userId)
+        val values = getItem(itemName, userId)
         println(values)
         uiState.value = uiState.value.copy(
-            SellLast5arr= values.sellStats.last5arr,
-            SellLast5total=values.sellStats.last5total,
-            SellLast5revenue=values.sellStats.last5revenue,
-            SellAllTime=values.sellStats.allTime,
-            SellAllTimeRevenue=values.sellStats.allTimeRevenue,
-            PickLast5arr=values.pickStats.last5arr,
-            PickLast5total=values.pickStats.last5total,
-            PickAllTime=values.pickStats.allTime
+            SellLast5arr = values.sellStats.last5arr,
+            SellLast5total = values.sellStats.last5total,
+            SellLast5revenue = values.sellStats.last5revenue,
+            SellAllTime = values.sellStats.allTime,
+            SellAllTimeRevenue = values.sellStats.allTimeRevenue,
+            PickLast5arr = values.pickStats.last5arr,
+            PickLast5total = values.pickStats.last5total,
+            PickAllTime = values.pickStats.allTime
         )
 
     }
 
 
-
-    private fun parseTransaction(transaction: Map<*,*>): UserTransaction{
+    private fun parseTransaction(transaction: Map<*, *>): UserTransaction {
         val date = transaction["date"] as Timestamp
         val amount = transaction["amount"] as Long
 
         return UserTransaction(date.toDate(), amount.toInt())
     }
-    private fun parseSellTransaction(transaction: Map<*,*>): UserTransaction {
+
+    private fun parseSellTransaction(transaction: Map<*, *>): UserTransaction {
 
 
         return parseTransaction(transaction["transaction"] as Map<*, *>)
     }
 
-    fun getUsersAndInventory(){
+    fun getUsersAndInventory() {
         launchCatching {
             val users = farmManagerRepository.getFarmUsers()
-            if(!users.isNullOrEmpty()){
-                val userNameList = mutableListOf(Pair("All Users","All Users"))
-                users.forEach { user -> userNameList.add(Pair(userManagerRepository.getUserName(user.userId),user.userId)) }
+            if (!users.isNullOrEmpty()) {
+                val userNameList = mutableListOf(Pair("All Users", "All Users"))
+                users.forEach { user ->
+                    userNameList.add(
+                        Pair(
+                            userManagerRepository.getUserName(user.userId),
+                            user.userId
+                        )
+                    )
+                }
                 uiState.value = uiState.value.copy(userList = userNameList)
-                Log.i("Analytics","User on Farm: "+uiState.value.userList.toString())
+                Log.i("Analytics", "User on Farm: " + uiState.value.userList.toString())
             }
-
 
 
             val inventory = farmManagerRepository.getInventory()
             userInventory = inventory
             Log.i("Analytics", "Farm Inventory: $userInventory")
 
-            val itemList = mutableListOf(Pair("All Items","All Items"))
-            inventory.itemMap.keys.toList().forEach {x -> itemList.add(Pair(x,x))}
+            val itemList = mutableListOf(Pair("All Items", "All Items"))
+            inventory.itemMap.keys.toList().forEach { x -> itemList.add(Pair(x, x)) }
             uiState.value = uiState.value.copy(itemList = itemList)
 
         }
@@ -129,59 +136,59 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getItem(item:String, user: String):GraphStats{
+    fun getItem(item: String, user: String): GraphStats {
 
-        if(item == "All Items"){
+        if (item == "All Items") {
             var graphStats = GraphStats()
-            for(i in 1 until itemList.size) {
-                val temp = getItem(itemList[i].second,user)
+            for (i in 1 until itemList.size) {
+                val temp = getItem(itemList[i].second, user)
                 graphStats = GraphStats(
-                    sumPickStats(graphStats.pickStats,temp.pickStats),
-                    sumSellStats(graphStats.sellStats,temp.sellStats)
+                    sumPickStats(graphStats.pickStats, temp.pickStats),
+                    sumSellStats(graphStats.sellStats, temp.sellStats)
                 )
             }
             return graphStats
-        }
-        else{
+        } else {
             println(item)
             println(userInventory.itemMap)
-            val itemEntry = userInventory.itemMap[item] as Map<*,*>
-            val userStats = itemEntry["userStats"] as Map<*,*>
-            return getUserItem(user,userStats, itemEntry["itemPrice"] as Double)
+            val itemEntry = userInventory.itemMap[item] as Map<*, *>
+            val userStats = itemEntry["userStats"] as Map<*, *>
+            return getUserItem(user, userStats, itemEntry["itemPrice"] as Double)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getUserItem(user:String, userStats:Map<*,*>, price:Double):GraphStats{
-        if(user == "All Users"){
+    fun getUserItem(user: String, userStats: Map<*, *>, price: Double): GraphStats {
+        if (user == "All Users") {
             var graphStats = GraphStats()
 
-            for(i in 1 until userList.size) {
-                val temp = getUserItem(userList[i].second, userStats,price)
+            for (i in 1 until userList.size) {
+                val temp = getUserItem(userList[i].second, userStats, price)
                 graphStats = GraphStats(
-                    sumPickStats(graphStats.pickStats,temp.pickStats),
-                    sumSellStats(graphStats.sellStats,temp.sellStats)
+                    sumPickStats(graphStats.pickStats, temp.pickStats),
+                    sumSellStats(graphStats.sellStats, temp.sellStats)
                 )
             }
             return graphStats
-        }else{
-            if (!userStats.containsKey(user)){
+        } else {
+            if (!userStats.containsKey(user)) {
                 return GraphStats()
             }
-            val userStatMap = userStats[user] as Map<*,*>
+            val userStatMap = userStats[user] as Map<*, *>
             val pick = getPick(userStatMap)
-            val sell = getSell(userStatMap,price)
-            return GraphStats(pick,sell)
+            val sell = getSell(userStatMap, price)
+            return GraphStats(pick, sell)
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getSell(userStat: Map<*,*>, price:Double):SellStats{
+    fun getSell(userStat: Map<*, *>, price: Double): SellStats {
         val last5arr = getLast5Sell(userStat)
         val last5total = last5arr.sum()
-        val last5revenue = last5total*price
+        val last5revenue = last5total * price
         val allTime = userStat["sellTotal"] as? Long
         val allTimeTemp = allTime!!.toInt()
-        val allTimeRevenue = allTimeTemp*price
+        val allTimeRevenue = allTimeTemp * price
         return SellStats(
             last5arr,
             last5total,
@@ -190,21 +197,26 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
             allTimeRevenue
         )
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getLast5Sell(userStat: Map<*,*>):List<Int>{
-        val currList = mutableListOf(0,0,0,0,0)
+    fun getLast5Sell(userStat: Map<*, *>): List<Int> {
+        val currList = mutableListOf(0, 0, 0, 0, 0)
         val pickList = userStat["sellList"] as List<*>
-        if(pickList.isEmpty()){
+        if (pickList.isEmpty()) {
             return currList
         }
         var currentDate = LocalDate.now()
-        var j = pickList.size-1
+        var j = pickList.size - 1
         for (i in 0 until 5) {
-            while(j >= 0 && isSameDay(currentDate,parseSellTransaction(pickList[j] as Map<*, *>).date)){
-                val transaction =  pickList[j] as Map<*, *>
+            while (j >= 0 && isSameDay(
+                    currentDate,
+                    parseSellTransaction(pickList[j] as Map<*, *>).date
+                )
+            ) {
+                val transaction = pickList[j] as Map<*, *>
                 val userTransaction = parseSellTransaction(transaction)
                 currList[i] += userTransaction.amount
-                j-=1
+                j -= 1
             }
             currentDate = currentDate.minusDays(1.toLong())
         }
@@ -213,7 +225,7 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getPick(userStat: Map<*,*>):PickStats{
+    fun getPick(userStat: Map<*, *>): PickStats {
         val last5arr = getLast5Pick(userStat)
         val last5total = last5arr.sum()
         val allTime = userStat["pickTotal"] as? Long
@@ -223,21 +235,26 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
             allTime!!.toInt()
         )
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getLast5Pick(userStat: Map<*,*>):List<Int>{
-        val currList = mutableListOf(0,0,0,0,0)
+    fun getLast5Pick(userStat: Map<*, *>): List<Int> {
+        val currList = mutableListOf(0, 0, 0, 0, 0)
         val pickList = userStat["pickList"] as List<*>
-        if(pickList.isEmpty()){
+        if (pickList.isEmpty()) {
             return currList
         }
         var currentDate = LocalDate.now()
-        var j = pickList.size-1
+        var j = pickList.size - 1
         for (i in 0 until 5) {
-            while(j >= 0 && isSameDay(currentDate,parseTransaction(pickList[j] as Map<*, *>).date)){
-                val transaction =  pickList[j] as Map<*, *>
+            while (j >= 0 && isSameDay(
+                    currentDate,
+                    parseTransaction(pickList[j] as Map<*, *>).date
+                )
+            ) {
+                val transaction = pickList[j] as Map<*, *>
                 val userTransaction = parseTransaction(transaction)
                 currList[i] += userTransaction.amount
-                j-=1
+                j -= 1
             }
             currentDate = currentDate.minusDays(1.toLong())
         }
@@ -245,61 +262,62 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun isSameDay(date1: LocalDate, date2: Date):Boolean{
+    private fun isSameDay(date1: LocalDate, date2: Date): Boolean {
         return date1 == date2.toInstant()
             .atZone(ZoneId.systemDefault())
-            .toLocalDate();
+            .toLocalDate()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun last5days():List<String>{
+    private fun last5days(): List<String> {
         var currentDate = LocalDate.now().minusDays(4.toLong())
         val dateList = mutableListOf<String>()
         val formatter = DateTimeFormatter.ofPattern("dd-MM")
-        for(i in 0 until 5){
+        for (i in 0 until 5) {
             dateList.add(currentDate.format(formatter))
             currentDate = currentDate.plusDays(1.toLong())
         }
         return dateList
     }
+
     fun sumArrays(arr1: List<Int>, arr2: List<Int>): List<Int> {
         return arr1.zip(arr2) { a, b -> a + b }.toList()
     }
 
     data class PickStats(
-        val last5arr:List<Int> = listOf(0,0,0,0,0),
-        val last5total:Int = 0,
+        val last5arr: List<Int> = listOf(0, 0, 0, 0, 0),
+        val last5total: Int = 0,
         val allTime: Int = 0,
     )
 
     data class SellStats(
-        val last5arr:List<Int> = listOf(0,0,0,0,0),
-        val last5total:Int=0,
-        val last5revenue:Double=0.0,
-        val allTime:Int = 0,
-        val allTimeRevenue:Double = 0.0,
+        val last5arr: List<Int> = listOf(0, 0, 0, 0, 0),
+        val last5total: Int = 0,
+        val last5revenue: Double = 0.0,
+        val allTime: Int = 0,
+        val allTimeRevenue: Double = 0.0,
     )
 
     data class GraphStats(
-        val pickStats:PickStats = PickStats(),
-        val sellStats:SellStats = SellStats()
+        val pickStats: PickStats = PickStats(),
+        val sellStats: SellStats = SellStats()
     )
 
-    fun sumPickStats(pickStats1: PickStats,pickStats2: PickStats):PickStats{
+    fun sumPickStats(pickStats1: PickStats, pickStats2: PickStats): PickStats {
         return PickStats(
-            sumArrays(pickStats1.last5arr,pickStats2.last5arr),
-            pickStats1.last5total+pickStats2.last5total,
-            pickStats1.allTime+pickStats2.allTime
+            sumArrays(pickStats1.last5arr, pickStats2.last5arr),
+            pickStats1.last5total + pickStats2.last5total,
+            pickStats1.allTime + pickStats2.allTime
         )
     }
 
-    fun sumSellStats(sellStats1: SellStats, sellStats2: SellStats):SellStats{
+    fun sumSellStats(sellStats1: SellStats, sellStats2: SellStats): SellStats {
         return SellStats(
-            sumArrays(sellStats2.last5arr,sellStats1.last5arr),
-            sellStats1.last5total+sellStats2.last5total,
-            sellStats1.last5revenue+sellStats2.last5revenue,
-            sellStats1.allTime+sellStats2.allTime,
-            sellStats1.allTimeRevenue+sellStats2.allTimeRevenue
+            sumArrays(sellStats2.last5arr, sellStats1.last5arr),
+            sellStats1.last5total + sellStats2.last5total,
+            sellStats1.last5revenue + sellStats2.last5revenue,
+            sellStats1.allTime + sellStats2.allTime,
+            sellStats1.allTimeRevenue + sellStats2.allTimeRevenue
         )
     }
 

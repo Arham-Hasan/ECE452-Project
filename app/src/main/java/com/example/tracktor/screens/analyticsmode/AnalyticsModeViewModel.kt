@@ -255,7 +255,7 @@ class AnalyticsModeViewModel @Inject constructor(   val farmManagerRepository: F
     private fun last5days():List<String>{
         var currentDate = LocalDate.now().minusDays(4.toLong())
         val dateList = mutableListOf<String>()
-        val formatter = DateTimeFormatter.ofPattern("MMMM dd")
+        val formatter = DateTimeFormatter.ofPattern("dd-MM")
         for(i in 0 until 5){
             dateList.add(currentDate.format(formatter))
             currentDate = currentDate.plusDays(1.toLong())

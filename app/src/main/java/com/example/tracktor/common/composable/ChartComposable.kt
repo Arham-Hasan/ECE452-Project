@@ -45,7 +45,7 @@ fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,
         xAxis[value.toInt()]
     }
 
-    val chartEntryModelProducer = sellGraph + pickgraph
+    val chartEntryModelProducer =  pickgraph + sellGraph
 
     val defaultColumns = currentChartStyle.columnChart.columns
     val defaultLines = currentChartStyle.lineChart.lines

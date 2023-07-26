@@ -6,10 +6,11 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) : AuthRepository {
+class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth): AuthRepository {
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
 
@@ -32,11 +33,11 @@ class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) : A
 
     }
 
-    override suspend fun signUp(email: String, password: String) {
+    override suspend fun signUp(email: String, password: String){
         auth.createUserWithEmailAndPassword(email, password)
     }
 
-    override suspend fun signOut() {
+    override suspend fun signOut(){
         auth.signOut()
     }
 }

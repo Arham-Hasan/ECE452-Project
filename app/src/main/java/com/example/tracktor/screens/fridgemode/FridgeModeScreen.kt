@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,24 +27,22 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerInfoWindow
+import com.google.maps.android.compose.MarkerInfoWindowContent
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlin.reflect.KFunction2
 
 @Composable
-fun FridgeModeScreen(
-    openScreen: (String) -> Unit,
-    clearAndNavigate: (String) -> Unit,
-    viewModel: FridgeModeViewModel = hiltViewModel()
-) {
+fun FridgeModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit, viewModel: FridgeModeViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState
 
     FridgeModeScreenContent(
         viewModel.bottomNavBarActions(openScreen),
         uiState,
-        { viewModel.toggleDropDown() },
-        viewModel.dropDownActionsAfterFarmSelected(openScreen, clearAndNavigate),
+        {viewModel.toggleDropDown()},
+        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate),
         uiState.fridges,
         viewModel::onMarkerClick,
         openScreen,
@@ -52,14 +52,9 @@ fun FridgeModeScreen(
 }
 
 @Composable
-fun FridgeMap(
-    fridges: List<Fridge>,
-    onMarkerClick: KFunction2<(String) -> Unit, String, Unit>,
-    openScreen: (String) -> Unit,
-    toggleAlert: (Fridge) -> Unit
-) {
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition(LatLng(43.4477659, -80.4862877), 15f, 0f, 0f)
+fun FridgeMap(fridges: List<Fridge>, onMarkerClick: KFunction2<(String) -> Unit, String, Unit>, openScreen: (String)->Unit, toggleAlert:(Fridge)->Unit){
+    val cameraPositionState = rememberCameraPositionState{
+        position = CameraPosition(LatLng(43.4477659,-80.4862877),15f,0f,0f)
     }
 
     GoogleMap(
@@ -67,8 +62,7 @@ fun FridgeMap(
         cameraPositionState = cameraPositionState,
 
         ) {
-        fridges.forEach { fridge ->
-            Marker(
+            fridges.forEach { fridge -> Marker(
                 state = MarkerState(position = fridge.latlng),
                 title = fridge.name,
                 snippet = "Click for more info",
@@ -87,17 +81,18 @@ fun FridgeMap(
 
 @Composable
 fun FridgeModeScreenContent(
-    bottomNavActions: List<() -> Unit>,
-    uiState: FridgeModeUiState,
-    toggleDropDown: () -> Unit,
-    dropDownOptions: List<Pair<String, () -> Unit>>,
+    bottomNavActions:List<()->Unit>,
+    uiState:FridgeModeUiState,
+    toggleDropDown: ()->Unit,
+    dropDownOptions: List<Pair<String,()->Unit>>,
     fridges: List<Fridge>,
     onMarkerClick: KFunction2<(String) -> Unit, String, Unit>,
-    openScreen: (String) -> Unit,
+    openScreen: (String)->Unit,
     toggleAlert: (Fridge) -> Unit
-) {
-    fridges.forEach { fridge ->
-        FridgeAlertDialog(
+)
+{
+    fridges.forEach{
+        fridge ->  FridgeAlertDialog(
             toggleAlert,
             uiState.mapAlertMap[fridge.name]!!,
             fridge = fridge,
@@ -116,28 +111,24 @@ fun FridgeModeScreenContent(
             toggleDropDown = toggleDropDown,
             dropDownOptions = dropDownOptions
         )
-        Column(Modifier.weight(1f)) {
+        Column(Modifier.weight(1f)){
             Column(
                 Modifier
                     .padding(start = 15.dp, end = 15.dp, top = 15.dp)
-                    .fillMaxWidth(), verticalArrangement = Arrangement.Bottom
-            ) {
+                    .fillMaxWidth(), verticalArrangement = Arrangement.Bottom){
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxHeight(0.87f)
-                        .fillMaxWidth()
-                ) {
-                    FridgeMap(fridges, onMarkerClick, openScreen, toggleAlert)
+                Box(modifier = Modifier
+                    .fillMaxHeight(0.87f)
+                    .fillMaxWidth()){
+                    FridgeMap(fridges,onMarkerClick,openScreen,toggleAlert)
                 }
-                Row {
-                    Column {
-                        Text(
-                            modifier = Modifier.padding(top = 15.dp),
-                            text = "New fridge or fridge got relocated?\nContact us at tracktorapp452@gmail.com",
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
-                    }
+                Row(){Column(){
+                    Text(
+                        modifier = Modifier.padding(top =15.dp),
+                        text="New fridge or fridge got relocated?\nContact us at tracktorapp452@gmail.com",
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
 
 
                 }

@@ -1,7 +1,9 @@
 package com.example.tracktor.data.repository
 
-interface UserRepository {
-    suspend fun createUser(name: String, userId: String): Unit
+import com.example.tracktor.data.model.User
 
-    suspend fun getUserName(userId: String): String
+interface UserRepository {
+    suspend fun createUser(name: String, userId: String) : Unit
+
+    suspend fun getUserName(userId:String): String
 }

@@ -18,16 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tracktor.common.composable.AcceptButton
 import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.RejectButton
 import com.example.tracktor.data.model.FarmUserRelation
 
 @Composable
-fun ManageMembersScreen(
-    openAndPopUp: (String, String) -> Unit,
-    viewModel: ManageMembersViewModel = hiltViewModel()
-) {
+fun ManageMembersScreen(openAndPopUp: (String, String) -> Unit, viewModel: ManageMembersViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState
 
@@ -55,27 +53,25 @@ fun PickingModeScreenContent(
     toggleAdmin: (FarmUserRelation) -> Unit,
     currentUserId: String,
     currentFarmId: String
-) {
+)
+{
 
     Column(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BasicToolbar("Farm Settings")
-        Column(
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .padding(16.dp)
-        ) {
-            Column(
-                Modifier.weight(1f),
+        Column(modifier = Modifier
+            .padding(vertical = 8.dp)
+            .padding(16.dp)) {
+            Column(Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
+            ){
                 androidx.compose.material3.Text(text = "Invite users to the farm by sharing the farm ID!")
                 androidx.compose.material3.Text(text = "$currentFarmId")
 
                 Spacer(modifier = Modifier.height(32.dp)) // Add spacing between the rows
-                if (uiState.farmRequests.isNotEmpty()) {
+                if(uiState.farmRequests.isNotEmpty()) {
                     androidx.compose.material3.Text(text = "Requests to join farm")
                     uiState.farmRequests.forEach { user ->
                         Row(
@@ -91,17 +87,17 @@ fun PickingModeScreenContent(
                     }
                     Spacer(modifier = Modifier.height(32.dp)) // Add spacing between the rows
                 }
-                if (uiState.farmMembers.isNotEmpty()) {
+                if(uiState.farmMembers.isNotEmpty()) {
                     androidx.compose.material3.Text(text = "Farm Members")
                     uiState.farmMembers.forEach { user ->
                         var checked = remember { mutableStateOf(user.isAdmin) }
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier  = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             androidx.compose.material3.Text(text = uiState.userNameMap[user.userId]!!) // this should use getUserName
-                            if (currentUserId != user.userId) {
+                            if(currentUserId != user.userId) {
                                 Checkbox(
                                     checked = checked.value,
                                     onCheckedChange = {
@@ -109,7 +105,7 @@ fun PickingModeScreenContent(
                                         checked.value = it
                                     }
                                 )
-                                RejectButton(action = { rejectUser(user) })
+                                RejectButton(action = { rejectUser(user)} )
                             }
 
                         }

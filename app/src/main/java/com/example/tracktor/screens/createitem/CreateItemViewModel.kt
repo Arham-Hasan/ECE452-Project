@@ -14,10 +14,9 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateItemViewModel @Inject constructor(
-    private val farmManagerRepository: FarmManagerRepository,
-    userManagerRepository: UserManagerRepository
-) : TracktorViewModel(userManagerRepository) {
+class CreateItemViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
+                                              userManagerRepository: UserManagerRepository
+) : TracktorViewModel(userManagerRepository)  {
 
     private val currencyPattern = Regex("^\\d+(\\.\\d{1,2})?$")
 
@@ -33,11 +32,11 @@ class CreateItemViewModel @Inject constructor(
     private val itemImage
         get() = uiState.value.itemImage
 
-    fun onNameChange(newValue: String) {
+    fun onNameChange(newValue:String){
         uiState.value = uiState.value.copy(name = newValue.trim())
     }
 
-    fun onPriceChange(newValue: String) {
+    fun onPriceChange(newValue:String){
         if (newValue.startsWith("0")) {
             ""
         } else {
@@ -47,27 +46,27 @@ class CreateItemViewModel @Inject constructor(
 
     fun onCreateItemClick(openAndPopUp: (String, String) -> Unit) {
 
-        if (name.isBlank()) {
+        if(name.isBlank()){
             SnackbarManager.showMessage("Please create an item name".toSnackbarMessage())
             return
         }
 
-        if (price.isBlank()) {
+        if(price.isBlank()){
             SnackbarManager.showMessage("Please add an item price".toSnackbarMessage())
             return
         }
 
-        if (!currencyPattern.matches(price)) {
+        if(!currencyPattern.matches(price)){
             SnackbarManager.showMessage("Please provide a valid item price".toSnackbarMessage())
             return
         }
 
-        if (itemImage == Uri.EMPTY) {
+        if(itemImage == Uri.EMPTY){
             SnackbarManager.showMessage("Please provide a an image for the item".toSnackbarMessage())
             return
         }
 
-        launchCatching {
+        launchCatching{
             SnackbarManager.showMessage("Creating Item".toSnackbarMessage())
             delay(500)
             farmManagerRepository.addInventoryItem(itemName = name, price.toDouble(), itemImage)

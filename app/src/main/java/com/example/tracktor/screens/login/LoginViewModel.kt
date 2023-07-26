@@ -8,6 +8,7 @@ import com.example.tracktor.common.functions.isValidEmail
 import com.example.tracktor.common.functions.isValidPassword
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
@@ -28,40 +29,39 @@ class LoginViewModel @Inject constructor(
     private val password
         get() = uiState.value.password
 
-    fun onEmailChange(newValue: String) {
+    fun onEmailChange(newValue:String){
         uiState.value = uiState.value.copy(email = newValue)
     }
-
     init {
         farmManagerRepository.removeSelectedFarm()
     }
 
-    fun onPasswordChange(newValue: String) {
+    fun onPasswordChange(newValue:String){
         uiState.value = uiState.value.copy(password = newValue)
     }
 
     fun onSignInClick(openAndPopUp: (String, String) -> Unit) {
 
-        if (!email.isValidEmail()) {
+        if(!email.isValidEmail()){
             SnackbarManager.showMessage("Invalid Email".toSnackbarMessage())
             return
         }
-        if (!password.isValidPassword()) {
+        if(!password.isValidPassword()){
             SnackbarManager.showMessage("Incorrect Password".toSnackbarMessage())
             return
         }
-        launchCatching {
+        launchCatching{
             userManagerRepository.authenticate(email, password)
             openAndPopUp(SELECT_FARM_SCREEN, LOGIN_SCREEN)
         }
     }
 
-    fun onSignUpClick(openScreen: (String) -> Unit) {
+    fun onSignUpClick(openScreen: (String) -> Unit){
 //        SnackbarManager.showMessage("signup".toSnackbarMessage())
         openScreen(SIGN_UP_SCREEN)
     }
 
-    fun onForgotPasswordClick(openScreen: (String) -> Unit) {
+    fun onForgotPasswordClick(openScreen: (String) -> Unit){
         openScreen(SIGN_UP_SCREEN)
     }
 

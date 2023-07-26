@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.common.Fridges.Fridge
@@ -32,6 +33,7 @@ import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.HashtagAlertDialog
 import com.example.tracktor.common.composable.InstagramPostDay
 import com.example.tracktor.data.model.InstagramPost
+import com.example.tracktor.ui.theme.TracktorTheme
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
@@ -39,7 +41,7 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun MarketScreen(fridgeName: String, viewModel: MarketViewModel = hiltViewModel()) {
+fun MarketScreen(fridgeName: String,viewModel: MarketViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState
     viewModel.setFridge(fridgeMapping[fridgeName]!!)
 
@@ -52,10 +54,10 @@ fun MarketScreen(fridgeName: String, viewModel: MarketViewModel = hiltViewModel(
 }
 
 @Composable
-fun Photos(posts: List<Pair<String, List<InstagramPost>>>) {
-    posts.forEach { post ->
-        Row {
-            InstagramPostDay(post.first, post.second)
+fun Photos(posts: List<Pair<String, List<InstagramPost>>>){
+    posts.forEach {post ->
+        Row{
+            InstagramPostDay(post.first,post.second)
         }
 
     }
@@ -63,15 +65,15 @@ fun Photos(posts: List<Pair<String, List<InstagramPost>>>) {
 }
 
 @Composable
-fun FridgeMap(fridge: Fridge) {
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition(fridge.latlng, 15f, 0f, 0f)
+fun FridgeMap(fridge: Fridge){
+    val cameraPositionState = rememberCameraPositionState{
+        position = CameraPosition(fridge.latlng,15f,0f,0f)
     }
     GoogleMap(
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
 
-        ) {
+    ) {
         Marker(
             state = MarkerState(position = fridge.latlng),
             title = fridge.name,
@@ -81,7 +83,7 @@ fun FridgeMap(fridge: Fridge) {
 }
 
 @Composable
-fun FridgeInfo(fridge: Fridge, toggle: () -> Unit) {
+fun FridgeInfo (fridge: Fridge,toggle: ()->Unit){
     Text(
         text = "Information",
         style = MaterialTheme.typography.headlineLarge,
@@ -123,10 +125,8 @@ fun FridgeInfo(fridge: Fridge, toggle: () -> Unit) {
         modifier = Modifier.padding(15.dp)
     )
     ClickableText(
-        modifier = Modifier
-            .padding(top = 10.dp)
-            .padding(15.dp),
-        text = AnnotatedString("How to add images to fridge information?"),
+        modifier = Modifier.padding(top =10.dp).padding(15.dp),
+        text= AnnotatedString("How to add images to fridge information?"),
         onClick = {
             toggle()
         },
@@ -140,8 +140,9 @@ fun FridgeInfo(fridge: Fridge, toggle: () -> Unit) {
 @Composable
 fun MarketScreenContent(
     uiState: MarketUiState,
-    toggle: () -> Unit
-) {
+    toggle: ()->Unit
+)
+{
     val state = rememberScrollState()
     HashtagAlertDialog(toggleAlert = toggle, AlertVisible = uiState.hashtagAlert)
     Column(
@@ -152,19 +153,17 @@ fun MarketScreenContent(
 
         BasicToolbar(title = uiState.fridge.name)
 
-        FridgeInfo(uiState.fridge, toggle)
-        Row {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(.75f)
-                    .padding(15.dp)
-                    .aspectRatio(1f)
-            ) {
+        FridgeInfo(uiState.fridge,toggle)
+        Row(){
+            Column(modifier = Modifier
+                .fillMaxWidth(.75f)
+                .padding(15.dp)
+                .aspectRatio(1f)){
                 FridgeMap(uiState.fridge)
             }
 
         }
-        Row {
+        Row(){
             Text(
                 text = "Recent Pictures",
                 style = MaterialTheme.typography.headlineLarge,

@@ -12,6 +12,7 @@ import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.SELLING_MODE_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 
 open class TracktorViewModel(
     protected val userManagerRepository: UserManagerRepository,
-) : ViewModel() {
+) : ViewModel(){
     fun launchCatching(block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch(
             CoroutineExceptionHandler { _, throwable ->
@@ -29,27 +30,23 @@ open class TracktorViewModel(
         )
 
 
-    fun onSellingClick(openScreen: (String) -> Unit) {
+    fun onSellingClick(openScreen: (String) -> Unit){
         openScreen(SELLING_MODE_SCREEN)
     }
-
-    fun onAnalyticsClick(openScreen: (String) -> Unit) {
+    fun onAnalyticsClick(openScreen: (String) -> Unit){
         openScreen(ANALYTICS_MODE_SCREEN)
     }
-
-    fun onPickingClick(openScreen: (String) -> Unit) {
+    fun onPickingClick(openScreen: (String) -> Unit){
         openScreen(PICKING_MODE_SCREEN)
     }
-
-    fun onInventoryClick(openScreen: (String) -> Unit) {
+    fun onInventoryClick(openScreen: (String) -> Unit){
         openScreen(INVENTORY_MODE_SCREEN)
     }
-
-    fun onFridgesClick(openScreen: (String) -> Unit) {
+    fun onFridgesClick(openScreen: (String) -> Unit){
         openScreen(FRIDGE_MODE_SCREEN)
     }
 
-    fun bottomNavBarActions(openScreen: (String) -> Unit): List<() -> Unit> {
+    fun bottomNavBarActions(openScreen: (String) -> Unit): List<()->Unit> {
         return listOf(
             { onPickingClick(openScreen) },
             { onSellingClick(openScreen) },
@@ -58,46 +55,39 @@ open class TracktorViewModel(
             { onInventoryClick(openScreen) }
         )
     }
-
-    fun onSignOutClick(clearAndNavigate: (String) -> Unit) {
+    fun onSignOutClick(clearAndNavigate: (String)->Unit){
         SnackbarManager.showMessage("Sign out".toSnackbarMessage())
-        launchCatching {
+        launchCatching{
             userManagerRepository.signOut()
             clearAndNavigate(LOGIN_SCREEN)
         }
     }
 
-    fun onUserSettingsClick() {
+    fun onUserSettingsClick(){
         SnackbarManager.showMessage("User Settings".toSnackbarMessage())
     }
 
-    fun onFarmSettingsClick(openScreen: (String) -> Unit) {
+    fun onFarmSettingsClick(openScreen: (String) -> Unit){
         openScreen(FARM_SETTINGS_SCREEN)
     }
 
-    fun onChangeFarmClick(clearAndNavigate: (String) -> Unit) {
+    fun onChangeFarmClick(clearAndNavigate: (String)->Unit){
         clearAndNavigate(SELECT_FARM_SCREEN)
     }
 
-    fun dropDownActionsAfterFarmSelected(
-        openScreen: (String) -> Unit,
-        clearAndNavigate: (String) -> Unit
-    ): List<Pair<String, () -> Unit>> {
+    fun dropDownActionsAfterFarmSelected(openScreen: (String) -> Unit, clearAndNavigate:(String)->Unit): List<Pair<String,()->Unit>>{
         return listOf(
-            Pair("Sign Out", { onSignOutClick(clearAndNavigate) }),
-            Pair("User Settings", { onUserSettingsClick() }),
-            Pair("Farm Settings", { onFarmSettingsClick(openScreen) }),
-            Pair("Change Farm", { onChangeFarmClick(clearAndNavigate) })
+            Pair("Sign Out", {onSignOutClick(clearAndNavigate)}),
+            Pair("User Settings", {onUserSettingsClick()}),
+            Pair("Farm Settings", {onFarmSettingsClick(openScreen)}),
+            Pair("Change Farm",{onChangeFarmClick(clearAndNavigate)})
         )
     }
 
-    fun dropDownActionsBeforeFarmSelected(
-        openScreen: (String) -> Unit,
-        clearAndNavigate: (String) -> Unit
-    ): List<Pair<String, () -> Unit>> {
+    fun dropDownActionsBeforeFarmSelected(openScreen: (String) -> Unit,clearAndNavigate:(String)->Unit): List<Pair<String,()->Unit>>{
         return listOf(
-            Pair("Sign Out", { onSignOutClick(clearAndNavigate) }),
-            Pair("User Settings", { onUserSettingsClick() }),
+            Pair("Sign Out", {onSignOutClick(clearAndNavigate)}),
+            Pair("User Settings", {onUserSettingsClick()}),
         )
     }
 

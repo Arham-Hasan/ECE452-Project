@@ -5,9 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -16,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.ANALYTICS_MODE_SCREEN
 import com.example.tracktor.common.composable.AnalyticsCard
@@ -24,14 +20,15 @@ import com.example.tracktor.common.composable.BasicDropdown
 import com.example.tracktor.common.composable.ChartComposable
 import com.example.tracktor.common.composable.NavBarComposable
 import com.example.tracktor.common.composable.OptionsToolbar
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.ui.unit.dp
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AnalyticsModeScreen(
-    openScreen: (String) -> Unit,
-    clearAndNavigate: (String) -> Unit,
-    viewModel: AnalyticsModeViewModel = hiltViewModel()
-) {
+fun AnalyticsModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit, viewModel: AnalyticsModeViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState
 
@@ -42,8 +39,8 @@ fun AnalyticsModeScreen(
     AnalyticsModeScreenContent(
         uiState,
         viewModel.bottomNavBarActions(openScreen),
-        { viewModel.toggleDropDown() },
-        viewModel.dropDownActionsAfterFarmSelected(openScreen, clearAndNavigate),
+        {viewModel.toggleDropDown()},
+        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate),
         viewModel::onUserDropDownSelect,
         viewModel::onItemDropDownSelect,
     )
@@ -53,9 +50,9 @@ fun AnalyticsModeScreen(
 @Composable
 fun AnalyticsModeScreenContent(
     uiState: AnalyticsModeUiState,
-    bottomNavActions: List<() -> Unit>,
+    bottomNavActions:List<()->Unit>,
     toggleDropDown: () -> Unit,
-    dropDownOptions: List<Pair<String, () -> Unit>>,
+    dropDownOptions: List<Pair<String,()->Unit>>,
     onUserDropDownSelect: (String) -> Unit,
     onItemDropDownSelect: (String) -> Unit,
 ) {
@@ -72,12 +69,7 @@ fun AnalyticsModeScreenContent(
             dropDownOptions = dropDownOptions
         )
 
-        Column(
-            Modifier
-                .weight(1f)
-                .padding(horizontal = 16.dp)
-                .verticalScroll(state)
-        ) {  // padding added to the content Column
+        Column(Modifier.weight(1f).padding(horizontal = 16.dp).verticalScroll(state)) {  // padding added to the content Column
             BasicDropdown(
                 options = uiState.userList,
                 action = onUserDropDownSelect,
@@ -96,17 +88,7 @@ fun AnalyticsModeScreenContent(
                 data = uiState.dataMap
             }
 
-<<<<<<< HEAD
             ChartComposable(uiState.PickLast5arr,"Sold",uiState.SellLast5arr,"Picked",uiState.xAxis)
-=======
-            ChartComposable(
-                uiState.PickLast5arr,
-                "Quantity Sold",
-                uiState.SellLast5arr,
-                "Quantity Picked",
-                uiState.xAxis
-            )
->>>>>>> 9c17fe369f8229baa7912de6b9e4ddb5758b510b
             AnalyticsCard("Total item(s) sold over past 5 days: ${uiState.SellLast5total}")
             AnalyticsCard("Total revenue over past 5 days: \$${uiState.SellLast5revenue}")
             AnalyticsCard("Total item(s) picked over past 5 days: ${uiState.PickLast5total}")

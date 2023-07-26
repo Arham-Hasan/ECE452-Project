@@ -5,6 +5,7 @@ import com.example.tracktor.MANAGE_MEMBERS_SCREEN
 import com.example.tracktor.SELECT_FARM_SCREEN
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
+import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
@@ -16,7 +17,8 @@ import javax.inject.Inject
 class FarmSettingsViewModel @Inject constructor(
     private val farmManagerRepository: FarmManagerRepository,
     userManagerRepository: UserManagerRepository
-) : TracktorViewModel(userManagerRepository) {
+)
+    : TracktorViewModel(userManagerRepository) {
     var uiState = mutableStateOf(FarmSettingsUiState())
         private set
 
@@ -35,52 +37,51 @@ class FarmSettingsViewModel @Inject constructor(
         }
     }
 
-    fun onNewFarmNameChange(newValue: String) {
+    fun onNewFarmNameChange(newValue:String){
         uiState.value = uiState.value.copy(newFarmName = newValue)
     }
 
-    fun toggleDeleteFarmAlert() {
+    fun toggleDeleteFarmAlert(){
         uiState.value = uiState.value.copy(deleteFarmAlert = !deleteFarmAlert)
     }
-
-    fun toggleChangeFarmNameAlert() {
+    fun toggleChangeFarmNameAlert(){
         uiState.value = uiState.value.copy(changeFarmNameAlert = !changeFarmNameAlert)
     }
 
-    fun onDeleteFarmClick() {
+    fun onDeleteFarmClick(){
         toggleDeleteFarmAlert()
     }
 
-    fun comfirmDeleteFarm(clearAndNavigate: (String) -> Unit) {
+    fun comfirmDeleteFarm(clearAndNavigate:(String)->Unit){
         toggleDeleteFarmAlert()
-        launchCatching {
+        launchCatching{
             farmManagerRepository.deleteFarm()
             clearAndNavigate(SELECT_FARM_SCREEN)
             SnackbarManager.showMessage("Farm Successfully Deleted".toSnackbarMessage())
         }
     }
 
-    fun comfirmRenameFarm(clearAndNavigate: (String) -> Unit) {
-        if (newFarmName.isEmpty()) {
+    fun comfirmRenameFarm(clearAndNavigate:(String)->Unit){
+        if(newFarmName.isEmpty()){
             SnackbarManager.showMessage("Please enter a farm name".toSnackbarMessage())
         }
-        launchCatching {
+        launchCatching{
             farmManagerRepository.changeFarmName(newFarmName)
             clearAndNavigate(SELECT_FARM_SCREEN)
             SnackbarManager.showMessage("Sucessfully renamed farm to $newFarmName".toSnackbarMessage())
         }
     }
 
-    fun onManageMembersClick(openScreen: (String) -> Unit) {
+    fun onManageMembersClick(openScreen: (String) -> Unit){
         openScreen(MANAGE_MEMBERS_SCREEN)
     }
 
-    fun onChangeFarmNameClick() {
+    fun onChangeFarmNameClick(){
         onNewFarmNameChange("")
         toggleChangeFarmNameAlert()
     }
 
-    fun onLeaveFarmClick() {
+    fun onLeaveFarmClick(){
 
     }
 }

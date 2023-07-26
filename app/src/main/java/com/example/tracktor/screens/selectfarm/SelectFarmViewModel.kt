@@ -1,21 +1,25 @@
 package com.example.tracktor.screens.selectfarm
-
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.viewModelScope
 import com.example.tracktor.CREATE_FARM_SCREEN
 import com.example.tracktor.JOIN_FARM_SCREEN
 import com.example.tracktor.PICKING_MODE_SCREEN
 import com.example.tracktor.data.model.Farm
+import com.example.tracktor.data.repository.AuthRepository
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository
 import com.example.tracktor.screens.TracktorViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
 class SelectFarmViewModel @Inject constructor(
     private val farmManagerRepository: FarmManagerRepository,
     userManagerRepository: UserManagerRepository
-) : TracktorViewModel(userManagerRepository) {
+)
+    : TracktorViewModel(userManagerRepository) {
 
     var uiState = mutableStateOf(SelectFarmUiState())
         private set

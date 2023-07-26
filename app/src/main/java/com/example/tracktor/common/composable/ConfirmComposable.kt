@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -11,52 +13,45 @@ import com.example.tracktor.common.Fridges.Fridge
 import kotlin.reflect.KFunction2
 
 @Composable
-fun AlertDialogConfirm(
-    onConfirmClick: () -> Unit,
-    onDeclineClick: () -> Unit,
-    toggleAlert: () -> Unit,
-    AlertVisible: Boolean,
-    mainText: String,
-    secondText: String
-) {
+fun AlertDialogConfirm(onConfirmClick:()->Unit, onDeclineClick:()->Unit, toggleAlert:()->Unit, AlertVisible:Boolean, mainText:String, secondText:String) {
 
-    if (AlertVisible) {
+            if (AlertVisible) {
 
-        AlertDialog(
-            onDismissRequest =
-            toggleAlert,
-            title = {
-                Text(text = mainText)
-            },
-            text = {
-                Text(secondText)
-            },
-            confirmButton = {
-                Button(
+                AlertDialog(
+                    onDismissRequest =
+                        toggleAlert,
+                    title = {
+                        Text(text = mainText)
+                    },
+                    text = {
+                        Text(secondText)
+                    },
+                    confirmButton = {
+                        Button(
 
-                    onClick = {
-                        toggleAlert()
-                        onConfirmClick()
-                    }) {
-                    Text("Confirm")
-                }
-            },
-            dismissButton = {
-                Button(
+                            onClick = {
+                                toggleAlert()
+                                onConfirmClick()
+                            }) {
+                            Text("Confirm")
+                        }
+                    },
+                    dismissButton = {
+                        Button(
 
-                    onClick = toggleAlert
-                ) {
-                    Text("Cancel")
-                }
+                            onClick = toggleAlert
+                        ) {
+                            Text("Cancel")
+                        }
+                    }
+                )
             }
-        )
-    }
 
 
 }
 
 @Composable
-fun HashtagAlertDialog(toggleAlert: () -> Unit, AlertVisible: Boolean) {
+fun HashtagAlertDialog(toggleAlert:()->Unit, AlertVisible:Boolean){
     if (AlertVisible) {
 
         AlertDialog(
@@ -81,13 +76,8 @@ fun HashtagAlertDialog(toggleAlert: () -> Unit, AlertVisible: Boolean) {
 }
 
 @Composable
-fun FridgeAlertDialog(
-    toggleAlert: (Fridge) -> Unit,
-    AlertVisible: Boolean,
-    fridge: Fridge,
-    onMarkerClick: KFunction2<(String) -> Unit, String, Unit>,
-    openScreen: (String) -> Unit,
-) {
+fun FridgeAlertDialog(toggleAlert:(Fridge)->Unit, AlertVisible:Boolean, fridge: Fridge, onMarkerClick: KFunction2<(String) -> Unit, String, Unit>,
+                      openScreen: (String)->Unit,){
     if (AlertVisible) {
 
         AlertDialog(
@@ -103,7 +93,7 @@ fun FridgeAlertDialog(
                 TextButton(
                     onClick = {
                         toggleAlert(fridge)
-                        onMarkerClick(openScreen, fridge.name)
+                        onMarkerClick(openScreen,fridge.name)
                     }) {
                     Text("View pictures and more info")
                 }
@@ -114,15 +104,15 @@ fun FridgeAlertDialog(
 
 @Composable
 fun AlertTextConfirm(
-    onConfirmClick: () -> Unit,
-    onDeclineClick: () -> Unit,
-    toggleAlert: () -> Unit,
-    AlertVisible: Boolean,
-    mainText: String,
-    textFieldPlaceholder: String,
+    onConfirmClick:()->Unit,
+    onDeclineClick:()->Unit,
+    toggleAlert:()->Unit,
+    AlertVisible:Boolean,
+    mainText:String,
+    textFieldPlaceholder:String,
     value: String,
     onNewValue: (String) -> Unit,
-    label: String,
+    label:String,
 ) {
     Column {
 
@@ -137,13 +127,8 @@ fun AlertTextConfirm(
                 text = {
                     Column(
                         verticalArrangement = Arrangement.Center
-                    ) {
-                        BasicTextField(
-                            text = textFieldPlaceholder,
-                            value = value,
-                            onNewValue = onNewValue,
-                            label = label
-                        )
+                    ){
+                        BasicTextField(text = textFieldPlaceholder, value = value, onNewValue = onNewValue, label=label)
                     }
                 },
 

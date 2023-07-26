@@ -1,6 +1,8 @@
 package com.example.tracktor.screens.inventorymode
 
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,19 +26,15 @@ import com.example.tracktor.common.composable.ProductCard
 import com.example.tracktor.data.model.InventoryItem
 
 @Composable
-fun InventoryModeScreen(
-    openScreen: (String) -> Unit,
-    clearAndNavigate: (String) -> Unit,
-    viewModel: InventoryModeViewModel = hiltViewModel()
-) {
+fun InventoryModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit,viewModel: InventoryModeViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState
 
     InventoryModeScreenContent(
         viewModel.bottomNavBarActions(openScreen),
         uiState,
-        { viewModel.toggleDropDown() },
-        viewModel.dropDownActionsAfterFarmSelected(openScreen, clearAndNavigate),
+        {viewModel.toggleDropDown()},
+        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate),
         { viewModel.addItemToInventory(openScreen) },
         viewModel::onItemSave,
     )
@@ -44,15 +42,17 @@ fun InventoryModeScreen(
 }
 
 
+
 @Composable
 fun InventoryModeScreenContent(
     bottomNavBarActions: List<() -> Unit>,
     uiState: InventoryModeUiState,
-    toggleDropDown: () -> Unit,
-    dropDownOptions: List<Pair<String, () -> Unit>>,
-    addItemToInventory: () -> Unit,
+    toggleDropDown: ()->Unit,
+    dropDownOptions: List<Pair<String,()->Unit>>,
+    addItemToInventory: () ->Unit,
     onItemSave: (String, String, Uri, InventoryItem) -> Unit
-) {
+    )
+{
 
     Column(
         Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween,
@@ -77,12 +77,13 @@ fun InventoryModeScreenContent(
                 images = uiState.imageMap
             }
 
-            if (items.isEmpty()) {
+            if(items.isEmpty()){
                 androidx.compose.material3.Text(text = "Please Create an Item")
-            } else {
+            }
+            else {
                 androidx.compose.material3.Text(text = "Select Item")
                 items.forEach { item ->
-                    val editPopup = remember { mutableStateOf(false) }
+                    val editPopup = remember { mutableStateOf(false)}
                     ProductCard(
                         action = {
                             editPopup.value = !editPopup.value
@@ -93,23 +94,19 @@ fun InventoryModeScreenContent(
                         quantity = item.itemTotal
                     )
                     ModifyItem(
-                        toggleAlert = { editPopup.value = !editPopup.value },
+                        toggleAlert = {editPopup.value = !editPopup.value},
                         AlertVisible = editPopup.value,
                         item = item,
-                        onSave = { price, quantity, imageUri ->
+                        onSave = {price, quantity, imageUri ->
                             onItemSave(price, quantity, imageUri, item)
-                        },
+                         },
                     )
                 }
             }
 
         }
 
-        Column(
-            modifier = Modifier.padding(30.dp),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.End
-        ) {
+        Column(modifier = Modifier.padding(30.dp),verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End){
             CreateItemButton(action = addItemToInventory)
         }
         NavBarComposable(INVENTORY_MODE_SCREEN, bottomNavBarActions)

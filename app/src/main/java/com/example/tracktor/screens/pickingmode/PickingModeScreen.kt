@@ -6,23 +6,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.PICKING_MODE_SCREEN
+import androidx.compose.ui.platform.LocalContext
 import com.example.tracktor.TracktorActivity
+import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.MicButton
 import com.example.tracktor.common.composable.NavBarComposable
 import com.example.tracktor.common.composable.OptionsToolbar
+import com.example.tracktor.screens.inventorymode.InventoryModeUiState
 
 @Composable
-fun PickingModeScreen(
-    openScreen: (String) -> Unit,
-    clearAndNavigate: (String) -> Unit,
-    viewModel: PickingModeViewModel = hiltViewModel()
-) {
+fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit, viewModel: PickingModeViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState
 
@@ -32,11 +31,11 @@ fun PickingModeScreen(
         { speechContext.onMicButtonClick(context) },
         viewModel.bottomNavBarActions(openScreen),
         uiState,
-        { viewModel.toggleDropDown() },
-        viewModel.dropDownActionsAfterFarmSelected(openScreen, clearAndNavigate)
+        {viewModel.toggleDropDown()},
+        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate)
     )
 
-    LaunchedEffect(speechContext.speechInput.value) {
+    LaunchedEffect(speechContext.speechInput.value){
         viewModel.parseInput(speechContext.speechInput.value)
 
 //        resets value of input so its not used again
@@ -44,18 +43,19 @@ fun PickingModeScreen(
     }
     LaunchedEffect(viewModel) { viewModel.retrieveItems() }
     DisposableEffect(viewModel) {
-        onDispose { viewModel.saveTransactions() }
+        onDispose {viewModel.saveTransactions()}
     }
-}
+    }
 
 @Composable
 fun PickingModeScreenContent(
     onMicButtonClick: () -> Unit,
     bottomNavBarActions: List<() -> Unit>,
     uiState: PickingModeUiState,
-    toggleDropDown: () -> Unit,
-    dropDownOptions: List<Pair<String, () -> Unit>>
-) {
+    toggleDropDown: ()->Unit,
+    dropDownOptions: List<Pair<String,()->Unit>>
+)
+{
 
 
     Column(
@@ -68,7 +68,7 @@ fun PickingModeScreenContent(
             toggleDropDown = toggleDropDown,
             dropDownOptions = dropDownOptions
         )
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center){
             MicButton("Start Picking", Modifier, action = onMicButtonClick)
         }
         NavBarComposable(PICKING_MODE_SCREEN, bottomNavBarActions)

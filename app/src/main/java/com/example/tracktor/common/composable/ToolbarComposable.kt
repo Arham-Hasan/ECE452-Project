@@ -5,6 +5,7 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -14,19 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun BasicToolbar(title: String) {
+fun BasicToolbar(title:String) {
     TopAppBar(title = { Text(title) }, backgroundColor = getToolbarColor())
 
 }
 
 @Composable
 fun OptionsToolbar(
-    title: String,
-    dropDownExtended: Boolean,
-    toggleDropDown: () -> Unit,
-    dropDownOptions: List<Pair<String, () -> Unit>>,
+    title:String,
+    dropDownExtended:Boolean,
+    toggleDropDown: ()->Unit,
+    dropDownOptions: List<Pair<String,()->Unit>>,
     modifier: Modifier = Modifier
-) {
+){
 
     TopAppBar(
         title = { Text(title) },
@@ -53,12 +54,12 @@ fun OptionsToolbar(
 
 @Composable
 fun SingleOptionToolbar(
-    title: String,
-    dropDownExtended: Boolean,
-    onDismiss: () -> Unit,
-    firstTitle: String,
-    firstAction: () -> Unit,
-) {
+    title:String,
+    dropDownExtended:Boolean,
+    onDismiss: ()->Unit,
+    firstTitle:String,
+    firstAction: ()->Unit,
+){
 
     TopAppBar(
         title = { Text(title) },

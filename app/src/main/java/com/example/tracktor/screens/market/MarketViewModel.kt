@@ -25,17 +25,15 @@ class MarketViewModel @Inject constructor(
     private val hashtagAlert
         get() = uiState.value.hashtagAlert
 
-    fun setFridge(fridge: Fridge) {
+    fun setFridge(fridge: Fridge){
         uiState.value = uiState.value.copy(fridge = fridge)
         println(fridge.hashtag)
         launchCatching {
-            uiState.value =
-                uiState.value.copy(posts = instgramPostRepository.getInstagramPosts(fridge))
+            uiState.value = uiState.value.copy(posts = instgramPostRepository.getInstagramPosts(fridge))
 
         }
     }
-
-    fun toggleAlert() {
+    fun toggleAlert(){
         uiState.value = uiState.value.copy(hashtagAlert = !hashtagAlert)
     }
 

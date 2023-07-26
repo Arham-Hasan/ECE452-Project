@@ -9,13 +9,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
-class TracktorAppState(
+class TracktorAppState (
     val scaffoldState: ScaffoldState,
     val navController: NavHostController,
     private val resources: Resources,
     coroutineScope: CoroutineScope,
     private val snackbarManager: SnackbarManager
-) {
+)
+{
 
     init {
         coroutineScope.launch {

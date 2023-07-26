@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class ImageStorageRepositoryImpl @Inject constructor(
     private val storage: FirebaseStorage,
-) : ImageStorageRepository {
+): ImageStorageRepository {
     override suspend fun uploadImage(imageRef: String?, imageUri: Uri) {
         val storageRef = storage.reference.child(imageRef!!)
         storageRef.putFile(imageUri).await()

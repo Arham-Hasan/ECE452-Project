@@ -4,6 +4,8 @@ package com.example.tracktor.common.composable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -11,7 +13,7 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BasicDropdown(
-    options: List<Pair<String, String>>,
+    options: List<Pair<String,String>>,
     action: (String) -> Unit,
     label: String,
     modifier: Modifier = Modifier
@@ -25,9 +27,7 @@ fun BasicDropdown(
         onExpandedChange = {
             expanded = !expanded
         },
-        Modifier
-            .padding(8.dp)
-            .then(modifier) // add modifier
+        Modifier.padding(8.dp).then(modifier) // add modifier
     ) {
         OutlinedTextField(
             readOnly = true,

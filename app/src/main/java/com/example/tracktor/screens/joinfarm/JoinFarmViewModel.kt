@@ -13,26 +13,25 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
-class JoinFarmViewModel @Inject constructor(
-    private val farmManagerRepository: FarmManagerRepository,
-    userManagerRepository: UserManagerRepository
-) : TracktorViewModel(userManagerRepository) {
+class JoinFarmViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
+                                              userManagerRepository: UserManagerRepository
+) : TracktorViewModel(userManagerRepository)  {
     var uiState = mutableStateOf(JoinFarmUiState())
         private set
 
     private val name
         get() = uiState.value.farmId
 
-    fun onFarmIDChange(newValue: String) {
+    fun onFarmIDChange(newValue:String){
         uiState.value = uiState.value.copy(farmId = newValue)
     }
 
     fun onJoinFarmClick(openAndPopUp: (String, String) -> Unit) {
-        if (name.isBlank()) {
+        if(name.isBlank()){
             SnackbarManager.showMessage("Please enter a farm ID".toSnackbarMessage())
             return
         }
-        launchCatching {
+        launchCatching{
             SnackbarManager.showMessage("Sending request to join farm".toSnackbarMessage())
             delay(500)
             farmManagerRepository.requestToJoinFarm(uiState.value.farmId)

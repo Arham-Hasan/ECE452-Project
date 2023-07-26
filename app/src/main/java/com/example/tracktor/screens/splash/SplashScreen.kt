@@ -1,5 +1,6 @@
 package com.example.tracktor.screens.splash
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,20 +33,20 @@ fun SplashScreen(
 }
 
 @Composable
-fun SplashScreenContent(modifier: Modifier = Modifier) {
+fun SplashScreenContent(modifier: Modifier = Modifier){
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    ){
         CircularProgressIndicator()
     }
 }
 
 @Preview
 @Composable
-fun SplashScreenContentPreview() {
-    TracktorTheme {
+fun SplashScreenContentPreview(){
+    TracktorTheme() {
         SplashScreenContent()
     }
 

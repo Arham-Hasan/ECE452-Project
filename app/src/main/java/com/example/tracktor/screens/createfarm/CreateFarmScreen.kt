@@ -15,17 +15,14 @@ import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun CreateFarmScreen(
-    openAndPopUp: (String, String) -> Unit,
-    viewModel: CreateFarmViewModel = hiltViewModel()
-) {
+fun CreateFarmScreen(openAndPopUp: (String, String) -> Unit, viewModel: CreateFarmViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState
 
     CreateFarmScreenContent(
         uiState,
         viewModel::onNameChange,
-        { viewModel.onCreateFarmClick(openAndPopUp) },
+        {viewModel.onCreateFarmClick(openAndPopUp)},
     )
 
 }
@@ -33,8 +30,8 @@ fun CreateFarmScreen(
 @Composable
 fun CreateFarmScreenContent(
     uiState: CreateFarmUiState,
-    onNameChange: (String) -> Unit,
-    onCreateFarmClick: () -> Unit,
+    onNameChange : (String)->Unit,
+    onCreateFarmClick: ()-> Unit,
 ) {
     BasicToolbar("Create a Farm")
 
@@ -50,9 +47,9 @@ fun CreateFarmScreenContent(
 
 @Preview
 @Composable
-fun CreateFarmScreenPreview() {
+fun CreateFarmScreenPreview(){
     TracktorTheme {
-        CreateFarmScreenContent(CreateFarmUiState(), {}, {})
+        CreateFarmScreenContent(CreateFarmUiState(),{},{})
 
     }
 }

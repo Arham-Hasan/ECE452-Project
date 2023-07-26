@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -15,6 +16,8 @@ fun BasicDropdown(
     options: List<Pair<String,String>>,
     action: (String) -> Unit,
     label: String,
+    modifier: Modifier = Modifier
+
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf("Please Select") }
@@ -24,7 +27,7 @@ fun BasicDropdown(
         onExpandedChange = {
             expanded = !expanded
         },
-        Modifier.padding(8.dp)
+        Modifier.padding(8.dp).then(modifier) // add modifier
     ) {
         OutlinedTextField(
             readOnly = true,
@@ -36,7 +39,12 @@ fun BasicDropdown(
                     expanded = expanded
                 )
             },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFF2F6F3D),
+                textColor = Color.Black,
+                focusedLabelColor = Color.Black,
+                unfocusedBorderColor = Color.Gray,
+            )
         )
         ExposedDropdownMenu(
             expanded = expanded,

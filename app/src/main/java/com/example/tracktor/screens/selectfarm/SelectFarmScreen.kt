@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -17,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,21 +47,21 @@ fun SelectFarmScreen(openScreen: (String) -> Unit, clearAndNavigate:(String)->Un
 }
 @Composable
 fun SelectFarmScreenContent(
-    uiState:SelectFarmUiState,
-    toggleDropDown: ()->Unit,
-    dropDownOptions: List<Pair<String,()->Unit>>,
+    uiState: SelectFarmUiState,
+    toggleDropDown: () -> Unit,
+    dropDownOptions: List<Pair<String, () -> Unit>>,
     openScreen: (String) -> Unit,
-    onCreateFarmClick: ()->Unit,
+    onCreateFarmClick: () -> Unit,
     onSelectFarmClick: KFunction2<(String) -> Unit, Farm, Unit>,
-    onJoinFarmClick: ()->Unit
-){
+    onJoinFarmClick: () -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(){
+        Column() {
             OptionsToolbar(
                 title = "Select a Farm",
                 dropDownExtended = uiState.dropDrownExtended,
@@ -68,27 +72,30 @@ fun SelectFarmScreenContent(
             Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if(uiState.farms.isEmpty()){
+            if (uiState.farms.isEmpty()) {
                 Text(text = "Please Join or Create a Farm")
-            }
-            else {
+            } else {
                 Text(text = "Select Farm")
-                uiState.farms.forEach { farm ->
-                    Button(onClick ={onSelectFarmClick(openScreen, farm!!)}
 
-                    ) {
-                        Text(text = farm!!.name)
+                LazyColumn {
+                    items(uiState.farms.filterNotNull()) { farm ->
+                        Button(
+                            onClick = { onSelectFarmClick(openScreen, farm) },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2F6F3D))
+                        ) {
+                            Text(text = farm.name)
+                        }
                     }
                 }
             }
         }
 
-        Column(modifier = Modifier.padding(30.dp),verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End){
+        Column(modifier = Modifier.padding(30.dp), verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End) {
             if (expanded) {
                 CreateFarmButton(action = onCreateFarmClick)
                 JoinFarmButton(action = onJoinFarmClick)
             }
-            ExpandableButton(action = {expanded = !expanded}, expanded = expanded)
+            ExpandableButton(action = { expanded = !expanded }, expanded = expanded)
         }
     }
 }

@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun BasicDropdown(
-    options: List<String>,
+    options: List<Pair<String,String>>,
     action: (String) -> Unit,
-    label: String
+    label: String,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf("Please Select") }
@@ -47,12 +47,12 @@ fun BasicDropdown(
             options.forEach { selectionOption ->
                 DropdownMenuItem(
                     onClick = {
-                        selectedOption = selectionOption
+                        selectedOption = selectionOption.first
                         expanded = false
-                        action(selectionOption)
+                        action(selectionOption.second)
                     }
                 ) {
-                    Text(text = selectionOption)
+                    Text(text = selectionOption.first)
                 }
             }
         }

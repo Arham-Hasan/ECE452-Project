@@ -97,6 +97,7 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(-1*sellTransaction.transaction.amount.toLong())).await()
     }
 
+
     override suspend fun getItemNames(inventoryId: String): List<String>? {
         val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
         return documentSnapshot.data?.keys?.toList()
@@ -124,7 +125,6 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         }
         return map
     }
-
 
     override suspend fun getInventory(inventoryId: String): Inventory {
         val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()

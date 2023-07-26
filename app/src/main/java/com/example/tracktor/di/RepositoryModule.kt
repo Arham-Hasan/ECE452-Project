@@ -10,8 +10,8 @@ import com.example.tracktor.data.repository.FarmUserRepository
 import com.example.tracktor.data.repository.FarmUserRepositoryImpl
 import com.example.tracktor.data.repository.InstagramPostRepository
 import com.example.tracktor.data.repository.InstagramPostRepositoryImpl
-import com.example.tracktor.data.repository.ImageStorageManager
-import com.example.tracktor.data.repository.ImageStorageManagerImpl
+import com.example.tracktor.data.repository.ImageStorageRepository
+import com.example.tracktor.data.repository.ImageStorageRepositoryImpl
 import com.example.tracktor.data.repository.InventoryRepository
 import com.example.tracktor.data.repository.InventoryRepositoryImpl
 import com.example.tracktor.data.repository.UserManagerRepository
@@ -54,8 +54,8 @@ object RepositoryModule {
         farmRepository: FarmRepository,
         farmUserRepository: FarmUserRepository,
         inventoryRepository: InventoryRepository,
-        imageStorageManager: ImageStorageManager,
-    ):FarmManagerRepository = FarmManagerRepositoryImpl(authRepository,farmRepository, farmUserRepository, inventoryRepository, imageStorageManager)
+        imageStorageRepository: ImageStorageRepository,
+    ):FarmManagerRepository = FarmManagerRepositoryImpl(authRepository,farmRepository, farmUserRepository, inventoryRepository, imageStorageRepository)
 
     @Provides
     @Singleton
@@ -76,5 +76,5 @@ object RepositoryModule {
     ):InstagramPostRepository = InstagramPostRepositoryImpl(firestore)
     @Provides
     @Singleton
-    fun provideImageStoreManager(storage: FirebaseStorage): ImageStorageManager = ImageStorageManagerImpl(storage)
+    fun provideImageStoreRepository(storage: FirebaseStorage): ImageStorageRepository = ImageStorageRepositoryImpl(storage)
 }

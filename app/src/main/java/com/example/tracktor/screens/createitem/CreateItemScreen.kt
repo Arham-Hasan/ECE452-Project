@@ -13,20 +13,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.common.composable.BasicButton
-import com.example.tracktor.common.composable.MoneyNumberField
 import com.example.tracktor.common.composable.BasicTextField
 import com.example.tracktor.common.composable.BasicToolbar
+import com.example.tracktor.common.composable.MoneyNumberField
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun CreateItemScreen(openAndPopUp: (String, String) -> Unit, viewModel: CreateItemViewModel = hiltViewModel()) {
+fun CreateItemScreen(
+    openAndPopUp: (String, String) -> Unit,
+    viewModel: CreateItemViewModel = hiltViewModel()
+) {
 
     val uiState by viewModel.uiState
 
     CreateItemScreenContent(
         uiState,
         viewModel::onNameChange,
-        {viewModel.onCreateItemClick(openAndPopUp)},
+        { viewModel.onCreateItemClick(openAndPopUp) },
         viewModel::onPriceChange,
         viewModel::handleImageUpload
     )
@@ -36,9 +39,9 @@ fun CreateItemScreen(openAndPopUp: (String, String) -> Unit, viewModel: CreateIt
 @Composable
 fun CreateItemScreenContent(
     uiState: CreateItemUiState,
-    onNameChange: (String)->Unit,
-    onCreateFarmClick: ()-> Unit,
-    onPriceChange: (String)->Unit,
+    onNameChange: (String) -> Unit,
+    onCreateFarmClick: () -> Unit,
+    onPriceChange: (String) -> Unit,
     handleImage: (Uri) -> Unit
 ) {
 
@@ -49,14 +52,25 @@ fun CreateItemScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         androidx.compose.material3.Text(text = "Item Name")
-        BasicTextField(text = "Apple", value = uiState.name, onNewValue = onNameChange, label = "Item Name")
+        BasicTextField(
+            text = "Apple",
+            value = uiState.name,
+            onNewValue = onNameChange,
+            label = "Item Name"
+        )
         androidx.compose.material3.Text(text = "Item Price")
-        MoneyNumberField(text = "1.23", value = uiState.price, onNewValue = onPriceChange, label = "Item Price")
-        val pickImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            if (uri != null) {
-                handleImage(uri)
+        MoneyNumberField(
+            text = "1.23",
+            value = uiState.price,
+            onNewValue = onPriceChange,
+            label = "Item Price"
+        )
+        val pickImageLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                if (uri != null) {
+                    handleImage(uri)
+                }
             }
-        }
         BasicButton("Select Item Image", Modifier, action = { pickImageLauncher.launch("image/*") })
 
         BasicButton("Create Item", Modifier, action = onCreateFarmClick)
@@ -66,8 +80,8 @@ fun CreateItemScreenContent(
 
 @Preview
 @Composable
-fun CreateItemScreenPreview(){
+fun CreateItemScreenPreview() {
     TracktorTheme {
-        CreateItemScreenContent(CreateItemUiState(),{},{},{},{})
+        CreateItemScreenContent(CreateItemUiState(), {}, {}, {}, {})
     }
 }

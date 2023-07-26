@@ -3,9 +3,9 @@ package com.example.tracktor.data.repository
 import android.net.Uri
 import com.example.tracktor.data.model.Farm
 import com.example.tracktor.data.model.FarmUserRelation
-import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.Inventory
 import com.example.tracktor.data.model.InventoryItem
+import com.example.tracktor.data.model.SellTransaction
 import com.example.tracktor.data.model.UserTransaction
 import java.util.UUID
 import javax.inject.Inject
@@ -16,15 +16,15 @@ class FarmManagerRepositoryImpl @Inject constructor(
     private val farmUserRepository: FarmUserRepository,
     private val inventoryRepository: InventoryRepository,
     private val imageStorageRepository: ImageStorageRepository,
-    ): FarmManagerRepository {
+) : FarmManagerRepository {
 
-    private var currentFarm:Farm?= null
+    private var currentFarm: Farm? = null
     override fun changeSelectedFarm(farm: Farm) {
         currentFarm = farm
     }
 
     override fun removeSelectedFarm() {
-        currentFarm= null
+        currentFarm = null
     }
 
     override fun getSelectedFarm(): Farm? {
@@ -32,11 +32,12 @@ class FarmManagerRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getActiveFarms() : List<Farm?>{
+    override suspend fun getActiveFarms(): List<Farm?> {
         val farmIds = farmUserRepository.getActiveFarmIds(authRepository.currentUserId)
         return farmRepository.getFarms(farmIds)
     }
-    override suspend fun createFarm(name: String) : Unit{
+
+    override suspend fun createFarm(name: String): Unit {
         val inventoryId = UUID.randomUUID().toString()
         val farm = Farm(name = name, id = UUID.randomUUID().toString(), inventoryId = inventoryId)
         val currentUserId = authRepository.currentUserId
@@ -48,7 +49,7 @@ class FarmManagerRepositoryImpl @Inject constructor(
     override suspend fun deleteFarm() {
         val currentUserId = authRepository.currentUserId
         val farm = currentFarm!!
-        if(farmUserRepository.isAdmin(currentUserId, farm)){
+        if (farmUserRepository.isAdmin(currentUserId, farm)) {
             farmRepository.deleteFarm(farm)
             farmUserRepository.deleteFarm(farm)
         }
@@ -56,32 +57,36 @@ class FarmManagerRepositoryImpl @Inject constructor(
 
     override suspend fun requestToJoinFarm(farmId: String) {
         val currentUserId = authRepository.currentUserId
-        if(farmRepository.farmExists(farmId) && !farmUserRepository.isActiveOrNonActiveFarmMember(currentUserId,farmId)){
+        if (farmRepository.farmExists(farmId) && !farmUserRepository.isActiveOrNonActiveFarmMember(
+                currentUserId,
+                farmId
+            )
+        ) {
             farmUserRepository.addNonActiveUserToFarm(userId = currentUserId, farmId = farmId)
         }
     }
 
     override suspend fun isAdmin(): Boolean {
-        if(currentFarm == null){
+        if (currentFarm == null) {
             return false
         }
         val currentUserId = authRepository.currentUserId
-        return farmUserRepository.isAdmin(currentUserId,currentFarm!!)
+        return farmUserRepository.isAdmin(currentUserId, currentFarm!!)
     }
 
-    override suspend fun acceptUserRequest(userId:String) {
-        if(currentFarm == null)return
+    override suspend fun acceptUserRequest(userId: String) {
+        if (currentFarm == null) return
         farmUserRepository.setUserToActive(userId = userId, farmId = currentFarm!!.id)
     }
 
     override suspend fun declineUserRequest(userId: String) {
-        if(currentFarm == null)return
+        if (currentFarm == null) return
         farmUserRepository.deleteFarmUserRelation(userId = userId, farmId = currentFarm!!.id)
     }
 
     override suspend fun uploadInventoryItemImage(itemName: String, imageUri: Uri?) {
-        var imageRef : String? = null
-        if(imageUri != null){
+        var imageRef: String? = null
+        if (imageUri != null) {
             val inventoryId = currentFarm!!.inventoryId
             imageRef = "inventoryImages/$inventoryId/$itemName"
             imageStorageRepository.uploadImage(imageRef = imageRef, imageUri = imageUri)
@@ -96,9 +101,14 @@ class FarmManagerRepositoryImpl @Inject constructor(
 
     override suspend fun addInventoryItem(itemName: String, itemPrice: Double, imageUri: Uri?) {
         val inventoryId = currentFarm!!.inventoryId
-        var imageRef : String? = "inventoryImages/$inventoryId/$itemName"
-        uploadInventoryItemImage(itemName=itemName, imageUri = imageUri)
-        inventoryRepository.addItem(name = itemName, inventoryId = inventoryId, itemPrice=itemPrice, imageRef = imageRef)
+        var imageRef: String? = "inventoryImages/$inventoryId/$itemName"
+        uploadInventoryItemImage(itemName = itemName, imageUri = imageUri)
+        inventoryRepository.addItem(
+            name = itemName,
+            inventoryId = inventoryId,
+            itemPrice = itemPrice,
+            imageRef = imageRef
+        )
     }
 
     override suspend fun getInventoryItemNames(): List<String>? {
@@ -115,26 +125,48 @@ class FarmManagerRepositoryImpl @Inject constructor(
 
 
     override suspend fun addPickTransaction(itemName: String, userTransaction: UserTransaction) {
-        if(inventoryRepository.itemExists(inventoryId = currentFarm!!.inventoryId, name = itemName)){
-            if(!inventoryRepository.userStatExistsForItem(itemName = itemName, userId = authRepository.currentUserId,
-                inventoryId = currentFarm!!.inventoryId)){
-                inventoryRepository.addUserStatForItem(itemName=itemName, userId = authRepository.currentUserId,
-                    inventoryId = currentFarm!!.inventoryId)
+        if (inventoryRepository.itemExists(
+                inventoryId = currentFarm!!.inventoryId,
+                name = itemName
+            )
+        ) {
+            if (!inventoryRepository.userStatExistsForItem(
+                    itemName = itemName, userId = authRepository.currentUserId,
+                    inventoryId = currentFarm!!.inventoryId
+                )
+            ) {
+                inventoryRepository.addUserStatForItem(
+                    itemName = itemName, userId = authRepository.currentUserId,
+                    inventoryId = currentFarm!!.inventoryId
+                )
             }
-            inventoryRepository.addPickTransaction(itemName = itemName, pickTransaction = userTransaction,
-                inventoryId = currentFarm!!.inventoryId, userId = authRepository.currentUserId)
+            inventoryRepository.addPickTransaction(
+                itemName = itemName, pickTransaction = userTransaction,
+                inventoryId = currentFarm!!.inventoryId, userId = authRepository.currentUserId
+            )
         }
     }
 
     override suspend fun addSellTransaction(itemName: String, userTransaction: SellTransaction) {
-        if(inventoryRepository.itemExists(inventoryId = currentFarm!!.inventoryId, name = itemName)){
-            if(!inventoryRepository.userStatExistsForItem(itemName = itemName, userId = authRepository.currentUserId,
-                    inventoryId = currentFarm!!.inventoryId)){
-                inventoryRepository.addUserStatForItem(itemName=itemName, userId = authRepository.currentUserId,
-                    inventoryId = currentFarm!!.inventoryId)
+        if (inventoryRepository.itemExists(
+                inventoryId = currentFarm!!.inventoryId,
+                name = itemName
+            )
+        ) {
+            if (!inventoryRepository.userStatExistsForItem(
+                    itemName = itemName, userId = authRepository.currentUserId,
+                    inventoryId = currentFarm!!.inventoryId
+                )
+            ) {
+                inventoryRepository.addUserStatForItem(
+                    itemName = itemName, userId = authRepository.currentUserId,
+                    inventoryId = currentFarm!!.inventoryId
+                )
             }
-            inventoryRepository.addSellTransaction(itemName = itemName, sellTransaction = userTransaction,
-                inventoryId = currentFarm!!.inventoryId, userId = authRepository.currentUserId)
+            inventoryRepository.addSellTransaction(
+                itemName = itemName, sellTransaction = userTransaction,
+                inventoryId = currentFarm!!.inventoryId, userId = authRepository.currentUserId
+            )
         }
     }
 
@@ -149,12 +181,13 @@ class FarmManagerRepositoryImpl @Inject constructor(
     override suspend fun changeFarmName(newName: String) {
         val currentUserId = authRepository.currentUserId
         val farm = currentFarm!!
-        if(farmUserRepository.isAdmin(currentUserId, farm)){
-            farmRepository.changeFarmName(newName,farm)
+        if (farmUserRepository.isAdmin(currentUserId, farm)) {
+            farmRepository.changeFarmName(newName, farm)
         }
     }
-    override suspend fun toggleAdmin(userId: String) : Unit {
-        if(currentFarm == null){
+
+    override suspend fun toggleAdmin(userId: String): Unit {
+        if (currentFarm == null) {
             return
         }
         farmUserRepository.toggleAdmin(userId, currentFarm!!)
@@ -164,11 +197,11 @@ class FarmManagerRepositoryImpl @Inject constructor(
         return inventoryRepository.getInventory(currentFarm!!.inventoryId)
     }
 
-    override suspend fun updateInventoryItem(price:Double, uri: Uri?, itemName: String){
-        var imageRef : String? = null
+    override suspend fun updateInventoryItem(price: Double, uri: Uri?, itemName: String) {
+        var imageRef: String? = null
         val inventoryId = currentFarm!!.inventoryId
 
-        if(uri != Uri.EMPTY){
+        if (uri != Uri.EMPTY) {
             imageRef = "inventoryImages/$inventoryId/$itemName"
 
         }

@@ -23,11 +23,20 @@ class TracktorActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MapsInitializer.initialize(applicationContext, MapsInitializer.Renderer.LATEST){
-                renderer ->
+        MapsInitializer.initialize(
+            applicationContext,
+            MapsInitializer.Renderer.LATEST
+        ) { renderer ->
             when (renderer) {
-                MapsInitializer.Renderer.LATEST -> Log.d("MapsDemo", "The latest version of the renderer is used.")
-                MapsInitializer.Renderer.LEGACY -> Log.d("MapsDemo", "The legacy version of the renderer is used.")
+                MapsInitializer.Renderer.LATEST -> Log.d(
+                    "MapsDemo",
+                    "The latest version of the renderer is used."
+                )
+
+                MapsInitializer.Renderer.LEGACY -> Log.d(
+                    "MapsDemo",
+                    "The legacy version of the renderer is used."
+                )
             }
         }
         setContent {
@@ -35,8 +44,8 @@ class TracktorActivity : ComponentActivity() {
         }
     }
 
-//    logic for voice input
-    fun onMicButtonClick(context: Context){
+    //    logic for voice input
+    fun onMicButtonClick(context: Context) {
         SnackbarManager.showMessage("Listening".toSnackbarMessage())
 
         if (!SpeechRecognizer.isRecognitionAvailable(context)) {

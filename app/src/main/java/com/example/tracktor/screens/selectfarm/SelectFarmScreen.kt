@@ -13,7 +13,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,26 +24,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.common.composable.CreateFarmButton
+import com.example.tracktor.common.composable.ExpandableButton
 import com.example.tracktor.common.composable.JoinFarmButton
 import com.example.tracktor.common.composable.OptionsToolbar
-import com.example.tracktor.common.composable.ExpandableButton
 import com.example.tracktor.data.model.Farm
 import kotlin.reflect.KFunction2
 
 @Composable
-fun SelectFarmScreen(openScreen: (String) -> Unit, clearAndNavigate:(String)->Unit,viewModel: SelectFarmViewModel = hiltViewModel()) {
+fun SelectFarmScreen(
+    openScreen: (String) -> Unit,
+    clearAndNavigate: (String) -> Unit,
+    viewModel: SelectFarmViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState
     SelectFarmScreenContent(
         uiState = uiState,
         toggleDropDown = { viewModel.toggleDropDown() },
         dropDownOptions = viewModel.dropDownActionsBeforeFarmSelected(openScreen, clearAndNavigate),
         openScreen = openScreen,
-        onCreateFarmClick = {viewModel.onCreateFarmClick(openScreen)},
+        onCreateFarmClick = { viewModel.onCreateFarmClick(openScreen) },
         onSelectFarmClick = viewModel::onFarmNameClick,
-        onJoinFarmClick = {viewModel.onJoinFarmClick(openScreen)}
+        onJoinFarmClick = { viewModel.onJoinFarmClick(openScreen) }
     )
     LaunchedEffect(viewModel) { viewModel.retrieveFarms() }
 }
+
 @Composable
 fun SelectFarmScreenContent(
     uiState: SelectFarmUiState,
@@ -61,12 +65,13 @@ fun SelectFarmScreenContent(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column() {
+        Column {
             OptionsToolbar(
                 title = "Select a Farm",
                 dropDownExtended = uiState.dropDrownExtended,
                 toggleDropDown = toggleDropDown,
-                dropDownOptions = dropDownOptions)
+                dropDownOptions = dropDownOptions
+            )
         }
         Column(
             Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
@@ -90,7 +95,11 @@ fun SelectFarmScreenContent(
             }
         }
 
-        Column(modifier = Modifier.padding(30.dp), verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End) {
+        Column(
+            modifier = Modifier.padding(30.dp),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.End
+        ) {
             if (expanded) {
                 CreateFarmButton(action = onCreateFarmClick)
                 JoinFarmButton(action = onJoinFarmClick)
@@ -99,9 +108,10 @@ fun SelectFarmScreenContent(
         }
     }
 }
+
 @Preview
 @Composable
 fun SelectFarmScreenPreview() {
-    fun a(b:(String)->Unit,c:Farm){}
-    SelectFarmScreenContent(SelectFarmUiState(),{},listOf(),{},{},::a,{})
+    fun a(b: (String) -> Unit, c: Farm) {}
+    SelectFarmScreenContent(SelectFarmUiState(), {}, listOf(), {}, {}, ::a, {})
 }

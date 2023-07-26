@@ -20,7 +20,11 @@ import com.example.tracktor.common.composable.OptionsToolbar
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun SellingModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Unit, viewModel: SellingModeViewModel = hiltViewModel()) {
+fun SellingModeScreen(
+    openScreen: (String) -> Unit,
+    clearAndNavigate: (String) -> Unit,
+    viewModel: SellingModeViewModel = hiltViewModel()
+) {
 
     val uiState by viewModel.uiState
 
@@ -31,11 +35,11 @@ fun SellingModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Uni
         { speechContext.onMicButtonClick(context) },
         viewModel.bottomNavBarActions(openScreen),
         uiState,
-        {viewModel.toggleDropDown()},
-        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate)
+        { viewModel.toggleDropDown() },
+        viewModel.dropDownActionsAfterFarmSelected(openScreen, clearAndNavigate)
     )
 
-    LaunchedEffect(speechContext.speechInput.value){
+    LaunchedEffect(speechContext.speechInput.value) {
         viewModel.parseInput(speechContext.speechInput.value)
 
 //        resets value of input so its not used again
@@ -43,10 +47,9 @@ fun SellingModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Uni
     }
     LaunchedEffect(viewModel) { viewModel.retrieveItemsAndPrices() }
     DisposableEffect(viewModel) {
-        onDispose {viewModel.saveTransactions()}
+        onDispose { viewModel.saveTransactions() }
     }
 }
-
 
 
 @Composable
@@ -54,10 +57,9 @@ fun SellingModeScreenContent(
     onMicButtonClick: () -> Unit,
     bottomNavBarActions: List<() -> Unit>,
     uiState: SellingModeUiState,
-    toggleDropDown: ()->Unit,
-    dropDownOptions: List<Pair<String,()->Unit>>
-)
-{
+    toggleDropDown: () -> Unit,
+    dropDownOptions: List<Pair<String, () -> Unit>>
+) {
 
 
     Column(
@@ -70,7 +72,7 @@ fun SellingModeScreenContent(
             toggleDropDown = toggleDropDown,
             dropDownOptions = dropDownOptions
         )
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center){
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
             MicButton("Start Selling", Modifier, action = onMicButtonClick)
         }
 
@@ -82,11 +84,11 @@ fun SellingModeScreenContent(
 
 @Preview
 @Composable
-fun SellingModeScreenContentPreview(){
-    TracktorTheme() {
+fun SellingModeScreenContentPreview() {
+    TracktorTheme {
         SellingModeScreenContent(
             {},
-            listOf({},{},{},{},{}),
+            listOf({}, {}, {}, {}, {}),
             SellingModeUiState(),
             {},
             listOf()

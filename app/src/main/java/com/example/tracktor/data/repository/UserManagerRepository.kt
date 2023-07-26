@@ -1,7 +1,6 @@
 package com.example.tracktor.data.repository
 
 import com.example.tracktor.data.model.User
-import kotlinx.coroutines.flow.Flow
 
 interface UserManagerRepository {
     val loggedIn: Boolean
@@ -14,7 +13,7 @@ interface UserManagerRepository {
 
     suspend fun getCurrentUser(): User
 
-    suspend fun signUp(name:String, email: String, password: String):Unit
+    suspend fun signUp(name: String, email: String, password: String): Unit
 
     suspend fun getUserName(userId: String): String
 

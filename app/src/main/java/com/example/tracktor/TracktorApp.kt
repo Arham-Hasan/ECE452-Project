@@ -43,7 +43,7 @@ import com.example.tracktor.ui.theme.TracktorTheme
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun TracktorApp(){
+fun TracktorApp() {
     TracktorTheme {
 
         val appState = rememberAppState()
@@ -59,12 +59,12 @@ fun TracktorApp(){
                 )
             },
             scaffoldState = appState.scaffoldState
-        ){contentPadding ->
+        ) { contentPadding ->
             NavHost(
                 navController = appState.navController,
                 startDestination = SPLASH_SCREEN,
                 modifier = Modifier.padding(contentPadding)
-            ){
+            ) {
                 TracktorGraph(appState)
             }
         }
@@ -78,9 +78,9 @@ fun rememberAppState(
     resources: Resources = resources(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     snackbarManager: SnackbarManager = SnackbarManager
-)=
-    remember(scaffoldState, navController,  resources, coroutineScope,snackbarManager){
-        TracktorAppState(scaffoldState, navController, resources, coroutineScope,snackbarManager)
+) =
+    remember(scaffoldState, navController, resources, coroutineScope, snackbarManager) {
+        TracktorAppState(scaffoldState, navController, resources, coroutineScope, snackbarManager)
     }
 
 @Composable
@@ -96,97 +96,103 @@ fun NavGraphBuilder.TracktorGraph(appState: TracktorAppState) {
         SplashScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
     }
 
-    composable(LOGIN_SCREEN){
+    composable(LOGIN_SCREEN) {
         LoginScreen(
             openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
-            openScreen = { route -> appState.navigate(route)}
+            openScreen = { route -> appState.navigate(route) }
         )
     }
 
-    composable(SIGN_UP_SCREEN){
+    composable(SIGN_UP_SCREEN) {
         SignUpScreen(
             clearAndNavigate = { route -> appState.clearAndNavigate(route) },
-            popUp = {appState.popUp()}
+            popUp = { appState.popUp() }
         )
     }
 
-    composable(route="$SELECT_MODE_SCREEN$FARM_ID_ARG", arguments = listOf(navArgument(FARM_ID) { defaultValue = "" })){
+    composable(
+        route = "$SELECT_MODE_SCREEN$FARM_ID_ARG",
+        arguments = listOf(navArgument(FARM_ID) { defaultValue = "" })
+    ) {
         SelectModeScreen(
-            navigate = {route -> appState.navigate(route)},
+            navigate = { route -> appState.navigate(route) },
             farmID = it.arguments?.getString(FARM_ID) ?: ""
         )
     }
 
-    composable(PICKING_MODE_SCREEN){
+    composable(PICKING_MODE_SCREEN) {
         PickingModeScreen(
-            {route -> appState.navigate(route)},
-            {route -> appState.clearAndNavigate(route)}
+            { route -> appState.navigate(route) },
+            { route -> appState.clearAndNavigate(route) }
         )
     }
-    composable(SELLING_MODE_SCREEN){
+    composable(SELLING_MODE_SCREEN) {
         SellingModeScreen(
-            {route -> appState.navigate(route)},
-            {route -> appState.clearAndNavigate(route)}
+            { route -> appState.navigate(route) },
+            { route -> appState.clearAndNavigate(route) }
         )
     }
-    composable(FRIDGE_MODE_SCREEN){
+    composable(FRIDGE_MODE_SCREEN) {
         FridgeModeScreen(
-            {route -> appState.navigate(route)},
-            {route -> appState.clearAndNavigate(route)}
+            { route -> appState.navigate(route) },
+            { route -> appState.clearAndNavigate(route) }
         )
     }
-    composable(ANALYTICS_MODE_SCREEN){
+    composable(ANALYTICS_MODE_SCREEN) {
         AnalyticsModeScreen(
-            {route -> appState.navigate(route)},
-            {route -> appState.clearAndNavigate(route)}
+            { route -> appState.navigate(route) },
+            { route -> appState.clearAndNavigate(route) }
         )
     }
-    composable(INVENTORY_MODE_SCREEN){
+    composable(INVENTORY_MODE_SCREEN) {
         InventoryModeScreen(
             { route -> appState.navigate(route) },
-            {route -> appState.clearAndNavigate(route)}
+            { route -> appState.clearAndNavigate(route) }
         )
     }
 
 
-    composable(SELECT_FARM_SCREEN){
+    composable(SELECT_FARM_SCREEN) {
         SelectFarmScreen(
-            openScreen = { route -> appState.navigate(route)},
-            {route -> appState.clearAndNavigate(route)}
+            openScreen = { route -> appState.navigate(route) },
+            { route -> appState.clearAndNavigate(route) }
         )
     }
 
-    composable(FARM_SETTINGS_SCREEN){
+    composable(FARM_SETTINGS_SCREEN) {
         FarmSettingsScreen(
-            { route -> appState.navigate(route)},
-            {route -> appState.clearAndNavigate(route)}
+            { route -> appState.navigate(route) },
+            { route -> appState.clearAndNavigate(route) }
         )
     }
-    
-    composable(CREATE_FARM_SCREEN){
+
+    composable(CREATE_FARM_SCREEN) {
         CreateFarmScreen(
-            openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
         )
     }
 
-    composable(JOIN_FARM_SCREEN){
+    composable(JOIN_FARM_SCREEN) {
         JoinFarmScreen(
-                      openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
         )
     }
-    composable(CREATE_ITEM_SCREEN){
+    composable(CREATE_ITEM_SCREEN) {
         CreateItemScreen(
-            openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
         )
     }
 
-    composable(MANAGE_MEMBERS_SCREEN){
+    composable(MANAGE_MEMBERS_SCREEN) {
         ManageMembersScreen(
-            openAndPopUp = {route, popUp -> appState.navigateAndPopUp(route, popUp)}
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
         )
     }
 
-    composable(route="$MARKET_SCREEN$FRIDGE_NAME_ARG", arguments = listOf(navArgument(FRIDGE_NAME) { defaultValue = "" })){
+    composable(
+        route = "$MARKET_SCREEN$FRIDGE_NAME_ARG",
+        arguments = listOf(navArgument(FRIDGE_NAME) { defaultValue = "" })
+    ) {
         MarketScreen(it.arguments?.getString(FRIDGE_NAME) ?: "")
     }
 

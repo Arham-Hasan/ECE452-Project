@@ -99,7 +99,7 @@ dependencies {
 
 
     implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation "com.patrykandpatrick.vico:compose:1.6.5"
+    implementation("com.patrykandpatrick.vico:compose:1.6.5")
 
 }
 

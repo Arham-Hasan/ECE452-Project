@@ -21,6 +21,8 @@ import com.example.tracktor.common.composable.ChartComposable
 import com.example.tracktor.common.composable.NavBarComposable
 import com.example.tracktor.common.composable.OptionsToolbar
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.unit.dp
 
@@ -54,6 +56,7 @@ fun AnalyticsModeScreenContent(
     onUserDropDownSelect: (String) -> Unit,
     onItemDropDownSelect: (String) -> Unit,
 ) {
+    val state = rememberScrollState()
     Column(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -66,7 +69,7 @@ fun AnalyticsModeScreenContent(
             dropDownOptions = dropDownOptions
         )
 
-        Column(Modifier.weight(1f).padding(horizontal = 16.dp)) {  // padding added to the content Column
+        Column(Modifier.weight(1f).padding(horizontal = 16.dp).verticalScroll(state)) {  // padding added to the content Column
             BasicDropdown(
                 options = uiState.userList,
                 action = onUserDropDownSelect,
@@ -93,15 +96,6 @@ fun AnalyticsModeScreenContent(
             AnalyticsCard("Total revenue: \$${uiState.SellAllTimeRevenue}")
             AnalyticsCard("Total item(s) picked: ${uiState.PickAllTime}")
 
-
-            AnalyticsCard(
-                "Total revenue: \$${uiState.totalItemRevenue}",
-                style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onSurface) // adjust text style
-            )
-            AnalyticsCard(
-                "Total item(s) sold: ${uiState.totalItemSold}",
-                style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.onSurface) // adjust text style
-            )
         }
         NavBarComposable(
             ANALYTICS_MODE_SCREEN,

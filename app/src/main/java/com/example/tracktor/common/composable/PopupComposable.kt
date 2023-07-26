@@ -17,12 +17,18 @@ import androidx.compose.ui.unit.dp
 import com.example.tracktor.data.model.InventoryItem
 
 @Composable
-fun ModifyItem(toggleAlert:()->Unit, onSave:(String, String, Uri) -> Unit, AlertVisible:Boolean, item:InventoryItem){
+fun ModifyItem(
+    toggleAlert: () -> Unit,
+    onSave: (String, String, Uri) -> Unit,
+    AlertVisible: Boolean,
+    item: InventoryItem
+) {
     val price = remember { mutableStateOf(item.itemPrice.toString()) }
     val quantity = remember { mutableStateOf(item.itemTotal.toString()) }
     val imageUri = remember { mutableStateOf(Uri.EMPTY) }
     val pickImageLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()) { uri: Uri? ->
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
         if (uri != null) {
             imageUri.value = uri
         }
@@ -37,11 +43,24 @@ fun ModifyItem(toggleAlert:()->Unit, onSave:(String, String, Uri) -> Unit, Alert
 
             text = {
                 Column {
-                    MoneyNumberField(text = "1.23", value = price.value, onNewValue = { newValue -> price.value = newValue}, label = "Price")
+                    MoneyNumberField(
+                        text = "1.23",
+                        value = price.value,
+                        onNewValue = { newValue -> price.value = newValue },
+                        label = "Price"
+                    )
 
                     Spacer(modifier = Modifier.height(16.dp))
-                    NumberField(text = "123", value = quantity.value, onNewValue = { newValue -> quantity.value = newValue}, label = "Quantity")
-                    BasicButton("Select Item Image", Modifier, action = { pickImageLauncher.launch("image/*") })
+                    NumberField(
+                        text = "123",
+                        value = quantity.value,
+                        onNewValue = { newValue -> quantity.value = newValue },
+                        label = "Quantity"
+                    )
+                    BasicButton(
+                        "Select Item Image",
+                        Modifier,
+                        action = { pickImageLauncher.launch("image/*") })
 
                 }
             },

@@ -13,7 +13,8 @@ import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore): InventoryRepository{
+class InventoryRepositoryImpl @Inject constructor(private val firestore: FirebaseFirestore) :
+    InventoryRepository {
 
     override suspend fun createInventory(id: String) {
         val emptyHashMap = hashMapOf<String, Any>()
@@ -21,7 +22,7 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
             .set(emptyHashMap).await()
     }
 
-    override suspend fun getInventoryById(id: String) : DocumentSnapshot {
+    override suspend fun getInventoryById(id: String): DocumentSnapshot {
         val result = firestore.collection("inventory").document(id).get().await()
         return result
     }
@@ -29,13 +30,18 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
     override suspend fun itemExists(name: String, inventoryId: String): Boolean {
         val result = firestore.collection("inventory").document(inventoryId).get().await()
         val data = result.data
-        if(data == null || !data.containsKey(name)){
+        if (data == null || !data.containsKey(name)) {
             return false
         }
         return true
     }
 
-    override suspend fun addItem(name: String, inventoryId: String, itemPrice: Double, imageRef : String?) {
+    override suspend fun addItem(
+        name: String,
+        inventoryId: String,
+        itemPrice: Double,
+        imageRef: String?
+    ) {
         val item = InventoryItem(name = name, itemPrice = itemPrice, imageRef = imageRef)
         val newFieldData = hashMapOf(
             name to item
@@ -50,7 +56,7 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         inventoryId: String
     ): Boolean {
         val result = firestore.collection("inventory").document(inventoryId).get().await()
-        if(result == null || !result.contains(FieldPath.of(itemName,"userStats",userId))){
+        if (result == null || !result.contains(FieldPath.of(itemName, "userStats", userId))) {
             return false
         }
         return true
@@ -78,9 +84,18 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         inventoryId: String
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
-        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"pickList"), FieldValue.arrayUnion(pickTransaction)).await()
-        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"pickTotal"), FieldValue.increment(pickTransaction.amount.toLong())).await()
-        doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(pickTransaction.amount.toLong())).await()
+        doc.reference.update(
+            FieldPath.of(itemName, "userStats", userId, "pickList"),
+            FieldValue.arrayUnion(pickTransaction)
+        ).await()
+        doc.reference.update(
+            FieldPath.of(itemName, "userStats", userId, "pickTotal"),
+            FieldValue.increment(pickTransaction.amount.toLong())
+        ).await()
+        doc.reference.update(
+            FieldPath.of(itemName, "itemTotal"),
+            FieldValue.increment(pickTransaction.amount.toLong())
+        ).await()
     }
 
     override suspend fun addSellTransaction(
@@ -91,10 +106,22 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
     ) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
         val revenue = sellTransaction.transaction.amount * sellTransaction.price
-        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"sellList"), FieldValue.arrayUnion(sellTransaction))
-        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"sellTotal"), FieldValue.increment(sellTransaction.transaction.amount.toLong()))
-        doc.reference.update(FieldPath.of(itemName,"userStats",userId,"revenueTotal"), FieldValue.increment(revenue))
-        doc.reference.update(FieldPath.of(itemName,"itemTotal"), FieldValue.increment(-1*sellTransaction.transaction.amount.toLong())).await()
+        doc.reference.update(
+            FieldPath.of(itemName, "userStats", userId, "sellList"),
+            FieldValue.arrayUnion(sellTransaction)
+        )
+        doc.reference.update(
+            FieldPath.of(itemName, "userStats", userId, "sellTotal"),
+            FieldValue.increment(sellTransaction.transaction.amount.toLong())
+        )
+        doc.reference.update(
+            FieldPath.of(itemName, "userStats", userId, "revenueTotal"),
+            FieldValue.increment(revenue)
+        )
+        doc.reference.update(
+            FieldPath.of(itemName, "itemTotal"),
+            FieldValue.increment(-1 * sellTransaction.transaction.amount.toLong())
+        ).await()
     }
 
 
@@ -106,21 +133,22 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
     override suspend fun getItemNameToPrice(inventoryId: String): Map<String, Double> {
         val nameList = getItemNames(inventoryId)
         val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
-        var map = mutableMapOf<String,Double>()
-        if(!nameList.isNullOrEmpty()){
-            for(name in nameList){
-                map[name] = documentSnapshot.get(FieldPath.of(name,"itemPrice")) as Double
+        var map = mutableMapOf<String, Double>()
+        if (!nameList.isNullOrEmpty()) {
+            for (name in nameList) {
+                map[name] = documentSnapshot.get(FieldPath.of(name, "itemPrice")) as Double
             }
         }
         return map
     }
+
     override suspend fun getInventoryItemNamesToQuantity(inventoryId: String): Map<String, Long> {
         val nameList = getItemNames(inventoryId)
         val documentSnapshot = firestore.collection("inventory").document(inventoryId).get().await()
-        var map = mutableMapOf<String,Long>()
-        if(!nameList.isNullOrEmpty()){
-            for(name in nameList){
-                map[name] = documentSnapshot.get(FieldPath.of(name,"itemTotal")) as Long
+        var map = mutableMapOf<String, Long>()
+        if (!nameList.isNullOrEmpty()) {
+            for (name in nameList) {
+                map[name] = documentSnapshot.get(FieldPath.of(name, "itemTotal")) as Long
             }
         }
         return map
@@ -135,9 +163,12 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
 
     override suspend fun updateInventoryItem(inventoryId: String, inventoryItem: InventoryItem) {
         val doc = firestore.collection("inventory").document(inventoryId).get().await()
-        doc.reference.update(FieldPath.of(inventoryItem.name,"itemPrice"), inventoryItem.itemPrice)
-        if(inventoryItem.imageRef != null){
-            doc.reference.update(FieldPath.of(inventoryItem.name,"imageRef"), inventoryItem.imageRef)
+        doc.reference.update(FieldPath.of(inventoryItem.name, "itemPrice"), inventoryItem.itemPrice)
+        if (inventoryItem.imageRef != null) {
+            doc.reference.update(
+                FieldPath.of(inventoryItem.name, "imageRef"),
+                inventoryItem.imageRef
+            )
         }
     }
 

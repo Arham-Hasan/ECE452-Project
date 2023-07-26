@@ -21,8 +21,10 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class InventoryModeViewModel @Inject constructor(private val farmManagerRepository: FarmManagerRepository,
-                                                 userManagerRepository: UserManagerRepository) : TracktorViewModel(userManagerRepository) {
+class InventoryModeViewModel @Inject constructor(
+    private val farmManagerRepository: FarmManagerRepository,
+    userManagerRepository: UserManagerRepository
+) : TracktorViewModel(userManagerRepository) {
 
     var uiState = mutableStateOf(InventoryModeUiState())
         private set
@@ -33,31 +35,31 @@ class InventoryModeViewModel @Inject constructor(private val farmManagerReposito
     private val dropDrownExtended
         get() = uiState.value.dropDrownExtended
 
-    fun toggleDropDown(){
+    fun toggleDropDown() {
         uiState.value = uiState.value.copy(dropDrownExtended = !dropDrownExtended)
     }
 
-    fun addItemToInventory(openScreen: (String) -> Unit){
+    fun addItemToInventory(openScreen: (String) -> Unit) {
         openScreen(CREATE_ITEM_SCREEN)
     }
 
-    fun onItemSave(price: String, quantity: String, uri:Uri, item: InventoryItem){
-        if(price.isBlank()){
+    fun onItemSave(price: String, quantity: String, uri: Uri, item: InventoryItem) {
+        if (price.isBlank()) {
             SnackbarManager.showMessage("Please add a price".toSnackbarMessage())
             return
         }
 
-        if(quantity.isBlank()){
+        if (quantity.isBlank()) {
             SnackbarManager.showMessage("Please add a quantity".toSnackbarMessage())
             return
         }
 
-        if(!currencyPattern.matches(price)){
+        if (!currencyPattern.matches(price)) {
             SnackbarManager.showMessage("Please provide a valid price".toSnackbarMessage())
             return
         }
 
-        if(!quantity.isDigitsOnly()){
+        if (!quantity.isDigitsOnly()) {
             SnackbarManager.showMessage("Please provide a valid quantity".toSnackbarMessage())
             return
         }
@@ -67,7 +69,7 @@ class InventoryModeViewModel @Inject constructor(private val farmManagerReposito
         val transaction = UserTransaction(amount = quantityDiff.toInt())
         launchCatching {
             farmManagerRepository.addPickTransaction(item.name, transaction)
-            if(uri != Uri.EMPTY){
+            if (uri != Uri.EMPTY) {
                 farmManagerRepository.uploadInventoryItemImage(item.name, uri)
             }
             farmManagerRepository.updateInventoryItem(price.toDouble(), uri, item.name)
@@ -82,17 +84,18 @@ class InventoryModeViewModel @Inject constructor(private val farmManagerReposito
         return BitmapFactory.decodeByteArray(data, 0, data.size)
     }
 
-    fun retrieveItems(){
+    fun retrieveItems() {
         launchCatching {
             val priceMap = farmManagerRepository.getInventoryItemNamesToPrice()
 
             val quantityMap = farmManagerRepository.getInventoryItemNamesToQuantity()
 
             val items = farmManagerRepository.getInventoryItemNames()
-            if(items != null){
+            if (items != null) {
                 val itemList: MutableList<InventoryItem> = mutableListOf<InventoryItem>()
-                val imageMap: MutableMap<InventoryItem, ImageBitmap> = mutableMapOf<InventoryItem, ImageBitmap>()
-                items.forEach{item ->
+                val imageMap: MutableMap<InventoryItem, ImageBitmap> =
+                    mutableMapOf<InventoryItem, ImageBitmap>()
+                items.forEach { item ->
                     val itemImage = farmManagerRepository.getInventoryItemImage(item)
                     val imageBitMap = byteArrayToBitmap(itemImage).asImageBitmap()
                     val inventoryItem = InventoryItem(
@@ -104,9 +107,8 @@ class InventoryModeViewModel @Inject constructor(private val farmManagerReposito
                     imageMap[inventoryItem] = imageBitMap
                 }
                 uiState.value = uiState.value.copy(items = itemList, imageMap = imageMap)
-                Log.i("Inventory","Retrieved Items: "+uiState.value.items.toString())
+                Log.i("Inventory", "Retrieved Items: " + uiState.value.items.toString())
             }
-
 
 
         }

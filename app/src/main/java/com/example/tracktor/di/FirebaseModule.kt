@@ -25,7 +25,7 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    fun firestore(): FirebaseFirestore{
+    fun firestore(): FirebaseFirestore {
         val settings = firestoreSettings {
             // Use memory cache
             setLocalCacheSettings(memoryCacheSettings {})

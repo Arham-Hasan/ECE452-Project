@@ -18,53 +18,59 @@ import com.example.tracktor.common.composable.AlertDialogConfirm
 import com.example.tracktor.common.composable.AlertTextConfirm
 import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.SettingOption
-import com.example.tracktor.screens.login.LoginViewModel
 import com.example.tracktor.ui.theme.TracktorTheme
 
 @Composable
-fun FarmSettingsScreen(openScreen: (String) -> Unit,clearAndNavigate:(String)->Unit, viewModel: FarmSettingsViewModel = hiltViewModel()) {
+fun FarmSettingsScreen(
+    openScreen: (String) -> Unit,
+    clearAndNavigate: (String) -> Unit,
+    viewModel: FarmSettingsViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState
     FarmSettingsScreenContent(
         uiState.isAdmin,
         uiState.deleteFarmAlert,
         uiState.changeFarmNameAlert,
-        {viewModel.onManageMembersClick(openScreen)},
-        {viewModel.onChangeFarmNameClick()},
-        {viewModel.onLeaveFarmClick()},
-        {viewModel.onDeleteFarmClick()},
-        {viewModel.toggleDeleteFarmAlert()},
-        {viewModel.toggleChangeFarmNameAlert()},
+        { viewModel.onManageMembersClick(openScreen) },
+        { viewModel.onChangeFarmNameClick() },
+        { viewModel.onLeaveFarmClick() },
+        { viewModel.onDeleteFarmClick() },
+        { viewModel.toggleDeleteFarmAlert() },
+        { viewModel.toggleChangeFarmNameAlert() },
         viewModel::onNewFarmNameChange,
         uiState.newFarmName,
-        {viewModel.comfirmRenameFarm(clearAndNavigate)},
-        {viewModel.comfirmDeleteFarm(clearAndNavigate)}
+        { viewModel.comfirmRenameFarm(clearAndNavigate) },
+        { viewModel.comfirmDeleteFarm(clearAndNavigate) }
     )
 }
 
 
 @Composable
 fun FarmSettingsScreenContent(
-    isAdmin:Boolean,
-    deleteFarmVisible:Boolean,
-    changeNameVisible:Boolean,
-    onManageMemberClick: ()->Unit,
-    onRenameFarmClick:()->Unit,
-    onLeaveFarmClick:()->Unit,
-    onDeleteFarmClick:()->Unit,
-    toggleDeleteFarm:()->Unit,
-    toggleChangeNameFarm:()->Unit,
-    onNameChange:(String)->Unit,
-    newName:String,
-    onNameConfirm:()->Unit,
-    onDeleteConfirm:()->Unit,
-    modifier:Modifier=Modifier){
+    isAdmin: Boolean,
+    deleteFarmVisible: Boolean,
+    changeNameVisible: Boolean,
+    onManageMemberClick: () -> Unit,
+    onRenameFarmClick: () -> Unit,
+    onLeaveFarmClick: () -> Unit,
+    onDeleteFarmClick: () -> Unit,
+    toggleDeleteFarm: () -> Unit,
+    toggleChangeNameFarm: () -> Unit,
+    onNameChange: (String) -> Unit,
+    newName: String,
+    onNameConfirm: () -> Unit,
+    onDeleteConfirm: () -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     Column(
         modifier = Modifier
 
     ) {
         BasicToolbar("Farm Settings")
-        Column(modifier = Modifier.padding(vertical = 8.dp).padding(16.dp)) {
+        Column(modifier = Modifier
+            .padding(vertical = 8.dp)
+            .padding(16.dp)) {
             Spacer(modifier = Modifier.height(8.dp))
             Surface(
                 modifier = Modifier.fillMaxWidth(),
@@ -88,14 +94,15 @@ fun FarmSettingsScreenContent(
                         textFieldPlaceholder = "New Farm Name",
                         value = newName,
                         onNewValue = onNameChange,
-                        label="Enter New Name"
+                        label = "Enter New Name"
 
                     )
-                    if (isAdmin){
+                    if (isAdmin) {
                         SettingOption(
                             onManageMemberClick,
                             "Manage Members",
-                            "Approve/ Decline join requests, Change admins, Remove members")
+                            "Approve/ Decline join requests, Change admins, Remove members"
+                        )
                         SettingOption(
                             onRenameFarmClick,
                             "Rename Farm",
@@ -107,7 +114,7 @@ fun FarmSettingsScreenContent(
                         onLeaveFarmClick,
                         "Leave Farm",
                         "",
-                        )
+                    )
 
                     if (isAdmin) {
                         SettingOption(
@@ -127,10 +134,11 @@ fun FarmSettingsScreenContent(
 }
 
 @Preview
-@Composable fun FarmSettingsScreenContentPreview(){
+@Composable
+fun FarmSettingsScreenContentPreview() {
     TracktorTheme {
         FarmSettingsScreenContent(
-            true,false,false,{},{},{},{},{},{},{},"",{},{}
+            true, false, false, {}, {}, {}, {}, {}, {}, {}, "", {}, {}
         )
     }
 }

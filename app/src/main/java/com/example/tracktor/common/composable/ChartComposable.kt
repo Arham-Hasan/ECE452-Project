@@ -30,22 +30,28 @@ import com.patrykandpatrick.vico.core.component.shape.Shapes
 import com.patrykandpatrick.vico.core.entry.composed.plus
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 import com.patrykandpatrick.vico.core.entry.entryOf
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,xAxis:List<String>) {
+fun ChartComposable(
+    bar: List<Int>,
+    barAxis: String,
+    line: List<Int>,
+    lineAxis: String,
+    xAxis: List<String>
+) {
 
     val formatter = DateTimeFormatter.ofPattern("MMMM dd yyyy")
-    val xValuesToDates = xAxis.withIndex().associateBy ({ it.index }, {it.value})
+    val xValuesToDates = xAxis.withIndex().associateBy({ it.index }, { it.value })
     val sellGraph = xValuesToDates.keys.zip(line) { x, y -> entryOf(x, y) }.let { entryModelOf(it) }
     val pickgraph = xValuesToDates.keys.zip(bar) { x, y -> entryOf(x, y) }.let { entryModelOf(it) }
-    val horizontalAxisValueFormatter = AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, _ ->
-        xAxis[value.toInt()]
-    }
+    val horizontalAxisValueFormatter =
+        AxisValueFormatter<AxisPosition.Horizontal.Bottom> { value, _ ->
+            xAxis[value.toInt()]
+        }
 
-    val chartEntryModelProducer =  pickgraph + sellGraph
+    val chartEntryModelProducer = pickgraph + sellGraph
 
     val defaultColumns = currentChartStyle.columnChart.columns
     val defaultLines = currentChartStyle.lineChart.lines
@@ -57,7 +63,8 @@ fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,
                 defaultLine.copy(
                     lineBackgroundShader = null,
                     pointConnector = pointConnector,
-                    lineColor = Color.Green.hashCode())
+                    lineColor = Color.Green.hashCode()
+                )
             }
         },
         targetVerticalAxisPosition = AxisPosition.Vertical.End
@@ -112,6 +119,7 @@ fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,
                 margins = dimensionsOf(top = 4.dp),
                 typeface = Typeface.MONOSPACE,
             ),
-            title = "Date"),
+            title = "Date"
+        ),
     )
 }

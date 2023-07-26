@@ -35,13 +35,8 @@ fun BasicTextButton(text:String, modifier: Modifier, action: () -> Unit) {
     TextButton(
         onClick = action,
         modifier = modifier
-            .clip(RoundedCornerShape(percent = 50))
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xFF2F6F3D),
-            contentColor = Color.White
-        )
-    ) { Text(text = text, color = Color.White) }
+    ) { Text(text = text, color = Color(0xFF2F6F3D)) }
 }
 
 @Composable

@@ -56,7 +56,7 @@
 | 2023/07/22  ||||4||| Research jetpack compose list features|
 | 2023/07/23  |||7|5||| Added pricing and quantity for items|
 | 2023/07/24  |||10|6|||Inventory fixes|
-| 2023/07/25  |10|||10||| Analytics Page features|
+| 2023/07/25  |10||20|12||| Analytics Page features|
 | 2023/07/26  ||||10||| UI Changes, refactoring|
 | 2023/07/26  ||||||| D6: Final Presentation|
 | 2023/07/28  ||||||| D6: Arch + Design Document|

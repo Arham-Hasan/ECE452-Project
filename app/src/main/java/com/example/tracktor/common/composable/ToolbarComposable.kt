@@ -11,6 +11,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
@@ -24,7 +25,8 @@ fun OptionsToolbar(
     title:String,
     dropDownExtended:Boolean,
     toggleDropDown: ()->Unit,
-    dropDownOptions: List<Pair<String,()->Unit>>
+    dropDownOptions: List<Pair<String,()->Unit>>,
+    modifier: Modifier = Modifier
 ){
 
     TopAppBar(
@@ -45,7 +47,8 @@ fun OptionsToolbar(
                     }
                 }
             }
-        }
+        },
+        modifier = modifier
     )
 }
 
@@ -73,5 +76,5 @@ fun SingleOptionToolbar(
 
 @Composable
 fun getToolbarColor(darkTheme: Boolean = isSystemInDarkTheme()): Color {
-    return if (darkTheme) MaterialTheme.colors.secondary else MaterialTheme.colors.primaryVariant
+    return if (darkTheme) Color(0xFF2F6F3D) else Color(0xFFB5E6C1)
 }

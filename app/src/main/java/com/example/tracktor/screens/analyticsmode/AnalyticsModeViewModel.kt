@@ -7,8 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.tracktor.common.snackbar.SnackbarManager
 import com.example.tracktor.common.snackbar.SnackbarMessage.Companion.toSnackbarMessage
 import com.example.tracktor.data.model.Inventory
-import com.example.tracktor.data.model.SellTransaction
-import com.example.tracktor.data.model.UserInventoryStat
 import com.example.tracktor.data.model.UserTransaction
 import com.example.tracktor.data.repository.FarmManagerRepository
 import com.example.tracktor.data.repository.UserManagerRepository

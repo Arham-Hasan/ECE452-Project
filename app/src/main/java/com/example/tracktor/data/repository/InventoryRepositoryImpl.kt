@@ -133,4 +133,12 @@ class InventoryRepositoryImpl @Inject constructor(private val firestore: Firebas
         return Inventory(inventoryMap as MutableMap<String, InventoryItem>)
     }
 
+    override suspend fun updateInventoryItem(inventoryId: String, inventoryItem: InventoryItem) {
+        val doc = firestore.collection("inventory").document(inventoryId).get().await()
+        doc.reference.update(FieldPath.of(inventoryItem.name,"itemPrice"), inventoryItem.itemPrice)
+        if(inventoryItem.imageRef != null){
+            doc.reference.update(FieldPath.of(inventoryItem.name,"imageRef"), inventoryItem.imageRef)
+        }
+    }
+
 }

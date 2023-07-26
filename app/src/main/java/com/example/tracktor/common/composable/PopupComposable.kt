@@ -1,5 +1,8 @@
 package com.example.tracktor.common.composable
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -14,9 +17,16 @@ import androidx.compose.ui.unit.dp
 import com.example.tracktor.data.model.InventoryItem
 
 @Composable
-fun ModifyItem(toggleAlert:()->Unit, onSave:(String, String) -> Unit, AlertVisible:Boolean, item:InventoryItem){
+fun ModifyItem(toggleAlert:()->Unit, onSave:(String, String, Uri) -> Unit, AlertVisible:Boolean, item:InventoryItem){
     val price = remember { mutableStateOf(item.itemPrice.toString()) }
     val quantity = remember { mutableStateOf(item.itemTotal.toString()) }
+    val imageUri = remember { mutableStateOf(Uri.EMPTY) }
+    val pickImageLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            imageUri.value = uri
+        }
+    }
     if (AlertVisible) {
         AlertDialog(
             onDismissRequest =
@@ -31,6 +41,7 @@ fun ModifyItem(toggleAlert:()->Unit, onSave:(String, String) -> Unit, AlertVisib
 
                     Spacer(modifier = Modifier.height(16.dp))
                     NumberField(text = "123", value = quantity.value, onNewValue = { newValue -> quantity.value = newValue}, label = "Quantity")
+                    BasicButton("Select Item Image", Modifier, action = { pickImageLauncher.launch("image/*") })
 
                 }
             },
@@ -38,7 +49,7 @@ fun ModifyItem(toggleAlert:()->Unit, onSave:(String, String) -> Unit, AlertVisib
                 TextButton(
                     onClick = {
                         toggleAlert()
-                        onSave(price.value, quantity.value)
+                        onSave(price.value, quantity.value, imageUri.value)
                     }
                 ) {
                     Text("Save")

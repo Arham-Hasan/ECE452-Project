@@ -46,6 +46,7 @@
 | 2023/07/20  |4|||||| Dealing with Instagram|
 | 2023/07/21  |10|||||| Adding Maps and fridge page|
 | 2023/07/22  |3|||||| updating fridge page and instagram page, ability to change farm name|
+| 2023/07/26  |10|||||| Analytics Page features|
 | 2023/07/24  ||||||| D6: Final Presentation|
 | 2023/07/28  ||||||| D6: Arch + Design Document|
 | 2023/08/01  ||||||| D7: Final Status Report|

@@ -36,7 +36,7 @@ fun SellingModeScreen(openScreen: (String)->Unit, clearAndNavigate:(String)->Uni
     )
 
     LaunchedEffect(speechContext.speechInput.value){
-        viewModel.parseInput(speechContext.speechInput.value)
+        viewModel.sellTransaction.processTransaction(speechContext.speechInput.value)
 
 //        resets value of input so its not used again
         speechContext.speechInput.value = ""

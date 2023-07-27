@@ -48,16 +48,18 @@
 | 2023/07/17  |||7|||| Added join farm page and functionality|
 | 2023/07/20  |||5|||| Manage Members Functionality finish|
 | 2023/07/20  |||2|||| Add price field for creating items|
+| 2023/07/21  |||1|||| Upload image for creating items|
 | 2023/07/21  ||1||||| D5: Design Pattern Examples |
 | 2023/07/21  ||||3||| D5: Design Pattern Examples |
 | 2023/07/20  |4|||||| Dealing with Instagram|
 | 2023/07/21  |10|||||| Adding Maps and fridge page|
 | 2023/07/22  |3|||||| updating fridge page and instagram page, ability to change farm name|
 | 2023/07/22  ||||4||| Research jetpack compose list features|
-| 2023/07/23  |||7|5||| Added pricing and quantity for items|
-| 2023/07/24  |||10|6|||Inventory fixes|
-| 2023/07/25  |10||20|12||| Analytics Page features|
+| 2023/07/23  |||5|7||| Added pricing and quantity for items|
+| 2023/07/24  |||6|10|||Inventory fixes|
+| 2023/07/25  |10||12|20||| Analytics Page features|
 | 2023/07/26  ||||10||| UI Changes, refactoring|
-| 2023/07/26  ||||||| D6: Final Presentation|
+| 2023/07/26  |||1|||| D6: Final Presentation|
+| 2023/07/27  |||4|||| Refactoring Picking and Selling Transaction to fit Template pattern |
 | 2023/07/28  ||||||| D6: Arch + Design Document|
 | 2023/08/01  ||||||| D7: Final Status Report|

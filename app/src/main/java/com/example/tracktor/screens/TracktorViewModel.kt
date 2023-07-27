@@ -63,9 +63,9 @@ open class TracktorViewModel(
         }
     }
 
-    fun onUserSettingsClick(){
-        SnackbarManager.showMessage("User Settings".toSnackbarMessage())
-    }
+//    fun onUserSettingsClick(){
+//        SnackbarManager.showMessage("User Settings".toSnackbarMessage())
+//    }
 
     fun onFarmSettingsClick(openScreen: (String) -> Unit){
         openScreen(FARM_SETTINGS_SCREEN)
@@ -78,7 +78,7 @@ open class TracktorViewModel(
     fun dropDownActionsAfterFarmSelected(openScreen: (String) -> Unit, clearAndNavigate:(String)->Unit): List<Pair<String,()->Unit>>{
         return listOf(
             Pair("Sign Out", {onSignOutClick(clearAndNavigate)}),
-            Pair("User Settings", {onUserSettingsClick()}),
+//            Pair("User Settings", {onUserSettingsClick()}),
             Pair("Farm Settings", {onFarmSettingsClick(openScreen)}),
             Pair("Change Farm",{onChangeFarmClick(clearAndNavigate)})
         )
@@ -87,7 +87,7 @@ open class TracktorViewModel(
     fun dropDownActionsBeforeFarmSelected(openScreen: (String) -> Unit,clearAndNavigate:(String)->Unit): List<Pair<String,()->Unit>>{
         return listOf(
             Pair("Sign Out", {onSignOutClick(clearAndNavigate)}),
-            Pair("User Settings", {onUserSettingsClick()}),
+//            Pair("User Settings", {onUserSettingsClick()}),
         )
     }
 

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,11 +13,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tracktor.PICKING_MODE_SCREEN
 import androidx.compose.ui.platform.LocalContext
 import com.example.tracktor.TracktorActivity
-import com.example.tracktor.common.composable.BasicToolbar
 import com.example.tracktor.common.composable.MicButton
 import com.example.tracktor.common.composable.NavBarComposable
 import com.example.tracktor.common.composable.OptionsToolbar
-import com.example.tracktor.screens.inventorymode.InventoryModeUiState
 
 @Composable
 fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit, viewModel: PickingModeViewModel = hiltViewModel()) {
@@ -32,12 +29,11 @@ fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit
         viewModel.bottomNavBarActions(openScreen),
         uiState,
         {viewModel.toggleDropDown()},
-        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate)
+        viewModel.dropDownActionsAfterFarmSelected(openScreen,clearAndNavigate),
     )
 
     LaunchedEffect(speechContext.speechInput.value){
-        viewModel.parseInput(speechContext.speechInput.value)
-
+        viewModel.pickTransactionViewModel.processTransaction(speechContext.speechInput.value)
 //        resets value of input so its not used again
         speechContext.speechInput.value = ""
     }
@@ -53,7 +49,7 @@ fun PickingModeScreenContent(
     bottomNavBarActions: List<() -> Unit>,
     uiState: PickingModeUiState,
     toggleDropDown: ()->Unit,
-    dropDownOptions: List<Pair<String,()->Unit>>
+    dropDownOptions: List<Pair<String,()->Unit>>,
 )
 {
 

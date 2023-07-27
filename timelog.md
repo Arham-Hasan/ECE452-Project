@@ -3,17 +3,20 @@
 |-|-|-|-|-|-|-|-|
 | 2023/06/02  |1|||||| D1: Proposal Document + Powerpoint|
 | 2023/06/02  ||1||||| D1: Proposal Document + Powerpoint|
+| 2023/06/02  ||||1||| D1: Proposal Document + Powerpoint|
 | 2023/06/15 |1||||| | Added boilerplate for project|
 | 2023/06/15 ||1|||| | Added boilerplate for project|
 | 2023/06/16|1|||||  | D2: Buddy team's evaluation|
 | 2023/06/16||1||||  | D2: Buddy team's evaluation|
 | 2023/06/16|||1|||  | D2: Buddy team's evaluation|
-| 2023/06/20||1||||  | Reserach most suitable architecture|
-| 2023/06/20||1||||  | Reserach most suitable android framework/library|
+| 2023/06/20||1||||  | Research most suitable architecture|
+| 2023/06/20||1||||  | Research most suitable android framework/library|
 | 2023/06/25|10|||||  | Added auth and mvvm architecture|
 | 2023/06/25||3||||  | Added auth and mvvm architecture|
 | 2023/06/25||3||||  | Added auth and mvvm architecture|
+| 2023/06/25||||15||| Created figma for all screens |
 | 2023/06/25||1||||  | Setup Firestore DB|
+| 2023/06/26  ||||7||| Added picking screen|
 | 2023/06/26|1|||||  | Fixed Login Bug|
 | 2023/06/26|||12|||  | Implement Voice recognition for picking|
 | 2023/06/27|||4|||  | Implement Voice recognition for picking|
@@ -24,8 +27,10 @@
 | 2023/06/28  |1|||||| D3: Prototype Demo|
 | 2023/06/28  ||1||||| D3: Prototype Demo|
 | 2023/06/28  |||1|||| D3: Prototype Demo|
+| 2023/06/28  ||||1||| D3: Prototype Demo|
 | 2023/06/30  |2|||||| D3: Prototype Document|
 | 2023/06/30  ||2||||| D3: Prototype Document|
+| 2023/06/30  ||||2||| D3: Prototype Document|
 | 2023/06/30  |4||||||Dropdown menu and new screens|
 | 2023/07/01  |1|||||| Added Sign out|
 | 2023/07/04  |8|||||| Added Repository style|
@@ -37,16 +42,22 @@
 | 2023/07/14  ||1||||| D4: Architecture Style Examples|
 | 2023/07/14  |2|||||| D4: Architecture Style Examples|
 | 2023/07/14  |||2|||| D4: Architecture Style Examples|
+| 2023/07/14  ||||2||| D4: Architecture Style Examples|
 | 2023/07/14  |||6|||| Join Farm functionality|
 | 2023/07/17  ||2||||| Added DB Operations for storing transactions|
 | 2023/07/17  |||7|||| Added join farm page and functionality|
 | 2023/07/20  |||5|||| Manage Members Functionality finish|
 | 2023/07/20  |||2|||| Add price field for creating items|
 | 2023/07/21  ||1||||| D5: Design Pattern Examples |
+| 2023/07/21  ||||3||| D5: Design Pattern Examples |
 | 2023/07/20  |4|||||| Dealing with Instagram|
 | 2023/07/21  |10|||||| Adding Maps and fridge page|
 | 2023/07/22  |3|||||| updating fridge page and instagram page, ability to change farm name|
-| 2023/07/26  |10|||||| Analytics Page features|
-| 2023/07/24  ||||||| D6: Final Presentation|
+| 2023/07/22  ||||4||| Research jetpack compose list features|
+| 2023/07/23  |||7|5||| Added pricing and quantity for items|
+| 2023/07/24  |||10|6|||Inventory fixes|
+| 2023/07/25  |10||20|12||| Analytics Page features|
+| 2023/07/26  ||||10||| UI Changes, refactoring|
+| 2023/07/26  ||||||| D6: Final Presentation|
 | 2023/07/28  ||||||| D6: Arch + Design Document|
 | 2023/08/01  ||||||| D7: Final Status Report|

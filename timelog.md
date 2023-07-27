@@ -9,8 +9,8 @@
 | 2023/06/16|1|||||  | D2: Buddy team's evaluation|
 | 2023/06/16||1||||  | D2: Buddy team's evaluation|
 | 2023/06/16|||1|||  | D2: Buddy team's evaluation|
-| 2023/06/20||1||||  | Reserach most suitable architecture|
-| 2023/06/20||1||||  | Reserach most suitable android framework/library|
+| 2023/06/20||1||||  | Research most suitable architecture|
+| 2023/06/20||1||||  | Research most suitable android framework/library|
 | 2023/06/25|10|||||  | Added auth and mvvm architecture|
 | 2023/06/25||3||||  | Added auth and mvvm architecture|
 | 2023/06/25||3||||  | Added auth and mvvm architecture|

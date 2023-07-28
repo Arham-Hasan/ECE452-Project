@@ -13,7 +13,6 @@
 | 2023/06/20||1||||  | Research most suitable android framework/library|
 | 2023/06/25|10|||||  | Added auth and mvvm architecture|
 | 2023/06/25||3||||  | Added auth and mvvm architecture|
-| 2023/06/25||3||||  | Added auth and mvvm architecture|
 | 2023/06/25||||15||| Created figma for all screens |
 | 2023/06/25||1||||  | Setup Firestore DB|
 | 2023/06/26  ||||7||| Added picking screen|
@@ -39,22 +38,27 @@
 | 2023/07/10  |2|||||| Added Settings Page|
 | 2023/07/11  |1|||||| Added User Repository|
 | 2023/07/11  |||8|||| Inventory, Create Item, and Manage Members screen|
-| 2023/07/14  ||1||||| D4: Architecture Style Examples|
+| 2023/07/14  ||2||||| D4: Architecture Style Examples|
 | 2023/07/14  |2|||||| D4: Architecture Style Examples|
 | 2023/07/14  |||2|||| D4: Architecture Style Examples|
 | 2023/07/14  ||||2||| D4: Architecture Style Examples|
+| 2023/07/14  ||3||||| DB Operation for Farm request/collab|
 | 2023/07/14  |||6|||| Join Farm functionality|
 | 2023/07/17  ||2||||| Added DB Operations for storing transactions|
 | 2023/07/17  |||7|||| Added join farm page and functionality|
 | 2023/07/20  |||5|||| Manage Members Functionality finish|
 | 2023/07/20  |||2|||| Add price field for creating items|
-| 2023/07/21  |||1|||| Upload image for creating items|
-| 2023/07/21  ||1||||| D5: Design Pattern Examples |
-| 2023/07/21  ||||3||| D5: Design Pattern Examples |
 | 2023/07/20  |4|||||| Dealing with Instagram|
+| 2023/07/21  ||2||||| R&D for storing inventory Images|
+| 2023/07/21  ||1||||| Setting up and integrating firebase cloud storage|
+| 2023/07/21  ||2||||| BE Ops for firebase cloud storage|
+| 2023/07/21  |||1|||| Upload image for creating items|
+| 2023/07/21  ||2||||| D5: Design Pattern Examples |
+| 2023/07/21  ||||3||| D5: Design Pattern Examples |
 | 2023/07/21  |10|||||| Adding Maps and fridge page|
 | 2023/07/22  |3|||||| updating fridge page and instagram page, ability to change farm name|
 | 2023/07/22  ||||4||| Research jetpack compose list features|
+| 2023/07/22  ||2||||| R&D for offline support from firestore|
 | 2023/07/23  |||5|7||| Added pricing and quantity for items|
 | 2023/07/24  |||6|10|||Inventory fixes|
 | 2023/07/25  |10||12|20||| Analytics Page features|

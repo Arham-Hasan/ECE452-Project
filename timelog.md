@@ -11,17 +11,18 @@
 | 2023/06/16|||1|||  | D2: Buddy team's evaluation|
 | 2023/06/20||1||||  | Research most suitable architecture|
 | 2023/06/20||1||||  | Research most suitable android framework/library|
+| 2023/06/20||2||||  | Read/learn about jetpack compose|
 | 2023/06/25|10|||||  | Added auth and mvvm architecture|
-| 2023/06/25||3||||  | Added auth and mvvm architecture|
+| 2023/06/25||5||||  | Added auth and mvvm architecture|
 | 2023/06/25||||15||| Created figma for all screens |
-| 2023/06/25||1||||  | Setup Firestore DB|
+| 2023/06/25||2||||  | Setup Firestore DB|
 | 2023/06/26  ||||7||| Added picking screen|
 | 2023/06/26|1|||||  | Fixed Login Bug|
 | 2023/06/26|||12|||  | Implement Voice recognition for picking|
 | 2023/06/27|||4|||  | Implement Voice recognition for picking|
 | 2023/06/27|||4|||  | Implement Voice recognition for selling|
 | 2023/06/27 |8||||| | Navbar + Screens to navigate|
-| 2023/06/27 ||1|||| | Navbar + Screens to navigate|
+| 2023/06/27 ||2|||| | Navbar + Screens to navigate|
 | 2023/06/27 |1||||| | Navigation Bug fix|
 | 2023/06/28  |1|||||| D3: Prototype Demo|
 | 2023/06/28  ||1||||| D3: Prototype Demo|
@@ -33,10 +34,11 @@
 | 2023/06/30  |4||||||Dropdown menu and new screens|
 | 2023/07/01  |1|||||| Added Sign out|
 | 2023/07/04  |8|||||| Added Repository style|
-| 2023/07/04  ||2||||| Added DB Operations for farm DB|
-| 2023/07/04  ||2||||| Added DB Operations for farmUserRelation DB|
+| 2023/07/04  ||5||||| Added DB Operations for farm DB|
+| 2023/07/04  ||5||||| Added DB Operations for farmUserRelation DB|
 | 2023/07/10  |2|||||| Added Settings Page|
 | 2023/07/11  |1|||||| Added User Repository|
+| 2023/07/11  ||5||||| Add DB operatrions for Inventory DB|
 | 2023/07/11  |||8|||| Inventory, Create Item, and Manage Members screen|
 | 2023/07/14  ||2||||| D4: Architecture Style Examples|
 | 2023/07/14  |2|||||| D4: Architecture Style Examples|
@@ -44,7 +46,7 @@
 | 2023/07/14  ||||2||| D4: Architecture Style Examples|
 | 2023/07/14  ||3||||| DB Operation for Farm request/collab|
 | 2023/07/14  |||6|||| Join Farm functionality|
-| 2023/07/17  ||2||||| Added DB Operations for storing transactions|
+| 2023/07/17  ||3||||| Added DB Operations for storing transactions|
 | 2023/07/17  |||7|||| Added join farm page and functionality|
 | 2023/07/20  |||5|||| Manage Members Functionality finish|
 | 2023/07/20  |||2|||| Add price field for creating items|

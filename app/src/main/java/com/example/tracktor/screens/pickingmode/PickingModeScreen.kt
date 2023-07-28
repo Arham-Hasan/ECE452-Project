@@ -33,7 +33,7 @@ fun PickingModeScreen(openScreen: (String)->Unit,clearAndNavigate:(String)->Unit
     )
 
     LaunchedEffect(speechContext.speechInput.value){
-        viewModel.pickTransactionViewModel.processTransaction(speechContext.speechInput.value)
+        viewModel.processTransaction(speechContext.speechInput.value)
 //        resets value of input so its not used again
         speechContext.speechInput.value = ""
     }

@@ -88,7 +88,7 @@ fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,
         model = chartEntryModelProducer,
         startAxis = startAxis(
             maxLabelCount = 5,
-            title = barAxis,
+            title = "Sold",
             titleComponent = textComponent(
                 background = shapeComponent(Shapes.pillShape, Color(0xff9db591)),
                 color = Color.White,
@@ -99,7 +99,7 @@ fun ChartComposable(bar:List<Int>,barAxis:String,line:List<Int>,lineAxis:String,
         ),
         endAxis = endAxis(
             maxLabelCount = 5,
-            title = lineAxis,
+            title = "Picked",
             titleComponent = textComponent(
                 background = shapeComponent(Shapes.pillShape, Color(0xff9db591)),
                 color = Color.White,

@@ -124,6 +124,12 @@ fun FridgeInfo (fridge: Fridge,toggle: ()->Unit){
         textAlign = TextAlign.Start,
         modifier = Modifier.padding(15.dp)
     )
+    Text(
+        text = "Please check fridge guidelines before donating",
+        style = MaterialTheme.typography.bodyLarge,
+        textAlign = TextAlign.Start,
+        modifier = Modifier.padding(15.dp)
+    )
     ClickableText(
         modifier = Modifier.padding(top =10.dp).padding(15.dp),
         text= AnnotatedString("How to add images to fridge information?"),

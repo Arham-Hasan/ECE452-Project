@@ -61,7 +61,7 @@ fun HashtagAlertDialog(toggleAlert:()->Unit, AlertVisible:Boolean){
                 Text(text = "Using Fridge Hashtags")
             },
             text = {
-                Text("Photos from Instagram posts using #tracktorapp and the designated fridge hashtag (see the fridge info page), will help show an up to date state of the fridge.\nHelp everyone out and post today! ")
+                Text("Photos from Instagram posts using #tracktorapp and the designated fridge hashtag (see the fridge info page), will help show an up to date state of the fridge.\nHelp everyone out and post today!\nThe images are built on a trust system, please keep images relevant and up to date.")
             },
             confirmButton = {
                 TextButton(

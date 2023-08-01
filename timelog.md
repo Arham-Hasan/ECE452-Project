@@ -81,4 +81,6 @@
 | 2023/07/26  |||1|||1| D6: Final Presentation|
 | 2023/07/27  |||4|||| Refactoring Picking and Selling Transaction to fit Template pattern |
 | 2023/07/28  |||||3|| D6: Arch + Design Document|
+| 2023/07/31  |||2|||| D7: Final Status Report|
 | 2023/08/01  |||||3|| D7: Final Status Report|
+
